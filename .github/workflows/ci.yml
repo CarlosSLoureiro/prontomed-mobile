@@ -1,0 +1,22 @@
+name: Test Application
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  jest-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup yarn
+        uses: borales/actions-yarn@v3.0.0
+      - name: Install Dependencies 
+        run: |
+          sudo yarn
+      - name: Testing with jest
+        run: |
+          sudo yarn test
