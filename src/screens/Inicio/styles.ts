@@ -1,16 +1,26 @@
 import { StyleSheet } from "react-native";
+import { isDarkModeScheme } from "@utils/ThemeScheme";
 
-const styles = StyleSheet.create({
-    root: {
-        flex: 1, 
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingBottom: 100
-    },
-    text: {
-        fontSize: 24,
-        paddingTop: 20
-    }
-});
+const getStyles = () => {   
+    const isDarkMode = isDarkModeScheme();
 
-export default styles;
+    return StyleSheet.create({
+        root: {
+            flex: 1, 
+            alignItems: 'center',
+            justifyContent: 'center',
+            paddingBottom: 100,
+            backgroundColor: isDarkMode ? "black" : "white"
+        },
+        text: {
+            fontSize: 24,
+            paddingTop: 20,
+            color: isDarkMode ? "white" : "black"
+        },
+        icon: {
+            color: isDarkMode ? "white" : "black"
+        }
+    });
+}
+
+export default getStyles;
