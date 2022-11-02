@@ -9,7 +9,7 @@ const Inicio = (): JSX.Element => {
   return (
     <View style={styles.root}>
       <Fontisto name="doctor" size={124} style={styles.icon} />
-      <Text style={styles.text}>Bem-vindo ao ProntoMed!</Text>
+      <Text style={styles.text}>Página inicial do ProntoMed!</Text>
     </View>
   )
 }

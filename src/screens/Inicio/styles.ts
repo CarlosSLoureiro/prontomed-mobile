@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { isDarkModeScheme } from "@utils/ThemeScheme";
 
-const getStyles = () => {   
+const getStyles = () => {
     const isDarkMode = isDarkModeScheme();
 
     return StyleSheet.create({
