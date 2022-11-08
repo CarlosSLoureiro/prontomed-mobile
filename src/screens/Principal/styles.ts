@@ -17,14 +17,6 @@ const getStyles = () => {
         },
         menu: {
             bottom: 30
-        },
-        text: {
-            fontSize: 24,
-            paddingTop: 20,
-            color: isDarkMode ? "white" : "black"
-        },
-        icon: {
-            color: isDarkMode ? "white" : "black"
         }
     });
 }
