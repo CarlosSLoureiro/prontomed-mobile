@@ -45,7 +45,7 @@ const Menu = ({alterarPagina}:MenuContrato) : JSX.Element => {
   return (
     <BottomMenu>
       {
-        items.map(item => <MenuItem text={item.title} type={item.icon.font} name={item.icon.name} size={22}
+        items.map((item, index) => <MenuItem key={index} text={item.title} type={item.icon.font} name={item.icon.name} size={22}
           isActive={pagina === (item.page - 1)}
           onPress={() => setPagina(alterarPagina(item.page - 1))}
         />)
