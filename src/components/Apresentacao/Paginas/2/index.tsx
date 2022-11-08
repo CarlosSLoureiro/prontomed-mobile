@@ -1,5 +1,5 @@
 import React from 'react';
-import { Entypo } from '@expo/vector-icons';
+import Icon from "react-native-dynamic-vector-icons";
 import PaginaBase from '../Base';
 import { PaginaContrato } from '../Base/contratos';
 import Rodape from '../Rodape';
@@ -13,7 +13,7 @@ const Pagina = ({
     <>
       <PaginaBase
         corDeFundo={corDeFundo}
-        icone={<Entypo name="users" size={172} color="white" />}
+        icone={<Icon type="Entypo" name="users" size={172} color="white" />}
         titulo="Cadastre seus pacientes!"
       />
       <Rodape
