@@ -14,7 +14,7 @@ const obterDadosDaPagina = (component) => {
   };
 }
 
-describe("Deve renderizar todas as páginas do components de apresentação", () => {
+describe("Deve renderizar todas as páginas do component de apresentação", () => {
     test('Pagina 1', () => {
       const dados = obterDadosDaPagina(<Pagina1 />);
       expect(dados.icone.name).toEqual('doctor');
