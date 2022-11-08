@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text } from 'react-native';
-import { Octicons } from '@expo/vector-icons';
+import Icon from "react-native-dynamic-vector-icons";
 import getStyles from "./styles";
 
 const Ajustes = (): JSX.Element => {
@@ -8,7 +8,7 @@ const Ajustes = (): JSX.Element => {
   
     return (
       <>
-        <Octicons name="home" size={124} style={styles.icon} />
+        <Icon type="SimpleLineIcons" name="settings" size={124} style={styles.icon} />
         <Text style={styles.text}>Ajustes!</Text>
       </>
     )

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Octicons } from '@expo/vector-icons';
+import Icon from "react-native-dynamic-vector-icons";
 import PaginaBase from '../Base';
 import { PaginaContrato } from '../Base/contratos';
 import Rodape from '../Rodape';
@@ -14,7 +14,7 @@ const Pagina = ({
     <>
       <PaginaBase
         corDeFundo={corDeFundo}
-        icone={<Octicons name="checklist" size={172} color="white" />}
+        icone={<Icon type="Octicons" name="checklist" size={172} color="white" />}
         titulo="Tudo de forma fácil, prática e grátis!"
       />
       <Rodape
