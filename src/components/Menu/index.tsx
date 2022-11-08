@@ -3,6 +3,7 @@ import React, { useState } from "react";
 /* @ts-ignore */
 import { BottomMenu, Item as MenuItem } from "react-native-bottom-menu";
 import { MenuContrato } from "./contratos";
+import getStyles from "./styles";
 
 const items = [
   {
@@ -41,11 +42,20 @@ const items = [
 
 const Menu = ({alterarPagina}:MenuContrato) : JSX.Element => {
   const [pagina, setPagina] = useState(0);
+  const styles = getStyles();
 
   return (
-    <BottomMenu>
+    <BottomMenu shadowStyle={styles.menu.shadow} backgroundColor={styles.menu.backgroundColor}>
       {
-        items.map((item, index) => <MenuItem key={index} text={item.title} type={item.icon.font} name={item.icon.name} size={22}
+        items.map((item, index) => <MenuItem
+          key={index}
+          styles={styles.item}
+          text={item.title}
+          type={item.icon.font}
+          name={item.icon.name}
+          activeColor={styles.item.activeColor}
+          inactiveColor={styles.item.inactiveColor}
+          size={22}
           isActive={pagina === (item.page - 1)}
           onPress={() => setPagina(alterarPagina(item.page - 1))}
         />)
