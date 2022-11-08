@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from 'enzyme';
-import Inicio from "@screens/Inicio";
+import Inicio from "@screens/Principal";
 
 describe("Deve renderizar a tela de inicio do app", () => {
     const wrapper = shallow(<Inicio />);

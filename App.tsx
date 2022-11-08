@@ -2,8 +2,7 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Apresentacao from "@screens/Apresentacao";
-import Inicio from "@screens/Inicio";
-
+import Principal from "@screens/Principal";
 const Stack = createStackNavigator();
 
 const App = (): JSX.Element => {
@@ -13,7 +12,7 @@ const App = (): JSX.Element => {
             headerShown: false
       }}>
         <Stack.Screen name="Apresentação" component={Apresentacao} />
-        <Stack.Screen name="Início" component={Inicio} />
+        <Stack.Screen name="Início" component={Principal} />
       </Stack.Navigator>
     </NavigationContainer>
   );
