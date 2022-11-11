@@ -11,6 +11,7 @@ const getStyles = () => {
         },
         conteudo: {
             flexGrow: 1,
+            minHeight: '100%'
         },
         menu: {
             bottom: 30

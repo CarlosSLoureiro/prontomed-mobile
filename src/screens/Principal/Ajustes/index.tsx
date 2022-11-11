@@ -7,7 +7,7 @@ const Ajustes = (): JSX.Element => {
     const styles = getMainStyles();
   
     return (
-      <ScrollView contentContainerStyle={styles.conteudo}>
+      <ScrollView scrollEventThrottle={400} contentContainerStyle={styles.conteudo}>
         <Icon type="SimpleLineIcons" name="settings" size={124} style={styles.icon} />
         <Text style={styles.text}>Ajustes!</Text>
       </ScrollView>

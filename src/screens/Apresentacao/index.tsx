@@ -15,16 +15,16 @@ const Apresentacao = (): JSX.Element => {
 
   return (
       <PagerView style={{flex: 1}} initialPage={0} ref={pagerRef}>
-        <View key="1">
+        <View key="0">
           <Pagina1 alterarPagina={alterarPagina}/>
         </View>
-        <View key="2">
+        <View key="1">
           <Pagina2 alterarPagina={alterarPagina}/>
         </View>
-        <View key="3">
+        <View key="2">
           <Pagina3 alterarPagina={alterarPagina}/>
         </View>
-        <View key="4">
+        <View key="3">
           <Pagina4 navigation={navigation} alterarPagina={alterarPagina}/>
         </View>
       </PagerView>

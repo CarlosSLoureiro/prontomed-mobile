@@ -7,7 +7,7 @@ const Inicio = (): JSX.Element => {
     const styles = getMainStyles();
   
     return (
-      <ScrollView contentContainerStyle={styles.conteudo}>
+      <ScrollView scrollEventThrottle={400} contentContainerStyle={styles.conteudo}>
         <Icon type="Octicons" name="home" size={124} style={styles.icon} />
         <Text style={styles.text}>Início!</Text>
       </ScrollView>
