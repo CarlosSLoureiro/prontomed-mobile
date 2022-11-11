@@ -9,27 +9,27 @@ import Ajustes from "@screens/Principal/Ajustes";
 describe("Deve renderizar a tela principal do app", () => {
     const wrapper = shallow(<Principal />);
 
-    const obterViewPorKey = (key) => {
-        return wrapper.findWhere(node => node.name() === 'View' && parseInt(node.key()) === key);
+    const obterElementoPorKey = (key) => {
+        return wrapper.findWhere(node => parseInt(node.key()) === key);
     }
 
-    test('Deve exibir a tela de início na view com key=1', () => {
-        const view = obterViewPorKey(1);
-        expect(view.children().type()).toBe(Inicio);
+    test('Deve exibir a tela de início com a key=1', () => {
+        const elemento = obterElementoPorKey(1);
+        expect(elemento.type()).toBe(Inicio);
     });
 
-    test('Deve exibir a tela de consultas na view com key=2', () => {
-        const view = obterViewPorKey(2);
-        expect(view.children().type()).toBe(Consultas);
+    test('Deve exibir a tela de consultas com a key=2', () => {
+        const elemento = obterElementoPorKey(2);
+        expect(elemento.type()).toBe(Consultas);
     });
 
-    test('Deve exibir a tela de pacientes na view com key=3', () => {
-        const view = obterViewPorKey(3);
-        expect(view.children().type()).toBe(Pacientes);
+    test('Deve exibir a tela de pacientes com a key=3', () => {
+        const elemento = obterElementoPorKey(3);
+        expect(elemento.type()).toBe(Pacientes);
     });
 
-    test('Deve exibir a tela de ajustes na view com key=4', () => {
-        const view = obterViewPorKey(4);
-        expect(view.children().type()).toBe(Ajustes);
+    test('Deve exibir a tela de ajustes com a key=4', () => {
+        const elemento = obterElementoPorKey(4);
+        expect(elemento.type()).toBe(Ajustes);
     });
 });
