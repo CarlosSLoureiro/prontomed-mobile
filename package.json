@@ -27,6 +27,7 @@
     "react-native-dynamic-vector-icons": "^1.2.0",
     "react-native-gesture-handler": "~2.5.0",
     "react-native-material-ripple": "^0.9.1",
+    "react-native-notifier": "^1.9.0",
     "react-native-pager-view": "5.4.24",
     "react-native-paper": "^4.12.5",
     "react-native-safe-area-context": "4.3.1",

@@ -7350,6 +7350,11 @@ react-native-material-ripple@^0.9.1:
   dependencies:
     prop-types "^15.5.10"
 
+react-native-notifier@^1.9.0:
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/react-native-notifier/-/react-native-notifier-1.9.0.tgz#22351619063620af0371e8fb5583fee47edf0836"
+  integrity sha512-p9NpDCCSNNpfiJTRSu2rtSGGxekejDWSh3mX5rvjMllGCPyoJS3d36x9O+roYcH8qSqLf4QDcmwCMSUuaGTgXg==
+
 react-native-pager-view@5.4.24:
   version "5.4.24"
   resolved "https://registry.yarnpkg.com/react-native-pager-view/-/react-native-pager-view-5.4.24.tgz#8626e757ddc55e41eca66d2f8a8a75aec54591ee"
