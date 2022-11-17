@@ -5,7 +5,7 @@ import { NotificationContrato } from "./types";
 class Notification implements NotificationContrato {
     current: ShowNotificationParams = {};
 
-    add(params: ShowNotificationParams): void {        
+    add(params: ShowNotificationParams): void {
         if (this.current?.title !== params?.title) {
             this.current = params;
             Notifier.showNotification(this.current);
