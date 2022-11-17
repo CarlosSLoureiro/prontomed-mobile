@@ -9,6 +9,13 @@ const getStyles = () => {
             flex: 1, 
             backgroundColor: isDarkMode ? "#111" : "#eee"
         },
+        headerTitle: {
+            color: isDarkMode ? "#ffffff" : "#000000",
+        },
+        header: {
+            backgroundColor: isDarkMode ? "#000" : "#fff",
+            borderColor: isDarkMode ? "#000" : "#fff"
+        },
         conteudo: {
             flexGrow: 1,
             minHeight: '100%'

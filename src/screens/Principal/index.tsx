@@ -18,13 +18,15 @@ const Principal = (): JSX.Element => {
 
   const alterarPagina = (pagina: number) => pagerRef?.current?.setPageWithoutAnimation(pagina - 1); // TODO alterar para setPage = https://github.com/callstack/react-native-pager-view/issues/636
   
+  const styles = getStyles();
+
   useEffect(() => {
     navigation.setOptions({
-      headerShown: true
+      headerShown: true,
+      headerTintColor: styles.headerTitle.color,
+      headerStyle: styles.header
     });
   });
-
-  const styles = getStyles();
 
   return (
     <>
