@@ -6,6 +6,8 @@ import { ConsultaContrato } from '@components/Consulta/contratos';
 import { ConsultasContrato } from './contratos';
 import Consulta from '@components/Consulta';
 import items from './items';
+import Notification from '@utils/Notification';
+import { NotifierComponents } from 'react-native-notifier';
 
 /* @ts-ignore */
 const deveCarregarMais = ({layoutMeasurement, contentOffset, contentSize}) => {
@@ -19,11 +21,28 @@ const Consultas = ({
     const [consultas, setConsultas] = useState<Array<ConsultaContrato>>(items);
     const scrollRef = useRef<ScrollView>(null);
 
-    const carregarConsultas = () => {
+    const carregarConsultas = async () => {
       console.log('deve carregar >>>');
-      setConsultas([...consultas, ...[{
-        nome: `carlos loureiro #${consultas.length}`
-      }]]);
+      if (consultas.length < 15) {
+        Promise.resolve(
+          setConsultas([...consultas, ...[{
+            nome: `carlos loureiro #${consultas.length}`
+          },
+          {
+            nome: `jessie #${consultas.length}`
+          }]])
+        );
+      } else {
+        Notification.add({
+          title: 'Não há mais consultas',
+          description: 'Tente alterar os filtros de busca',
+          Component: NotifierComponents.Alert,
+          componentProps: {
+            alertType: 'error',
+          },
+          duration: 5000,
+        });
+      }
     }
     
     if (deveResetar) {
@@ -35,9 +54,9 @@ const Consultas = ({
 
     return (
       <ScrollView scrollEventThrottle={400}
-        onScroll={({nativeEvent}) => {
+        onScroll={async ({nativeEvent}) => {
           if(deveCarregarMais(nativeEvent)){
-            carregarConsultas();
+            await carregarConsultas();
           }
         }}
         ref={scrollRef}
@@ -46,7 +65,7 @@ const Consultas = ({
         <Icon type="FontAwesome" name="calendar-check-o" size={124} style={styles.icon} />
         <Text style={styles.text}>Suas consultas!</Text>
         {
-          consultas.map((consulta, index) => <Consulta key={index} {...consulta} />)
+          consultas.map((consulta, index) => <Consulta key={index} {...consulta} ultimo={consultas.length - 1 === index} />)
         }
       </ScrollView>
     )
