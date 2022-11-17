@@ -1,7 +1,7 @@
 import React from 'react';
 import Icon from "react-native-dynamic-vector-icons";
 import PaginaBase from '../Base';
-import { PaginaContrato } from '../Base/contratos';
+import { PaginaContrato } from '../Base/types';
 import Rodape from '../Rodape';
 
 const Pagina = ({

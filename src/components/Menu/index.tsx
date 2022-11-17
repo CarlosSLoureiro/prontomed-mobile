@@ -4,7 +4,7 @@ import { ParamListBase, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 /* @ts-ignore */
 import { BottomMenu, Item as MenuItem } from "react-native-bottom-menu";
-import { MenuContrato } from "./contratos";
+import { MenuContrato } from "./types";
 import getStyles from "./styles";
 import items from "./items";
 

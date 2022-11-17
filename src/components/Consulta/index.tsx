@@ -1,6 +1,6 @@
 import React from 'react';
 import { Avatar, Card, IconButton, Paragraph } from 'react-native-paper';
-import { ConsultaContrato } from './contratos';
+import { ConsultaContrato } from './types';
 import getStyles from "./styles";
   
 const Consulta = ({

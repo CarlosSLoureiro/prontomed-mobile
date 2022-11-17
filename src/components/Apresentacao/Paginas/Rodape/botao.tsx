@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
-import { BotaoContrato } from './contratos';
+import { BotaoContrato } from './types';
 
 const Botao = ({
   titulo,
