@@ -13,23 +13,23 @@ describe("Deve renderizar a tela principal do app", () => {
         return wrapper.findWhere(node => parseInt(node.key()) === key);
     }
 
-    test('Deve exibir a tela de início com a key=1', () => {
-        const elemento = obterElementoPorKey(1);
+    test('Deve exibir a tela de início com a key=0', () => {
+        const elemento = obterElementoPorKey(0);
         expect(elemento.type()).toBe(Inicio);
     });
 
-    test('Deve exibir a tela de consultas com a key=2', () => {
-        const elemento = obterElementoPorKey(2);
+    test('Deve exibir a tela de consultas com a key=1', () => {
+        const elemento = obterElementoPorKey(1);
         expect(elemento.type()).toBe(Consultas);
     });
 
-    test('Deve exibir a tela de pacientes com a key=3', () => {
-        const elemento = obterElementoPorKey(3);
+    test('Deve exibir a tela de pacientes com a key=2', () => {
+        const elemento = obterElementoPorKey(2);
         expect(elemento.type()).toBe(Pacientes);
     });
 
-    test('Deve exibir a tela de ajustes com a key=4', () => {
-        const elemento = obterElementoPorKey(4);
+    test('Deve exibir a tela de ajustes com a key=3', () => {
+        const elemento = obterElementoPorKey(3);
         expect(elemento.type()).toBe(Ajustes);
     });
 });
