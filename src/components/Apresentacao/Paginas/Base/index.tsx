@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { PaginaBaseContrato } from './contratos';
+import { PaginaBaseContrato } from './types';
 import getStyles from './styles';
 
 const PaginaBase = ({

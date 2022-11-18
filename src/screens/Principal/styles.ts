@@ -7,16 +7,31 @@ const getStyles = () => {
     return StyleSheet.create({
         root: {
             flex: 1, 
-            backgroundColor: isDarkMode ? "black" : "white"
+            backgroundColor: isDarkMode ? "#111" : "#eee"
         },
-        content: {
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: '100%',
-            paddingBottom: 130,
+        headerTitle: {
+            color: isDarkMode ? "#ffffff" : "#000000",
+        },
+        header: {
+            backgroundColor: isDarkMode ? "#000" : "#fff",
+            borderColor: isDarkMode ? "#000" : "#fff"
+        },
+        conteudo: {
+            flexGrow: 1,
+            minHeight: '100%'
         },
         menu: {
             bottom: 30
+        },
+        text: {
+            fontSize: 24,
+            paddingTop: 20,
+            alignSelf: 'center',
+            color: isDarkMode ? "white" : "black"
+        },
+        icon: {
+            alignSelf: 'center',
+            color: isDarkMode ? "white" : "black"
         }
     });
 }
