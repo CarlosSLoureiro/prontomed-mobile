@@ -32,7 +32,7 @@ const Consulta = ({
 
     return (
         <>
-            <TouchableOpacity onPress={abrirMenuContexto} activeOpacity={1}>
+            <TouchableOpacity onPress={abrirMenuContexto}>
                 <Card style={ultimo ? {...styles.card, ...styles.card.ultimo}: styles.card}>
                     <Card.Title
                         leftStyle={styles.cardId}

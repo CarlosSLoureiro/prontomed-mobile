@@ -11,7 +11,7 @@ interface MenuArchor {
 interface MenuItem {
     titulo: string;
     icone: string;
-    callback: () => any
+    callback: () => any;
 }
 
 export interface ConsultaMenuContrato {
