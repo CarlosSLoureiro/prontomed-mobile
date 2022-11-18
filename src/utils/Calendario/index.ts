@@ -32,7 +32,7 @@ export const criarCalendario = async () => {
     return calendarioId ?? null;
 }
 
-export const agendarConsulta = async () => {
+export const agendarConsulta = async (nome:string) => {
     let calendario = await obterCelendario();
 
     if (calendario === null) {
@@ -48,7 +48,7 @@ export const agendarConsulta = async () => {
     }
 
     const eventoId = await Calendar.createEventAsync(calendario, {
-        title: 'Consulta a agendar',
+        title: `Consulta com ${nome}`,
         startDate: new Date('2022-11-20 22:00:00'),
         endDate: new Date('2022-11-20 23:00:00'),
     });

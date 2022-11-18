@@ -30,6 +30,32 @@ class Notification implements NotificationContrato {
         this.add({...defaultParams, ...params});
     }
 
+    success(params: Partial<ShowNotificationParams>): void {
+        const defaultParams = {
+            title: 'Success!',
+            Component: NotifierComponents.Alert,
+            componentProps: {
+              alertType: 'success',
+            },
+            duration: 3000,
+        };
+
+        this.add({...defaultParams, ...params});
+    }
+
+    info(params: Partial<ShowNotificationParams>): void {
+        const defaultParams = {
+            title: 'Info!',
+            Component: NotifierComponents.Alert,
+            componentProps: {
+              alertType: 'info',
+            },
+            duration: 3000,
+        };
+
+        this.add({...defaultParams, ...params});
+    }
+
     get(): NotifierInterface {
         return Notifier;
     }
