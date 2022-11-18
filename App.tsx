@@ -1,5 +1,6 @@
 import React from "react";
 import { NotifierWrapper } from 'react-native-notifier';
+import { Provider } from 'react-native-paper';
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Apresentacao from "@screens/Apresentacao";
@@ -10,14 +11,16 @@ const Stack = createStackNavigator();
 const App = (): JSX.Element => {
   return (
     <NotifierWrapper>
-      <NavigationContainer> 
-        <Stack.Navigator screenOptions={{
-              headerShown: false
-        }}>
-          <Stack.Screen name="Apresentação" component={Apresentacao} />
-          <Stack.Screen name="Início" component={Principal} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <Provider>
+        <NavigationContainer> 
+          <Stack.Navigator screenOptions={{
+                headerShown: false
+          }}>
+            <Stack.Screen name="Apresentação" component={Apresentacao} />
+            <Stack.Screen name="Início" component={Principal} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>
     </NotifierWrapper>
   );
 };
