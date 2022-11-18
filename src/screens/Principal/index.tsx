@@ -38,7 +38,7 @@ const Principal = (): JSX.Element => {
         ref={pagerRef}
       >
         <Inicio key="0"/>
-        <Consultas deveResetar={paginaSelecionada !== 1} key="1"/>
+        <Consultas paginaAtiva={paginaSelecionada === 1} key="1"/>
         <Pacientes key="2"/>
         <Ajustes key="3"/>
       </PagerView>

@@ -1,3 +1,3 @@
 export interface ConsultasContrato {
-    deveResetar: boolean;
+    paginaAtiva: boolean;
 }
