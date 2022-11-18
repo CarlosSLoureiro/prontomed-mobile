@@ -1,4 +1,5 @@
 import { Notifier } from "react-native-notifier";
+import { NotifierComponents } from 'react-native-notifier';
 import { NotifierInterface, ShowNotificationParams } from "react-native-notifier/lib/typescript/types";
 import { NotificationContrato } from "./types";
 
@@ -14,6 +15,19 @@ class Notification implements NotificationContrato {
                 this.current?.duration ?? 3000
             );
         }
+    }
+
+    error(params: Partial<ShowNotificationParams>): void {
+        const defaultParams = {
+            title: 'Error!',
+            Component: NotifierComponents.Alert,
+            componentProps: {
+              alertType: 'error',
+            },
+            duration: 3000,
+        };
+
+        this.add({...defaultParams, ...params});
     }
 
     get(): NotifierInterface {
