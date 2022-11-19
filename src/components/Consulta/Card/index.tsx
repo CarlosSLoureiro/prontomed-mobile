@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import { Card, Paragraph } from 'react-native-paper';
 import { agendarConsulta } from '@utils/Calendario';
 import Notification from '@utils/Notification';
-import { ConsultaContrato } from './types';
+import { ConsultaCardContrato } from './types';
 import getStyles from "./styles";
 import MenuContexto from './menu';
 import { TouchableOpacity } from 'react-native';
 
-const Consulta = ({
+const ConsultaCard = ({
     nome,
     ultimo
-}:ConsultaContrato) : JSX.Element => {
+}:ConsultaCardContrato) : JSX.Element => {
     const [exibirMenu, setExibirMenu] = useState(false);
     const [menuAnchor, setMenuAnchor] = useState({ x: 0, y: 0 })
 
@@ -100,4 +100,4 @@ const Consulta = ({
     )
 };
 
-export default Consulta;
+export default ConsultaCard;

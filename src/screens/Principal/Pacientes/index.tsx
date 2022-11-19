@@ -2,7 +2,7 @@ import React from 'react';
 import { ScrollView, Text } from 'react-native';
 import Icon from "react-native-dynamic-vector-icons";
 import getMainStyles from "../styles";
-import Paciente from '@components/Cards/Paciente';
+import PacienteCard from '@components/Paciente/Card';
 
 const Pacientes = (): JSX.Element => {
     const styles = getMainStyles();
@@ -11,20 +11,20 @@ const Pacientes = (): JSX.Element => {
       <ScrollView contentContainerStyle={styles.conteudo}>
         <Icon type="Entypo" name="users" size={124} style={styles.icon} />
         <Text style={styles.text}>Pacientes!</Text>
-        <Paciente />
-        <Paciente />
-        <Paciente />
-        <Paciente />
-        <Paciente />
-        <Paciente />
-        <Paciente />
-        <Paciente />
-        <Paciente />
-        <Paciente />
-        <Paciente />
-        <Paciente />
-        <Paciente />
-        <Paciente ultimo={true} />
+        <PacienteCard />
+        <PacienteCard />
+        <PacienteCard />
+        <PacienteCard />
+        <PacienteCard />
+        <PacienteCard />
+        <PacienteCard />
+        <PacienteCard />
+        <PacienteCard />
+        <PacienteCard />
+        <PacienteCard />
+        <PacienteCard />
+        <PacienteCard />
+        <PacienteCard ultimo={true} />
       </ScrollView>
     )
 };

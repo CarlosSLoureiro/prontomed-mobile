@@ -16,7 +16,7 @@ const Ordenar = ({
         callback({
             ordem,
             chave
-        });
+        } as ItemsSelecionados);
     };
 
     return (

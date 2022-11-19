@@ -1,4 +1,4 @@
-export interface ConsultaContrato {
+export interface ConsultaCardContrato {
     nome: string;
     ultimo?: boolean;
 };
