@@ -13,7 +13,6 @@ class Notification implements NotificationContrato {
     }
 
     private clear() {
-        console.log('hiden from notif');
         if (this.onHidden !== undefined) {
             this.onHidden();
         }
