@@ -9,7 +9,7 @@ import items from './items';
 import Notification from '@utils/Notification';
 import { NotifierComponents } from 'react-native-notifier';
 import { Portal, FAB, Dialog, RadioButton, Button, ToggleButton, Divider } from 'react-native-paper';
-import ToggleButtonGroup from 'react-native-paper/lib/typescript/components/ToggleButton/ToggleButtonGroup';
+import Ordenar from '@components/Dialogs/Consulta/Ordenar';
 
 /* @ts-ignore */
 const deveCarregarMais = ({layoutMeasurement, contentOffset, contentSize}) => {
@@ -25,11 +25,7 @@ const Consultas = ({
     const scrollRef = useRef<ScrollView>(null);
 
     const [visible, setVisible] = useState(false);
-    const [value, setValue] = useState('id');
-    const [selectedValue, setSelectedValue] = useState('crescente');
     const showDialog = () => setVisible(true);
-
-    const hideDialog = () => setVisible(false);
 
     const carregarConsultas = async () => {
       console.log('deve carregar >>>');
@@ -100,25 +96,7 @@ const Consultas = ({
           />
 
 
-          <Dialog visible={visible} onDismiss={hideDialog}>
-            <Dialog.Title>Como deseja ordernar?</Dialog.Title>
-            <Dialog.Content>
-              <RadioButton.Group onValueChange={value => setSelectedValue(value)} value={selectedValue}>
-                <RadioButton.Item label="Em ordem crescente (A-Z)" value="crescente" />
-                <RadioButton.Item label="Em ordem decrescente (Z-A)" value="decrescente" />
-              </RadioButton.Group>
-              <RadioButton.Group onValueChange={newValue => setValue(newValue)} value={value}>
-                <RadioButton.Item label="Pelo número da consulta" value="id" />
-                <RadioButton.Item label="Pelo nome do paciente" value="nome" />
-                <RadioButton.Item label="Pela data de agendamento" value="data" />
-              </RadioButton.Group>
-              <Divider/>
-            </Dialog.Content>
-            <Dialog.Actions>
-              <Button color='#000000' onPress={hideDialog}>Ordenar</Button>
-              <Button color='#000000' onPress={hideDialog}>Cancelar</Button>
-            </Dialog.Actions>
-          </Dialog>
+          <Ordenar visivel={visible} setVisivel={setVisible}/>
 
 
         </Portal>
