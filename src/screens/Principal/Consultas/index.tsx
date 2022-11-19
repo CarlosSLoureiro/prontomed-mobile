@@ -103,20 +103,16 @@ const Consultas = ({
           <Dialog visible={visible} onDismiss={hideDialog}>
             <Dialog.Title>Como deseja ordernar?</Dialog.Title>
             <Dialog.Content>
-             <RadioButton.Group onValueChange={newValue => setValue(newValue)} value={value}>
+              <RadioButton.Group onValueChange={value => setSelectedValue(value)} value={selectedValue}>
+                <RadioButton.Item label="Em ordem crescente (A-Z)" value="crescente" />
+                <RadioButton.Item label="Em ordem decrescente (Z-A)" value="decrescente" />
+              </RadioButton.Group>
+              <RadioButton.Group onValueChange={newValue => setValue(newValue)} value={value}>
                 <RadioButton.Item label="Pelo número da consulta" value="id" />
                 <RadioButton.Item label="Pelo nome do paciente" value="nome" />
                 <RadioButton.Item label="Pela data de agendamento" value="data" />
-             </RadioButton.Group>
-            <Divider/>
-             <RadioButton.Group onValueChange={value => setSelectedValue(value)} value={selectedValue}>
-              <View>
-                <RadioButton.Item label="Em ordem crescente (A-Z)" value="crescente" />
-              </View>
-              <View>
-                <RadioButton.Item label="Em ordem decrescente (Z-A)" value="decrescente" />
-              </View>
-             </RadioButton.Group>
+              </RadioButton.Group>
+              <Divider/>
             </Dialog.Content>
             <Dialog.Actions>
               <Button color='#000000' onPress={hideDialog}>Ordenar</Button>
