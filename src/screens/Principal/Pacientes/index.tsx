@@ -2,7 +2,7 @@ import React from 'react';
 import { ScrollView, Text } from 'react-native';
 import Icon from "react-native-dynamic-vector-icons";
 import getMainStyles from "../styles";
-import Paciente from '@components/Paciente';
+import Paciente from '@components/Cards/Paciente';
 
 const Pacientes = (): JSX.Element => {
     const styles = getMainStyles();
