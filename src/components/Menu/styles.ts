@@ -17,7 +17,7 @@ const getStyles = () => {
             }
         },
         item: {
-            activeColor:"#f8a300",
+            activeColor:"#03afff",
             inactiveColor:"#7d8094"
         }
     }

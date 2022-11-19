@@ -8,7 +8,7 @@ const getStyles = () => {
         card: {
             borderWidth: 1,
             borderColor: "#555",
-            backgroundColor: "#fff",
+            backgroundColor: "#a7e0fa",
             borderRadius: 20,
             marginHorizontal: 5,
             marginVertical: 6,
