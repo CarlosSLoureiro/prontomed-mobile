@@ -1,31 +1,84 @@
-import React, { useRef, useState } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { ScrollView, Text } from 'react-native';
 import Icon from "react-native-dynamic-vector-icons";
 import getMainStyles from "../styles";
-import { ConsultaContrato } from '@components/Cards/Consulta/types';
-import { ConsultasContrato } from './types';
-import Consulta from '@components/Cards/Consulta';
+import { ConsultaCardContrato } from '@components/Consulta/Card/types';
+import { ConsultasContrato, DatasContrato, OrdenacaoContrato, FiltrosDeBuscaContrato } from './types';
+import ConsultaCard from '@components/Consulta/Card';
 import items from './items';
 import Notification from '@utils/Notification';
 import { NotifierComponents } from 'react-native-notifier';
-import { Portal, FAB, Dialog, RadioButton, Button, ToggleButton, Divider } from 'react-native-paper';
-import Ordenar from '@components/Dialogs/Consulta/Ordenar';
-
-/* @ts-ignore */
-const deveCarregarMais = ({layoutMeasurement, contentOffset, contentSize}) => {
-  return layoutMeasurement.height + contentOffset.y >= contentSize.height;
-};
+import { Portal } from 'react-native-paper';
+import Ordenar from '@components/Consulta/Dialogs/Ordenar';
+import Opcoes from '@components/Consulta/Opcoes';
+import Buscar from '@components/Consulta/Dialogs/Buscar';
+import FiltrarDatas from '@components/Consulta/Dialogs/FiltrarDatas';
 
 const Consultas = ({
   paginaAtiva
 }:ConsultasContrato): JSX.Element => {
     const styles = getMainStyles();
-    const [consultas, setConsultas] = useState<Array<ConsultaContrato>>(items);
-    const [opcoesVisiveis, setOpcoesVisiveis] = useState(false);
+    const [consultas, setConsultas] = useState<Array<ConsultaCardContrato>>(items);
     const scrollRef = useRef<ScrollView>(null);
+    const [buscarVisivel, setBuscarVisivel] = useState(false);
+    const [filtrarDatasVisivel, setFiltrarDatasVisivel] = useState(false);
+    const [ordenarVisivel, setOrdenarVisivel] = useState(false);
+    const filtrosDeBuscaInicial:FiltrosDeBuscaContrato = {
+      ordenacao: {
+        ordem: "decrescente",
+        chave: "data"
+      } 
+    };
+    const [filtrosDeBusca, setFiltrosDeBusca] = useState<FiltrosDeBuscaContrato>(filtrosDeBuscaInicial);
 
-    const [visible, setVisible] = useState(false);
-    const showDialog = () => setVisible(true);
+    useEffect(()=>{
+      // TODO: atualizar resultados
+      console.log('Deve buscar consultas ->', filtrosDeBusca);
+      Notification.info({
+        title: 'Deve buscar consultas',
+        description: JSON.stringify(filtrosDeBusca.ordenacao)
+      });
+    },[filtrosDeBusca]);
+
+    const sobirScrollParaOTopo = () => {
+      scrollRef?.current?.scrollTo({
+        y: 0,
+        animated: true,
+      });
+    }
+
+    const buscarConsultas = () => {
+      Notification.info({
+        title: 'Deve buscar as consultas'
+      });
+    }
+
+    const filtrarDatasConsultas = (datas:DatasContrato) => {
+      Notification.info({
+        title: 'Deve filrar as consultas entre datas',
+        description: JSON.stringify(datas)
+      });
+      setFiltrosDeBusca({
+        ...filtrosDeBusca,
+        ...{datas: datas}
+      } as FiltrosDeBuscaContrato);
+    }
+
+    const reordenarConsultas = (selecionados:OrdenacaoContrato) => {
+      Notification.info({
+        title: 'Deve reordenar as consultas',
+        description: JSON.stringify(filtrosDeBusca.ordenacao)
+      });
+      setFiltrosDeBusca({
+        ...filtrosDeBusca,
+        ...{ordenacao: selecionados}
+      } as FiltrosDeBuscaContrato);
+    }
+
+    /* @ts-ignore */
+    const deveCarregarMais = ({layoutMeasurement, contentOffset, contentSize}) => {
+      return layoutMeasurement.height + contentOffset.y >= contentSize.height;
+    };
 
     const carregarConsultas = async () => {
       console.log('deve carregar >>>');
@@ -50,12 +103,9 @@ const Consultas = ({
         });
       }
     }
-    
+
     if (!paginaAtiva) {
-      scrollRef.current?.scrollTo({
-        y: 0,
-        animated: true,
-      });
+      sobirScrollParaOTopo();
     }
 
     return (
@@ -69,41 +119,24 @@ const Consultas = ({
         contentContainerStyle={styles.conteudo}
       >
         <Portal>
-          <FAB.Group
-            open={opcoesVisiveis}
-            visible={paginaAtiva}
-            style={{
-              paddingBottom: 100,
-              marginRight: -10,
+          <Buscar visivel={buscarVisivel} setVisivel={setBuscarVisivel} callback={buscarConsultas}/>
+          <FiltrarDatas visivel={filtrarDatasVisivel} setVisivel={setFiltrarDatasVisivel} callback={filtrarDatasConsultas}/>
+          <Ordenar visivel={ordenarVisivel} setVisivel={setOrdenarVisivel} callback={reordenarConsultas} valorAtual={filtrosDeBusca.ordenacao}/>
+          <Opcoes
+            visivel={paginaAtiva}
+            buscar={() => setBuscarVisivel(true)}
+            filtrarDatas={() => setFiltrarDatasVisivel(true)}
+            ordenar={() => setOrdenarVisivel(true)}
+            limpar={{
+              visivel: JSON.stringify(filtrosDeBuscaInicial) !== JSON.stringify(filtrosDeBusca),
+              callback: () => setFiltrosDeBusca(filtrosDeBuscaInicial)
             }}
-            fabStyle={{
-              backgroundColor: "#fff",
-            }}
-            icon={opcoesVisiveis ? 'calendar-account-outline' : 'plus'}
-            actions={[
-              {
-                icon: 'magnify',
-                label: 'Buscar',
-                onPress: () => console.log('Buscar formulário de Consulta'),
-              },
-              {
-                icon: 'order-alphabetical-ascending',
-                label: 'Ordenar',
-                onPress: showDialog,
-              }
-            ]}
-            onStateChange={({ open }) => setOpcoesVisiveis(open)}
           />
-
-
-          <Ordenar visivel={visible} setVisivel={setVisible}/>
-
-
         </Portal>
         <Icon type="FontAwesome" name="calendar-check-o" size={124} style={styles.icon} />
         <Text style={styles.text}>Suas consultas!</Text>
         {
-          consultas.map((consulta, index) => <Consulta key={index} {...consulta} ultimo={consultas.length - 1 === index} />)
+          consultas.map((consulta, index) => <ConsultaCard key={index} {...consulta} ultimo={consultas.length - 1 === index} />)
         }
       </ScrollView>
     )
