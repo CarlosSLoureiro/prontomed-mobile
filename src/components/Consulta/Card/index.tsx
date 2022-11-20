@@ -12,7 +12,7 @@ const ConsultaCard = ({
     ultimo
 }:ConsultaCardContrato) : JSX.Element => {
     const [exibirMenu, setExibirMenu] = useState(false);
-    const [menuAnchor, setMenuAnchor] = useState({ x: 0, y: 0 })
+    const [menuAnchor, setMenuAnchor] = useState({ x: 0, y: 0 });
 
     const styles = getStyles();
     
