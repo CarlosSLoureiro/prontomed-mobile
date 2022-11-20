@@ -28,8 +28,8 @@ const OcpoesBotao = ({
       }
     ];
     const botaoLimpar = {
-      icon: 'order-alphabetical-ascending',
-      label: 'Limpar',
+      icon: 'restart',
+      label: 'Limpar filtros',
       onPress: limpar.callback,
     }
 
