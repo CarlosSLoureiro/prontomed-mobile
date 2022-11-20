@@ -120,7 +120,7 @@ const Consultas = ({
       >
         <Portal>
           <Buscar visivel={buscarVisivel} setVisivel={setBuscarVisivel} callback={buscarConsultas}/>
-          <FiltrarDatas visivel={filtrarDatasVisivel} setVisivel={setFiltrarDatasVisivel} callback={filtrarDatasConsultas}/>
+          <FiltrarDatas visivel={filtrarDatasVisivel} setVisivel={setFiltrarDatasVisivel} callback={filtrarDatasConsultas} valorAtual={filtrosDeBusca?.datas}/>
           <Ordenar visivel={ordenarVisivel} setVisivel={setOrdenarVisivel} callback={reordenarConsultas} valorAtual={filtrosDeBusca.ordenacao}/>
           <Opcoes
             visivel={paginaAtiva}

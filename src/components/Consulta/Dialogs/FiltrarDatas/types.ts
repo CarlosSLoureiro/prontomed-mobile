@@ -4,4 +4,5 @@ export interface FiltrarDatasContrato {
     visivel: boolean,
     setVisivel: Function,
     callback: (datas:DatasContrato) => void;
+    valorAtual: DatasContrato | undefined;
 }

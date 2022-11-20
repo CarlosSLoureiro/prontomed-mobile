@@ -8,6 +8,5 @@ export interface OcpoesBotaoContrato {
     buscar: () => void,
     filtrarDatas: () => void,
     ordenar: () => void,
-    //limpar?: () => void
     limpar: LimparContrato;
 }
