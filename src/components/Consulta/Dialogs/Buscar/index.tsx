@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { TouchableOpacity } from "react-native";
-import { Dialog, TextInput, Divider, Button, Menu } from "react-native-paper";
+import { useState } from "react";
+import { Dialog, TextInput, Divider, Button } from "react-native-paper";
 import { PaperSelect } from "react-native-paper-select";
 import { BuscarContrato, BuscarGenerosContrato, ListagemDeGenerosContrato } from "./types";
 
