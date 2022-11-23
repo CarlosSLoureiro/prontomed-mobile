@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
-import { Avatar, Card, IconButton, Paragraph } from 'react-native-paper';
+import { Card, Paragraph } from 'react-native-paper';
 import { agendarConsulta } from '@utils/Calendario';
 import Notification from '@utils/Notification';
-import { ConsultaContrato } from './types';
+import { ConsultaCardContrato } from './types';
 import getStyles from "./styles";
 import MenuContexto from './menu';
+import { TouchableOpacity } from 'react-native';
 
-const Consulta = ({
+const ConsultaCard = ({
     nome,
     ultimo
-}:ConsultaContrato) : JSX.Element => {
+}:ConsultaCardContrato) : JSX.Element => {
     const [exibirMenu, setExibirMenu] = useState(false);
-    const [menuAnchor, setMenuAnchor] = useState({ x: 0, y: 0 })
+    const [menuAnchor, setMenuAnchor] = useState({ x: 0, y: 0 });
 
     const styles = getStyles();
     
@@ -31,17 +32,24 @@ const Consulta = ({
 
     return (
         <>
-            <Card style={ultimo ? {...styles.card, ...styles.cardUltimo}: styles.card}>
-                <Card.Content>
-                    <Paragraph style={styles.data}>Terça, 8 de Novembro de 2022 às 15:00</Paragraph>
-                </Card.Content>
-                <Card.Title
-                    title={nome}
-                    subtitle="Masculino, 23 anos, 75Kg, 1.3M"
-                    left={(props) => <Avatar.Icon {...props} icon="calendar-account-outline" style={styles.icone}/>}
-                    right={(props) => <IconButton {...props} icon="menu" onPress={abrirMenuContexto}/>}
-                />
-            </Card>
+            <TouchableOpacity onPress={abrirMenuContexto}>
+                <Card style={ultimo ? {...styles.card, ...styles.card.ultimo}: styles.card}>
+                    <Card.Title
+                        leftStyle={styles.cardId}
+                        left={() => <Paragraph style={styles.cardId.paragraph}>1234</Paragraph>}
+                        titleNumberOfLines={0}
+                        title={
+                            <>
+                                <Paragraph style={styles.data}>Segunda, 8 de Dezembro de 2022 às 15:00</Paragraph>
+                                {"\n"}
+                                <Paragraph style={styles.nome}>{nome}</Paragraph>
+                            </>
+                        }
+                        subtitleStyle={styles.subtitle}
+                        subtitle="Masculino, 23 anos, 75Kg, 1.3M"
+                    />
+                </Card>
+            </TouchableOpacity> 
             <MenuContexto
                 visivel={exibirMenu}
                 {...{nome, fecharMenu, menuAnchor}}
@@ -92,4 +100,4 @@ const Consulta = ({
     )
 };
 
-export default Consulta;
+export default ConsultaCard;

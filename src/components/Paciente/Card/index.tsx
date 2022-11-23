@@ -1,11 +1,11 @@
 import React from 'react';
 import { Avatar, Card, IconButton, Paragraph } from 'react-native-paper';
-import { CardContrato } from './types';
+import { PacienteCardContrato } from './types';
 import getStyles from "./styles";
   
-const Paciente = ({
+const PacienteCard = ({
     ultimo
-}:CardContrato) : JSX.Element => {
+}:PacienteCardContrato) : JSX.Element => {
     const styles = getStyles();
 
     return (
@@ -20,4 +20,4 @@ const Paciente = ({
     )
 };
 
-export default Paciente;
+export default PacienteCard;

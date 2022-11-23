@@ -4,20 +4,33 @@ import { NotifierInterface, ShowNotificationParams } from "react-native-notifier
 import { NotificationContrato } from "./types";
 
 class Notification implements NotificationContrato {
-    current: ShowNotificationParams = {};
+    private static _instancia: Notification;
+    private current: ShowNotificationParams = {};
+    private onHidden:Function|undefined;
 
-    add(params: ShowNotificationParams): void {
+    public static get Instancia() {
+        return this._instancia || (this._instancia = new this());
+    }
+
+    private clear() {
+        if (this.onHidden !== undefined) {
+            this.onHidden();
+        }
+        this.current = {}
+    }
+
+    public add(params: ShowNotificationParams): void {
         if (this.current?.title !== params?.title) {
             this.current = params;
+            this.onHidden = params?.onHidden;
+            this.current.onHidden = () => {
+                this.clear();
+            }
             Notifier.showNotification(this.current);
-            setTimeout(
-                () => this.current = {},
-                this.current?.duration ?? 3000
-            );
         }
     }
 
-    error(params: Partial<ShowNotificationParams>): void {
+    public error(params: Partial<ShowNotificationParams>): void {
         const defaultParams = {
             title: 'Error!',
             Component: NotifierComponents.Alert,
@@ -30,7 +43,7 @@ class Notification implements NotificationContrato {
         this.add({...defaultParams, ...params});
     }
 
-    success(params: Partial<ShowNotificationParams>): void {
+    public success(params: Partial<ShowNotificationParams>): void {
         const defaultParams = {
             title: 'Success!',
             Component: NotifierComponents.Alert,
@@ -43,7 +56,7 @@ class Notification implements NotificationContrato {
         this.add({...defaultParams, ...params});
     }
 
-    info(params: Partial<ShowNotificationParams>): void {
+    public info(params: Partial<ShowNotificationParams>): void {
         const defaultParams = {
             title: 'Info!',
             Component: NotifierComponents.Alert,
@@ -56,9 +69,9 @@ class Notification implements NotificationContrato {
         this.add({...defaultParams, ...params});
     }
 
-    get(): NotifierInterface {
+    public get(): NotifierInterface {
         return Notifier;
     }
 }
 
-export default new Notification();
+export default Notification.Instancia;
