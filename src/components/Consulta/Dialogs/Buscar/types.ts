@@ -23,8 +23,14 @@ export interface ListagemDeTiposSanguineosContrato {
     selecionados: Array<ItemListagemDeTiposSanguineosContrato>,
 }
 
+export interface ValoresAtuaisFormulario {
+    nome: string;
+    generos: ListagemDeGenerosContrato;
+    tipos_sanguineos: ListagemDeTiposSanguineosContrato;
+}
+
 export interface BuscarContrato {
     visivel: boolean,
     setVisivel: Function,
-    callback: (busca:BuscaContrato) => void;
+    callback: (busca?:BuscaContrato) => void;
 }

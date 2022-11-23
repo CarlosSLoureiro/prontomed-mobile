@@ -47,7 +47,7 @@ const Consultas = ({
       });
     }
 
-    const buscarConsultas = (busca:BuscaContrato) => {
+    const buscarConsultas = (busca?:BuscaContrato) => {
       setFiltrosDeBusca({
         ...filtrosDeBusca,
         ...{busca}

@@ -7,7 +7,8 @@ import {
   ListagemDeGenerosContrato,
   ItemListagemDeGenerosContrato,
   ItemListagemDeTiposSanguineosContrato,
-  ListagemDeTiposSanguineosContrato
+  ListagemDeTiposSanguineosContrato,
+  ValoresAtuaisFormulario
 } from "./types";
 import { BuscaContrato } from "@screens/Principal/Consultas/types";
 
@@ -16,6 +17,8 @@ const Buscar = ({
     setVisivel,
     callback
 }:BuscarContrato) => {
+  const [valorAtual, setValoresAtuais] = useState<ValoresAtuaisFormulario>();
+
   // nome
   const [nome, setNome] = useState<string>('');
 
@@ -30,6 +33,13 @@ const Buscar = ({
     listagem: listagemDeGeneros,
     selecionados: listagemDeGeneros,
   });
+  const selecionarValoresPadraoGeneros = () => {
+    setGenerosFormulario({
+      ...generosFormulario,
+      valor: todosOsGenerosSelecionados,
+      selecionados: listagemDeGeneros,
+    });
+  }
   const selecionarGenero = (value: any) => {
     if (value.selectedList.length > 0) {
       setGenerosFormulario({
@@ -38,11 +48,7 @@ const Buscar = ({
         selecionados: value.selectedList
       });
     } else {
-      setGenerosFormulario({
-        ...generosFormulario,
-        valor: todosOsGenerosSelecionados,
-        selecionados: listagemDeGeneros,
-      });
+      selecionarValoresPadraoGeneros();
     }
   }
 
@@ -57,6 +63,13 @@ const Buscar = ({
     listagem: listagemDeTiposSanguineos,
     selecionados: listagemDeTiposSanguineos,
   });
+  const selecionarValoresPadraoTiposSanguineos = () =>{
+    setTiposSanguineosFormulario({
+      ...tiposSanguineosFormulario,
+      valor: todosOsTiposSanguineosSelecionados,
+      selecionados: listagemDeTiposSanguineos,
+    });
+  }
   const selecionarTipoSanguineo = (value: any) => {
     if (value.selectedList.length > 0) {
       setTiposSanguineosFormulario({
@@ -65,24 +78,39 @@ const Buscar = ({
         selecionados: value.selectedList
       });
     } else {
-      setTiposSanguineosFormulario({
-        ...tiposSanguineosFormulario,
-        valor: todosOsTiposSanguineosSelecionados,
-        selecionados: listagemDeTiposSanguineos,
-      });
+      selecionarValoresPadraoTiposSanguineos();
     }
   }
 
   // botões
-  const cancelar = () => setVisivel(false);
+  const cancelar = () => {
+    setVisivel(false);
+    if (valorAtual) {
+      setNome(valorAtual.nome);
+      setGenerosFormulario(valorAtual.generos);
+      setTiposSanguineosFormulario(valorAtual.tipos_sanguineos);
+    } else {
+      setNome('');
+      selecionarValoresPadraoTiposSanguineos();
+      selecionarValoresPadraoGeneros();
+    }
+  };
   const buscar = () => {
     const busca:BuscaContrato = {
       nome,
       generos: generosFormulario.valor !== todosOsGenerosSelecionados ? generosFormulario.selecionados.map(generos => generos.value) : [],
       tipos_sanguineos: tiposSanguineosFormulario.valor !== todosOsTiposSanguineosSelecionados ? tiposSanguineosFormulario.selecionados.map(tipoSanguineo => tipoSanguineo.value) : []
     };
+    setVisivel(false);
     if (busca.nome.length || busca.generos.length || busca.tipos_sanguineos.length) {
+      setValoresAtuais({
+        nome: busca.nome,
+        generos: generosFormulario,
+        tipos_sanguineos: tiposSanguineosFormulario
+      });
       callback(busca);
+    } else {
+      callback();
     }
   };
 
@@ -92,6 +120,7 @@ const Buscar = ({
           <Dialog.Content>
             <TextInput
               onChangeText={(nome) => setNome(nome.trim())}
+              value={nome}
               mode="outlined"
               label="Nome do paciente"
               left={<TextInput.Icon icon="account" />}
