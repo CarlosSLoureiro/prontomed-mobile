@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { Dialog, TextInput, Divider, Button, Menu } from "react-native-paper";
 import { PaperSelect } from "react-native-paper-select";
-import { BuscarContrato, BuscarEntreDatasContrato, BuscarGenerosContrato, ListagemDeGenerosContrato } from "./types";
+import { BuscarContrato, BuscarGenerosContrato, ListagemDeGenerosContrato } from "./types";
 
 const Buscar = ({
     visivel,

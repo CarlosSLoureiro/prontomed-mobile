@@ -4,11 +4,6 @@ export interface BuscarContrato {
     callback: () => void;
 }
 
-export interface BuscarEntreDatasContrato {
-    dataInicio: Date;
-    dataFim: Date;
-}
-
 export interface ListagemDeGenerosContrato {
     _id: string;
     value: string;

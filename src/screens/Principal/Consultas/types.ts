@@ -3,8 +3,8 @@ export interface ConsultasContrato {
 }
 
 export interface DatasContrato {
-    dataInicio: Date;
-    dataFim: Date;
+    inicio: Date;
+    fim: Date;
 }
 
 export interface OrdenacaoContrato {

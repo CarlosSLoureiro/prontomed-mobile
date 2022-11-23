@@ -22,12 +22,12 @@ const FiltrarDatas = ({
         mode="range"
         visible={visivel}
         onDismiss={cancelar}
-        startDate={valorAtual?.dataInicio}
-        endDate={valorAtual?.dataFim}
+        startDate={valorAtual?.inicio}
+        endDate={valorAtual?.fim}
         onConfirm={(params) => {
           filtrar({
-            dataInicio: params.startDate,
-            dataFim: params.endDate
+            inicio: params.startDate,
+            fim: params.endDate
           } as DatasContrato)
         }}
         uppercase={false}
