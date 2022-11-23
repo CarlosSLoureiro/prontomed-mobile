@@ -1,3 +1,5 @@
+import { generos, tipos_sanguineos } from "@utils/enums/paciente";
+
 export interface ConsultasContrato {
     paginaAtiva: boolean;
 }
@@ -12,8 +14,14 @@ export interface OrdenacaoContrato {
     chave: string;
 }
 
+export interface BuscaContrato {
+    nome: string;
+    generos: Array<generos>;
+    tipos_sanguineos: Array<tipos_sanguineos>;
+}
+
 export interface FiltrosDeBuscaContrato {
-    busca?: any;
+    busca?: BuscaContrato;
     datas?: DatasContrato;
     ordenacao: OrdenacaoContrato
 }

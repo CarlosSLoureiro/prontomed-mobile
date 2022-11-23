@@ -3,7 +3,7 @@ import { ScrollView, Text } from 'react-native';
 import Icon from "react-native-dynamic-vector-icons";
 import getMainStyles from "../styles";
 import { ConsultaCardContrato } from '@components/Consulta/Card/types';
-import { ConsultasContrato, DatasContrato, OrdenacaoContrato, FiltrosDeBuscaContrato } from './types';
+import { ConsultasContrato, BuscaContrato, DatasContrato, OrdenacaoContrato, FiltrosDeBuscaContrato } from './types';
 import ConsultaCard from '@components/Consulta/Card';
 import items from './items';
 import Notification from '@utils/Notification';
@@ -36,7 +36,7 @@ const Consultas = ({
       console.log('Deve buscar consultas ->', filtrosDeBusca);
       Notification.info({
         title: 'Deve buscar consultas',
-        description: JSON.stringify(filtrosDeBusca.ordenacao)
+        description: JSON.stringify(filtrosDeBusca)
       });
     },[filtrosDeBusca]);
 
@@ -47,32 +47,25 @@ const Consultas = ({
       });
     }
 
-    const buscarConsultas = () => {
-      Notification.info({
-        title: 'Deve buscar as consultas'
+    const buscarConsultas = (busca:BuscaContrato) => {
+      setFiltrosDeBusca({
+        ...filtrosDeBusca,
+        ...{busca}
       });
     }
 
     const filtrarDatasConsultas = (datas:DatasContrato) => {
-      Notification.info({
-        title: 'Deve filrar as consultas entre datas',
-        description: JSON.stringify(datas)
-      });
       setFiltrosDeBusca({
         ...filtrosDeBusca,
-        ...{datas: datas}
-      } as FiltrosDeBuscaContrato);
+        ...{datas}
+      });
     }
 
-    const reordenarConsultas = (selecionados:OrdenacaoContrato) => {
-      Notification.info({
-        title: 'Deve reordenar as consultas',
-        description: JSON.stringify(filtrosDeBusca.ordenacao)
-      });
+    const reordenarConsultas = (ordenacao:OrdenacaoContrato) => {
       setFiltrosDeBusca({
         ...filtrosDeBusca,
-        ...{ordenacao: selecionados}
-      } as FiltrosDeBuscaContrato);
+        ...{ordenacao}
+      });
     }
 
     /* @ts-ignore */
