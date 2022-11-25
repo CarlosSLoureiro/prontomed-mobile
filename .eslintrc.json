@@ -56,5 +56,5 @@
             "allowNumber": true
         }]
     },
-    "ignorePatterns": ["jest.*.js", "**/vendor/*", "babel.config.js"]
+    "ignorePatterns": ["jest.*.js", "**/__tests__/*", "babel.config.js", "**/vendor/*"]
 }
