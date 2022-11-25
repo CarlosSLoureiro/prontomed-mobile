@@ -1,20 +1,25 @@
-import React, { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { View } from 'react-native';
 import PagerView from 'react-native-pager-view';
 import { ParamListBase, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+
 import { Pagina1, Pagina2, Pagina3, Pagina4 } from '@components/Apresentacao';
 
 const Apresentacao = (): JSX.Element => {
   const pagerRef = useRef<PagerView>(null);
   const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
 
-  const alterarPagina = (pageNumber:number) => {
+  useEffect(() => {
+    navigation?.replace('Início');
+  });
+
+  const alterarPagina = (pageNumber: number): void => {
     pagerRef?.current?.setPage(pageNumber);
   };
 
   return (
-      <PagerView style={{flex: 1}} initialPage={0} ref={pagerRef}>
+      <PagerView style={{ flex: 1 }} initialPage={0} ref={pagerRef}>
         <View key="0">
           <Pagina1 alterarPagina={alterarPagina}/>
         </View>

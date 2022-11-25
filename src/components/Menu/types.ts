@@ -1,3 +1,3 @@
 export interface MenuContrato {
-    alterarPagina: Function
+  alterarPagina: Function;
 }

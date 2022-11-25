@@ -1,22 +1,24 @@
-import { DatasContrato } from "@screens/Principal/Consultas/types";
-import { FiltrarDatasContrato } from "./types";
 import { DatePickerModal, pt, registerTranslation } from 'react-native-paper-dates';
 
+import { DatasContrato } from '@screens/Principal/Consultas/types';
+
+import { FiltrarDatasContrato } from './types';
+
 const FiltrarDatas = ({
-    visivel,
-    setVisivel,
-    callback,
-    valorAtual
-}:FiltrarDatasContrato) => {
-    const cancelar = () => setVisivel(false);
-    const filtrar = (datas:DatasContrato) => {
-      cancelar();
-      callback(datas);
-    };
+  visivel,
+  setVisivel,
+  callback,
+  valorAtual
+}: FiltrarDatasContrato): JSX.Element => {
+  const cancelar = (): void => setVisivel(false);
+  const filtrar = (datas: DatasContrato): void => {
+    cancelar();
+    callback(datas);
+  };
 
-    registerTranslation("pt", pt);
+  registerTranslation('pt', pt);
 
-    return (
+  return (
       <DatePickerModal
         locale="pt"
         mode="range"
@@ -25,17 +27,18 @@ const FiltrarDatas = ({
         startDate={valorAtual?.inicio}
         endDate={valorAtual?.fim}
         onConfirm={(params) => {
-          filtrar({
-            inicio: params.startDate,
-            fim: params.endDate
-          } as DatasContrato)
+          const datas: DatasContrato = {
+            inicio: params.startDate as Date,
+            fim: params.endDate as Date
+          };
+          filtrar(datas);
         }}
         uppercase={false}
         startLabel="Inicio"
         endLabel="Fim"
         saveLabel="Filtrar"
       />
-    );
-}
+  );
+};
 
 export default FiltrarDatas;

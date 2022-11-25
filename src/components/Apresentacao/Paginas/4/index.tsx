@@ -1,5 +1,5 @@
-import React from 'react';
-import Icon from "react-native-dynamic-vector-icons";
+import Icon from 'react-native-dynamic-vector-icons';
+
 import PaginaBase from '../Base';
 import { PaginaContrato } from '../Base/types';
 import Rodape from '../Rodape';
@@ -7,8 +7,8 @@ import Rodape from '../Rodape';
 const Pagina = ({
   alterarPagina,
   navigation
-}: PaginaContrato) => {
-  const corDeFundo = "#0A9400";
+}: PaginaContrato): JSX.Element => {
+  const corDeFundo = '#0A9400';
 
   return (
     <>
@@ -25,11 +25,11 @@ const Pagina = ({
         }}
         tituloBotaoDireito="Começar!"
         acaoBotaoDireito={() => {
-          navigation?.replace("Início");
+          navigation?.replace('Início');
         }}
       />
     </>
-  )
-}
+  );
+};
 
 export default Pagina;

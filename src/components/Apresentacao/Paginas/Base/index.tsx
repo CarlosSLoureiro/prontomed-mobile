@@ -1,13 +1,13 @@
-import React from 'react';
-import { View, Text } from 'react-native';
-import { PaginaBaseContrato } from './types';
+import { Text, View } from 'react-native';
+
 import getStyles from './styles';
+import { PaginaBaseContrato } from './types';
 
 const PaginaBase = ({
   corDeFundo,
   icone,
   titulo
-}:PaginaBaseContrato) => {
+}: PaginaBaseContrato): JSX.Element => {
   const styles = getStyles(corDeFundo);
 
   return (

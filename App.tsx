@@ -1,10 +1,9 @@
-import React from "react";
 import { NotifierWrapper } from 'react-native-notifier';
 import { Provider } from 'react-native-paper';
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import Apresentacao from "@screens/Apresentacao";
-import Principal from "@screens/Principal";
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import Apresentacao from '@screens/Apresentacao';
+import Principal from '@screens/Principal';
 
 const Stack = createStackNavigator();
 
@@ -12,9 +11,9 @@ const App = (): JSX.Element => {
   return (
     <NotifierWrapper>
       <Provider>
-        <NavigationContainer> 
+        <NavigationContainer>
           <Stack.Navigator screenOptions={{
-                headerShown: false
+            headerShown: false
           }}>
             <Stack.Screen name="Apresentação" component={Apresentacao} />
             <Stack.Screen name="Início" component={Principal} />

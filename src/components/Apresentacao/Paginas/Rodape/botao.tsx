@@ -1,11 +1,11 @@
-import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
+
 import { BotaoContrato } from './types';
 
 const Botao = ({
   titulo,
   acao
-}:BotaoContrato) => {
+}: BotaoContrato): JSX.Element => {
   return (
     <TouchableOpacity
       style={{ alignItems: 'center', justifyContent: 'center' }}
