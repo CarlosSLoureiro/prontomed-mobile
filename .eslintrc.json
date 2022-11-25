@@ -12,6 +12,12 @@
         "plugin:@typescript-eslint/recommended-requiring-type-checking"
     ],
     "overrides": [
+        {
+            "files": ["**/styles.ts"],
+            "rules": {
+                "@typescript-eslint/explicit-function-return-type": "off"
+            }
+        }
     ],
     "parserOptions": {
         "ecmaVersion": "latest",
@@ -35,6 +41,7 @@
         }],
         "@typescript-eslint/no-explicit-any": "warn",
         "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/no-unsafe-return": "off",
         "@typescript-eslint/no-unsafe-member-access": "off",
         "@typescript-eslint/explicit-function-return-type": "warn",
         "@typescript-eslint/array-type": ["warn", {
@@ -48,5 +55,6 @@
         "@typescript-eslint/strict-boolean-expressions": ["warn", {
             "allowNumber": true
         }]
-    }
+    },
+    "ignorePatterns": ["jest.*.js", "**/vendor/*", "babel.config.js"]
 }
