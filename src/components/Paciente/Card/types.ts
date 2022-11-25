@@ -1,3 +1,3 @@
-export interface CardContrato {
-    ultimo?: boolean;
-};
+export interface PacienteCardContrato {
+  ultimo?: boolean;
+}

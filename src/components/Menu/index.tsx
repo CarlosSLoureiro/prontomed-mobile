@@ -1,14 +1,14 @@
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 import { ParamListBase, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-/* @ts-ignore */
-import { BottomMenu, Item as MenuItem } from "react-native-bottom-menu";
-import { MenuContrato } from "./types";
-import getStyles from "./styles";
-import items from "./items";
+/* @ts-expect-error - por algum motivo a importação da biblioteca abaixo causa erro no editor */
+import { BottomMenu, Item as MenuItem } from 'react-native-bottom-menu';
+import { MenuContrato } from './types';
+import getStyles from './styles';
+import items from './items';
 
-const Menu = ({alterarPagina}:MenuContrato) : JSX.Element => {
+const Menu = ({ alterarPagina }: MenuContrato): JSX.Element => {
   const [pagina, setPagina] = useState(items[0]);
   const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
   const styles = getStyles();

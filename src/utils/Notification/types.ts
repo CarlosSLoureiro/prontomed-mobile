@@ -1,6 +1,6 @@
-import { NotifierInterface, ShowNotificationParams } from "react-native-notifier/lib/typescript/types";
+import { NotifierInterface, ShowNotificationParams } from 'react-native-notifier/lib/typescript/types';
 
 export interface NotificationContrato {
-    add: (params:ShowNotificationParams) => void;
-    get: () => NotifierInterface;
+  add: (params: ShowNotificationParams) => void;
+  get: () => NotifierInterface;
 }

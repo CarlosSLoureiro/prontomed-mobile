@@ -1,6 +1,4 @@
-import React from 'react';
 import { View } from 'react-native';
-
 import { RodapeContrato } from './types';
 import Botao from './botao';
 import getStyles from './styles';
@@ -11,8 +9,7 @@ const Rodape = ({
   acaoBotaoEsquerdo,
   tituloBotaoDireito,
   acaoBotaoDireito
-}:RodapeContrato) => {
-  
+}: RodapeContrato): JSX.Element => {
   const possuiBotaoEsquerdo = tituloBotaoEsquerdo !== undefined;
   const styles = getStyles(possuiBotaoEsquerdo, corDeFundo);
 

@@ -1,12 +1,12 @@
 interface LimparContrato {
-    visivel: boolean;
-    callback: () => void;
+  visivel: boolean;
+  callback: () => void;
 }
 
 export interface OcpoesBotaoContrato {
-    visivel: boolean,
-    buscar: () => void,
-    filtrarDatas: () => void,
-    ordenar: () => void,
-    limpar: LimparContrato;
+  visivel: boolean;
+  buscar: () => void;
+  filtrarDatas: () => void;
+  ordenar: () => void;
+  limpar: LimparContrato;
 }

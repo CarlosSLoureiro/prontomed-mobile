@@ -1,4 +1,3 @@
-import React from 'react';
 import { View, Text } from 'react-native';
 import { PaginaBaseContrato } from './types';
 import getStyles from './styles';
@@ -7,7 +6,7 @@ const PaginaBase = ({
   corDeFundo,
   icone,
   titulo
-}:PaginaBaseContrato) => {
+}: PaginaBaseContrato): JSX.Element => {
   const styles = getStyles(corDeFundo);
 
   return (

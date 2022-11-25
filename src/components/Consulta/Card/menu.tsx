@@ -2,13 +2,13 @@ import { Menu } from 'react-native-paper';
 import { ConsultaMenuContrato } from './types';
 
 const MenuContexto = ({
-    nome,
-    visivel,
-    fecharMenu,
-    menuAnchor,
-    items
-}:ConsultaMenuContrato) : JSX.Element => {
-    return (
+  nome,
+  visivel,
+  fecharMenu,
+  menuAnchor,
+  items
+}: ConsultaMenuContrato): JSX.Element => {
+  return (
         <Menu
             visible={visivel}
             onDismiss={fecharMenu}
@@ -18,7 +18,7 @@ const MenuContexto = ({
                 items.map((item, index) => <Menu.Item key={index} onPress={item.callback} title={item.titulo} icon={item.icone} />)
             }
         </Menu>
-    )
-}
+  );
+};
 
 export default MenuContexto;

@@ -1,13 +1,12 @@
-import React from 'react';
-import Icon from "react-native-dynamic-vector-icons";
+import Icon from 'react-native-dynamic-vector-icons';
 import PaginaBase from '../Base';
 import { PaginaContrato } from '../Base/types';
 import Rodape from '../Rodape';
 
 const Pagina = ({
   alterarPagina
-}: PaginaContrato) => {
-  const corDeFundo = "#FF674D";
+}: PaginaContrato): JSX.Element => {
+  const corDeFundo = '#FF674D';
 
   return (
     <>
@@ -28,7 +27,7 @@ const Pagina = ({
         }}
       />
     </>
-  )
-}
+  );
+};
 
 export default Pagina;

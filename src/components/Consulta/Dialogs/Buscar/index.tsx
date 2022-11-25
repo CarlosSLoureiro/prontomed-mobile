@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { Dialog, TextInput, Divider, Button } from "react-native-paper";
-import { PaperSelect } from "react-native-paper-select";
-import { generos, tipos_sanguineos } from "@utils/enums/paciente";
+import { useState } from 'react';
+import { Dialog, TextInput, Divider, Button } from 'react-native-paper';
+import { PaperSelect } from 'react-native-paper-select';
+import { generos, tipos_sanguineos } from '@utils/enums/paciente';
 import {
   BuscarContrato,
   ListagemDeGenerosContrato,
@@ -9,38 +9,39 @@ import {
   ItemListagemDeTiposSanguineosContrato,
   ListagemDeTiposSanguineosContrato,
   ValoresAtuaisFormulario
-} from "./types";
-import { BuscaContrato } from "@screens/Principal/Consultas/types";
+} from './types';
+import { BuscaContrato } from '@screens/Principal/Consultas/types';
 
 const Buscar = ({
-    visivel,
-    setVisivel,
-    callback
-}:BuscarContrato) => {
-  const [valorAtual, setValoresAtuais] = useState<ValoresAtuaisFormulario>();
+  visivel,
+  setVisivel,
+  callback
+}: BuscarContrato): JSX.Element => {
+  const [valorAtual,
+    setValoresAtuais] = useState<ValoresAtuaisFormulario>();
 
   // nome
   const [nome, setNome] = useState<string>('');
 
   // gêneros
   const todosOsGenerosSelecionados = 'Todos os gêneros';
-  const listagemDeGeneros:Array<ItemListagemDeGenerosContrato> = Object.values(generos).map((genero, index) => ({
+  const listagemDeGeneros: Array<ItemListagemDeGenerosContrato> = Object.values(generos).map((genero, index) => ({
     _id: index.toString(),
     value: genero
   }));
   const [generosFormulario, setGenerosFormulario] = useState<ListagemDeGenerosContrato>({
     valor: todosOsGenerosSelecionados,
     listagem: listagemDeGeneros,
-    selecionados: listagemDeGeneros,
+    selecionados: listagemDeGeneros
   });
   const selecionarValoresPadraoGeneros = () => {
     setGenerosFormulario({
       ...generosFormulario,
       valor: todosOsGenerosSelecionados,
-      selecionados: listagemDeGeneros,
+      selecionados: listagemDeGeneros
     });
-  }
-  const selecionarGenero = (value: any) => {
+  };
+  const selecionarGenero = (value: any): void => {
     if (value.selectedList.length > 0) {
       setGenerosFormulario({
         ...generosFormulario,
@@ -50,27 +51,27 @@ const Buscar = ({
     } else {
       selecionarValoresPadraoGeneros();
     }
-  }
+  };
 
   // tipos sanguíneos
   const todosOsTiposSanguineosSelecionados = 'Todos os tipos sanguíneos';
-  const listagemDeTiposSanguineos:Array<ItemListagemDeTiposSanguineosContrato> = Object.values(tipos_sanguineos).map((tipoSanguineo, index) => ({
+  const listagemDeTiposSanguineos: Array<ItemListagemDeTiposSanguineosContrato> = Object.values(tipos_sanguineos).map((tipoSanguineo, index) => ({
     _id: index.toString(),
     value: tipoSanguineo
   }));
   const [tiposSanguineosFormulario, setTiposSanguineosFormulario] = useState<ListagemDeTiposSanguineosContrato>({
     valor: todosOsTiposSanguineosSelecionados,
     listagem: listagemDeTiposSanguineos,
-    selecionados: listagemDeTiposSanguineos,
+    selecionados: listagemDeTiposSanguineos
   });
-  const selecionarValoresPadraoTiposSanguineos = () =>{
+  const selecionarValoresPadraoTiposSanguineos = () => {
     setTiposSanguineosFormulario({
       ...tiposSanguineosFormulario,
       valor: todosOsTiposSanguineosSelecionados,
-      selecionados: listagemDeTiposSanguineos,
+      selecionados: listagemDeTiposSanguineos
     });
-  }
-  const selecionarTipoSanguineo = (value: any) => {
+  };
+  const selecionarTipoSanguineo = (value: any): void => {
     if (value.selectedList.length > 0) {
       setTiposSanguineosFormulario({
         ...tiposSanguineosFormulario,
@@ -80,12 +81,12 @@ const Buscar = ({
     } else {
       selecionarValoresPadraoTiposSanguineos();
     }
-  }
+  };
 
   // botões
   const cancelar = () => {
     setVisivel(false);
-    if (valorAtual) {
+    if (valorAtual != null) {
       setNome(valorAtual.nome);
       setGenerosFormulario(valorAtual.generos);
       setTiposSanguineosFormulario(valorAtual.tipos_sanguineos);
@@ -95,14 +96,14 @@ const Buscar = ({
       selecionarValoresPadraoGeneros();
     }
   };
-  const buscar = () => {
-    const busca:BuscaContrato = {
+  const buscar = (): void => {
+    const busca: BuscaContrato = {
       nome,
       generos: generosFormulario.valor !== todosOsGenerosSelecionados ? generosFormulario.selecionados.map(generos => generos.value) : [],
       tipos_sanguineos: tiposSanguineosFormulario.valor !== todosOsTiposSanguineosSelecionados ? tiposSanguineosFormulario.selecionados.map(tipoSanguineo => tipoSanguineo.value) : []
     };
     setVisivel(false);
-    if (busca.nome.length || busca.generos.length || busca.tipos_sanguineos.length) {
+    if (busca.nome.length || (busca.generos.length > 0) || (busca.tipos_sanguineos.length > 0)) {
       setValoresAtuais({
         nome: busca.nome,
         generos: generosFormulario,
@@ -158,6 +159,6 @@ const Buscar = ({
           </Dialog.Actions>
         </Dialog>
   );
-}
+};
 
 export default Buscar;
