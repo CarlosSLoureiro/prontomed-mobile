@@ -1,14 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
+import PagerView, { PagerViewOnPageSelectedEvent } from 'react-native-pager-view';
 import { ParamListBase, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import PagerView, { PagerViewOnPageSelectedEvent } from 'react-native-pager-view';
+
 import Menu from '@components/Menu';
-import getStyles from './styles';
-import Inicio from './Inicio';
-import Consultas from './Consultas';
-import Pacientes from './Pacientes';
+
 import Ajustes from './Ajustes';
+import Consultas from './Consultas';
+import Inicio from './Inicio';
+import Pacientes from './Pacientes';
+import getStyles from './styles';
 
 const Principal = (): JSX.Element => {
   const navigation = useNavigation<StackNavigationProp<ParamListBase>>();

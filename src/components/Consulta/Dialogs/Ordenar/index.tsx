@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import { Dialog, RadioButton, Divider, Button } from 'react-native-paper';
+import { Button, Dialog, Divider, RadioButton } from 'react-native-paper';
+
 import { OrdenacaoContrato } from '@screens/Principal/Consultas/types';
+
 import { OrdenarContrato } from './types';
 
 const Ordenar = ({

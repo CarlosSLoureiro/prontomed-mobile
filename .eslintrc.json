@@ -13,9 +13,10 @@
     ],
     "overrides": [
         {
-            "files": ["**/styles.ts"],
+            "files": ["**/styles.ts", "**/hooks/**"],
             "rules": {
-                "@typescript-eslint/explicit-function-return-type": "off"
+                "@typescript-eslint/explicit-function-return-type": "off",
+                "@typescript-eslint/strict-boolean-expressions": "off"
             }
         }
     ],
@@ -28,10 +29,22 @@
         "react",
         "react-hooks",
         "@typescript-eslint",
-        "prettier"
+        "prettier",
+        "simple-import-sort"
     ],
     "rules": {
         "camelcase": "off",
+        "simple-import-sort/imports": ["warn", {
+            "groups": [
+              ["^react", "^expo", "^@(?!:components|hooks|screens)/?\\w"],
+              ["^@hooks/?\\w"],
+              ["^@screens/?\\w","^@components/?\\w"],
+              ["^\\u0000"],
+              ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
+              ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
+              ["^.+\\.?(css)$"]
+            ]
+        }],
         "semi": "off",
         "@typescript-eslint/semi": ["warn", "always"],
         "@typescript-eslint/member-delimiter-style": ["warn", {

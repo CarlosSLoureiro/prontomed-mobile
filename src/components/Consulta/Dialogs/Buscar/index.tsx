@@ -1,16 +1,19 @@
 import { useState } from 'react';
-import { Dialog, TextInput, Divider, Button } from 'react-native-paper';
+import { Button, Dialog, Divider, TextInput } from 'react-native-paper';
 import { PaperSelect } from 'react-native-paper-select';
-import { generos, tipos_sanguineos } from '@utils/enums/paciente';
+
+import { generos, tipos_sanguineos } from '@hooks/enums/paciente';
+
+import { BuscaContrato } from '@screens/Principal/Consultas/types';
+
 import {
   BuscarContrato,
-  ListagemDeGenerosContrato,
   ItemListagemDeGenerosContrato,
   ItemListagemDeTiposSanguineosContrato,
+  ListagemDeGenerosContrato,
   ListagemDeTiposSanguineosContrato,
   ValoresAtuaisFormulario
 } from './types';
-import { BuscaContrato } from '@screens/Principal/Consultas/types';
 
 const Buscar = ({
   visivel,

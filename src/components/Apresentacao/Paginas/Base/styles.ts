@@ -1,4 +1,4 @@
-import { StyleSheet, ColorValue } from 'react-native';
+import { ColorValue, StyleSheet } from 'react-native';
 
 const getStyles = (
   corDeFundo: ColorValue

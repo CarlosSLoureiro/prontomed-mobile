@@ -1,6 +1,8 @@
-import { DatasContrato } from '@screens/Principal/Consultas/types';
-import { FiltrarDatasContrato } from './types';
 import { DatePickerModal, pt, registerTranslation } from 'react-native-paper-dates';
+
+import { DatasContrato } from '@screens/Principal/Consultas/types';
+
+import { FiltrarDatasContrato } from './types';
 
 const FiltrarDatas = ({
   visivel,

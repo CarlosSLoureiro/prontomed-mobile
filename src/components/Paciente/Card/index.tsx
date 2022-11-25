@@ -1,6 +1,7 @@
 import { Avatar, Card, IconButton } from 'react-native-paper';
-import { PacienteCardContrato } from './types';
+
 import getStyles from './styles';
+import { PacienteCardContrato } from './types';
 
 const PacienteCard = ({
   ultimo

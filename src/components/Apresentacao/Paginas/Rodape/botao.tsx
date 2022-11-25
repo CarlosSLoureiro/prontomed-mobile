@@ -1,4 +1,5 @@
 import { Text, TouchableOpacity } from 'react-native';
+
 import { BotaoContrato } from './types';
 
 const Botao = ({

@@ -1,18 +1,28 @@
 import { useEffect, useRef, useState } from 'react';
 import { ScrollView, Text } from 'react-native';
 import Icon from 'react-native-dynamic-vector-icons';
-import getMainStyles from '../styles';
-import { ConsultaCardContrato } from '@components/Consulta/Card/types';
-import { ConsultasContrato, BuscaContrato, DatasContrato, OrdenacaoContrato, FiltrosDeBuscaContrato } from './types';
-import ConsultaCard from '@components/Consulta/Card';
-import items from './items';
-import Notification from '@utils/Notification';
 import { NotifierComponents } from 'react-native-notifier';
 import { Portal } from 'react-native-paper';
-import Ordenar from '@components/Consulta/Dialogs/Ordenar';
-import Opcoes from '@components/Consulta/Opcoes';
+
+import Notification from '@hooks/useNotification';
+
+import ConsultaCard from '@components/Consulta/Card';
+import { ConsultaCardContrato } from '@components/Consulta/Card/types';
 import Buscar from '@components/Consulta/Dialogs/Buscar';
 import FiltrarDatas from '@components/Consulta/Dialogs/FiltrarDatas';
+import Ordenar from '@components/Consulta/Dialogs/Ordenar';
+import Opcoes from '@components/Consulta/Opcoes';
+
+import getMainStyles from '../styles';
+
+import items from './items';
+import {
+  BuscaContrato,
+  ConsultasContrato,
+  DatasContrato,
+  FiltrosDeBuscaContrato,
+  OrdenacaoContrato
+} from './types';
 
 const Consultas = ({
   paginaAtiva

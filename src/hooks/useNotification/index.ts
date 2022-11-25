@@ -1,5 +1,6 @@
 import { Notifier, NotifierComponents } from 'react-native-notifier';
 import { NotifierInterface, ShowNotificationParams } from 'react-native-notifier/lib/typescript/types';
+
 import { NotificationContrato } from './types';
 
 class Notification implements NotificationContrato {

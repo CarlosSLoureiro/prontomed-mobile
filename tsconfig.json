@@ -14,7 +14,7 @@
     "paths": {
       "@components/*": ["components/*"],
       "@screens/*": ["screens/*"],
-      "@utils/*": ["utils/*"]
+      "@hooks/*": ["hooks/*"]
     }
   }
 }

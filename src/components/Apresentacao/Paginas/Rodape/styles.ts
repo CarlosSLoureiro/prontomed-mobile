@@ -1,4 +1,4 @@
-import { StyleSheet, ColorValue, useWindowDimensions } from 'react-native';
+import { ColorValue, StyleSheet, useWindowDimensions } from 'react-native';
 
 const getStyles = (
   possuiBotaoEsquerdo: boolean,

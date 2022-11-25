@@ -1,4 +1,4 @@
-import { generos, tipos_sanguineos } from '@utils/enums/paciente';
+import { generos, tipos_sanguineos } from '@hooks/enums/paciente';
 
 export interface ConsultasContrato {
   paginaAtiva: boolean;

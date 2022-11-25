@@ -1,7 +1,7 @@
-import { isDarkModeScheme } from '@utils/ThemeScheme';
+import ThemeScheme from '@hooks/useThemeScheme';
 
 const getStyles = () => {
-  const isDarkMode = isDarkModeScheme();
+  const isDarkMode = ThemeScheme.isDarkModeScheme();
 
   return {
     menu: {

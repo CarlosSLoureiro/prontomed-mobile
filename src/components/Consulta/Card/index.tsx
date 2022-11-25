@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { Card, Paragraph } from 'react-native-paper';
-import { agendarConsulta } from '@utils/Calendario';
-import Notification from '@utils/Notification';
-import { ConsultaCardContrato } from './types';
-import getStyles from './styles';
+
+import Calendario from '@hooks/useCalendario';
+import Notification from '@hooks/useNotification';
+
 import MenuContexto from './menu';
+import getStyles from './styles';
+import { ConsultaCardContrato } from './types';
 
 const ConsultaCard = ({
   nome,
@@ -59,7 +61,7 @@ const ConsultaCard = ({
                     icone: 'calendar-check',
                     callback: () => {
                       void (async () => {
-                        const consulta = await agendarConsulta(nome);
+                        const consulta = await Calendario.agendarConsulta(nome);
                         if (consulta !== null) {
                           Notification.success({
                             title: 'Agendado com sucesso!'

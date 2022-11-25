@@ -1,5 +1,6 @@
 import { ScrollView, Text } from 'react-native';
 import Icon from 'react-native-dynamic-vector-icons';
+
 import getMainStyles from '../styles';
 
 const Ajustes = (): JSX.Element => {

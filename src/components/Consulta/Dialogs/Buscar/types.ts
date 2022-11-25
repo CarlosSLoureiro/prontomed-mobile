@@ -1,4 +1,5 @@
-import { generos, tipos_sanguineos } from '@utils/enums/paciente';
+import { generos, tipos_sanguineos } from '@hooks/enums/paciente';
+
 import { BuscaContrato } from '@screens/Principal/Consultas/types';
 
 export interface ItemListagemDeGenerosContrato {

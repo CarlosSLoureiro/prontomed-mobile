@@ -1,7 +1,8 @@
 import { View } from 'react-native';
-import { RodapeContrato } from './types';
+
 import Botao from './botao';
 import getStyles from './styles';
+import { RodapeContrato } from './types';
 
 const Rodape = ({
   corDeFundo,

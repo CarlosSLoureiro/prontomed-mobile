@@ -1,8 +1,9 @@
 import { StyleSheet } from 'react-native';
-import { isDarkModeScheme } from '@utils/ThemeScheme';
+
+import ThemeScheme from '@hooks/useThemeScheme';
 
 const getStyles = () => {
-  const isDarkMode = isDarkModeScheme();
+  const isDarkMode = ThemeScheme.isDarkModeScheme();
 
   return StyleSheet.create({
     card: {
