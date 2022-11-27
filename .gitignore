@@ -22,6 +22,10 @@ DerivedData
 *.xcuserstate
 project.xcworkspace
 
+# CocoaPods
+#
+/ios/Pods/
+
 # Android/IntelliJ
 #
 build/
@@ -29,6 +33,7 @@ build/
 .gradle
 local.properties
 *.iml
+*.hprof
 
 # node.js
 #
@@ -42,6 +47,7 @@ yarn.lock # include if you are using yarn - don't use both npm and yarn
 buck-out/
 \.buckd/
 *.keystore
+!debug.keystore
 
 # Fastlane
 #
@@ -60,3 +66,4 @@ buck-out/
 # Expo
 .expo/
 web-build/
+dist/
