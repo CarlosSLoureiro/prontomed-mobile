@@ -31,7 +31,12 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "permissions": [ "READ_CALENDAR", "WRITE_CALENDAR", "READ_CONTACTS" ]
+      "permissions": [
+        "READ_CALENDAR",
+        "WRITE_CALENDAR",
+        "READ_CONTACTS"
+      ],
+      "package": "com.prontomed.app"
     },
     "web": {
       "favicon": "./assets/favicon.png"
