@@ -13,9 +13,14 @@
     ],
     "overrides": [
         {
-            "files": ["**/styles.ts", "**/hooks/**"],
+            "files": ["**/styles.ts"],
             "rules": {
-                "@typescript-eslint/explicit-function-return-type": "off",
+                "@typescript-eslint/explicit-function-return-type": "off"
+            }
+        },
+        {
+            "files": ["**/hooks/**"],
+            "rules": {
                 "@typescript-eslint/strict-boolean-expressions": "off"
             }
         }
