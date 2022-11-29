@@ -13,9 +13,14 @@
     ],
     "overrides": [
         {
-            "files": ["**/styles.ts", "**/hooks/**"],
+            "files": ["**/styles.ts"],
             "rules": {
-                "@typescript-eslint/explicit-function-return-type": "off",
+                "@typescript-eslint/explicit-function-return-type": "off"
+            }
+        },
+        {
+            "files": ["**/hooks/**"],
+            "rules": {
                 "@typescript-eslint/strict-boolean-expressions": "off"
             }
         }
@@ -69,5 +74,5 @@
             "allowNumber": true
         }]
     },
-    "ignorePatterns": ["jest.*.js", "**/__tests__/*", "babel.config.js", "**/vendor/*"]
+    "ignorePatterns": ["jest.*.js", "**/__tests__/*", "*.config.js", "**/vendor/*"]
 }
