@@ -9,7 +9,6 @@ class Notification implements NotificationContrato {
   private onHidden: Function | undefined;
 
   public static get Instancia (): Notification {
-    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     return this._instancia || (this._instancia = new this());
   }
 
