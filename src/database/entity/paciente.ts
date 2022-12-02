@@ -1,9 +1,9 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
-import { Consulta } from './consulta';
+import Consulta from './consulta';
 
-@Entity('paciente')
-export class Paciente {
+@Entity('pacientes')
+export default class Paciente {
   @PrimaryGeneratedColumn()
     id: number;
 

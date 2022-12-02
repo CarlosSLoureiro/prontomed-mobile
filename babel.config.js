@@ -10,8 +10,10 @@ module.exports = function (api) {
         'module-resolver',
         {
           alias: {
+            '@database': './src/database/index',
+            '@entity': './src/database/entity',
+            '@repository': './src/database/repository',
             '@components': './src/components',
-            '@entities': './src/entities',
             '@hooks': './src/hooks',
             '@screens': './src/screens'
           }

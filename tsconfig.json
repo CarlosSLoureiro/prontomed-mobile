@@ -2,6 +2,7 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": false,
+    "strictPropertyInitialization": false,
     "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -15,8 +16,10 @@
     "moduleResolution": "node",
     "baseUrl": "src",
     "paths": {
+      "@database": ["database/index"],
+      "@entity/*": ["database/entity/*"],
+      "@repository/*": ["database/repository/*"],
       "@components/*": ["components/*"],
-      "@entities/*": ["entities/*"],
       "@hooks/*": ["hooks/*"],
       "@screens/*": ["screens/*"]
     }

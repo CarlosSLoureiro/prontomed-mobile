@@ -1,10 +1,9 @@
-
 import { Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-import { Paciente } from './paciente';
+import Paciente from './paciente';
 
-@Entity('consulta')
-export class Consulta {
+@Entity('consultas')
+export default class Consulta {
   @PrimaryGeneratedColumn()
     id: number;
 
