@@ -19,6 +19,12 @@
             }
         },
         {
+            "files": ["**/entities/**"],
+            "rules": {
+                "@typescript-eslint/no-unsafe-call": "off"
+            }
+        },
+        {
             "files": ["**/hooks/**"],
             "rules": {
                 "@typescript-eslint/strict-boolean-expressions": "off"
@@ -41,7 +47,8 @@
         "camelcase": "off",
         "simple-import-sort/imports": ["warn", {
             "groups": [
-              ["^react", "^expo", "^@(?!:components|hooks|screens)/?\\w"],
+              ["^react", "^expo", "^@(?!:entities|components|hooks|screens)/?\\w", "^typeorm"],
+              ["^@entities/?\\w"],
               ["^@hooks/?\\w"],
               ["^@screens/?\\w","^@components/?\\w"],
               ["^\\u0000"],
