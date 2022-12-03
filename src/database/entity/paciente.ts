@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 import Consulta from './consulta';
 
@@ -11,5 +11,6 @@ export default class Paciente {
     nome: string;
 
   @OneToMany(() => Consulta, consulta => consulta.paciente)
-    consultas: Array<Consulta>;
+  @JoinColumn({ name: 'id', referencedColumnName: 'paciente' })
+    consultas?: Array<Consulta>;
 }

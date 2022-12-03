@@ -12,9 +12,10 @@ export default class PacientesRepository implements PacientesRepositoryInterface
   }
 
   public async getAll (): Promise<Array<Paciente>> {
-    const pacientes = await this.repository.find();
+    const queryBuilder = this.repository.createQueryBuilder('pacientes');
+    queryBuilder.leftJoinAndSelect('pacientes.consultas', 'consultas');
 
-    return pacientes;
+    return await queryBuilder.getMany();
   }
 
   public async create ({ nome }: Partial<Paciente>): Promise<Paciente> {

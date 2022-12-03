@@ -1,4 +1,4 @@
-import { Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 import Paciente from './paciente';
 
@@ -8,5 +8,6 @@ export default class Consulta {
     id: number;
 
   @ManyToOne(() => Paciente, paciente => paciente.consultas)
+  @JoinColumn({ name: 'paciente', referencedColumnName: 'id' })
     paciente: Paciente;
 }
