@@ -1,4 +1,4 @@
-import { Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 import Paciente from '../paciente';
 
@@ -9,5 +9,17 @@ export default class Consulta {
 
   @ManyToOne(() => Paciente, paciente => paciente.consultas)
   @JoinColumn({ name: 'paciente', referencedColumnName: 'id' })
-    paciente: Paciente;
+    paciente!: Paciente;
+
+  @CreateDateColumn()
+    dataAgendada: Date;
+
+  @Column()
+    evento!: string;
+
+  @CreateDateColumn()
+    dataCriacao: Date;
+
+  @CreateDateColumn()
+    dataAtualizacao: Date;
 }

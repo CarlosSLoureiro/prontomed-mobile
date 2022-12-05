@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 import Consulta from '../consulta';
 
@@ -12,9 +12,11 @@ export default class Paciente {
   @Column()
     nome: string;
 
-  @OneToMany(() => Consulta, consulta => consulta.paciente)
-  @JoinColumn({ name: 'id', referencedColumnName: 'paciente' })
-    consultas?: Array<Consulta>;
+  @Column()
+    email: string;
+
+  @Column()
+    telefone: string;
 
   @Column({
     type: 'varchar',
@@ -23,10 +25,29 @@ export default class Paciente {
   })
     genero: Generos;
 
+  @CreateDateColumn()
+    dataNascimento: Date;
+
+  @Column()
+    peso: number;
+
+  @Column()
+    altura: number;
+
   @Column({
     type: 'varchar',
     enum: TiposSanguineos,
     default: TiposSanguineos.NAO_INFORMADO
   })
     tipoSanguineo: TiposSanguineos;
+
+  @CreateDateColumn()
+    dataCriacao: Date;
+
+  @CreateDateColumn()
+    dataAtualizacao: Date;
+
+  @OneToMany(() => Consulta, consulta => consulta.paciente)
+  @JoinColumn({ name: 'id', referencedColumnName: 'paciente' })
+    consultas?: Array<Consulta>;
 }

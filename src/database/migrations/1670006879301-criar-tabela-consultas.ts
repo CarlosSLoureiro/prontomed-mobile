@@ -15,7 +15,25 @@ export default class CriarTabelaConsultas1670006879301 implements MigrationInter
           },
           {
             name: 'paciente',
-            type: 'integer'
+            type: 'integer',
+            isNullable: true
+          },
+          {
+            name: 'dataAgendada',
+            type: 'datetime'
+          },
+          {
+            name: 'evento',
+            type: 'varchar',
+            isNullable: true
+          },
+          {
+            name: 'dataCriacao',
+            type: 'datetime'
+          },
+          {
+            name: 'dataAtualizacao',
+            type: 'datetime'
           }
         ]
       })
@@ -26,7 +44,9 @@ export default class CriarTabelaConsultas1670006879301 implements MigrationInter
       new TableForeignKey({
         columnNames: ['paciente'],
         referencedTableName: 'pacientes',
-        referencedColumnNames: ['id']
+        referencedColumnNames: ['id'],
+        onUpdate: 'Cascade',
+        onDelete: 'Set NULL'
       })
     );
   }
