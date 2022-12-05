@@ -1,6 +1,8 @@
 import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
-import Consulta from './consulta';
+import Consulta from '../consulta';
+
+import { Generos, TiposSanguineos } from './enums';
 
 @Entity('pacientes')
 export default class Paciente {
@@ -13,4 +15,18 @@ export default class Paciente {
   @OneToMany(() => Consulta, consulta => consulta.paciente)
   @JoinColumn({ name: 'id', referencedColumnName: 'paciente' })
     consultas?: Array<Consulta>;
+
+  @Column({
+    type: 'varchar',
+    enum: Generos,
+    default: Generos.OUTRO
+  })
+    genero: Generos;
+
+  @Column({
+    type: 'varchar',
+    enum: TiposSanguineos,
+    default: TiposSanguineos.NAO_INFORMADO
+  })
+    tipoSanguineo: TiposSanguineos;
 }

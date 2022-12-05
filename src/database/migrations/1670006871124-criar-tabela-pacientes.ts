@@ -16,6 +16,14 @@ export default class CriarTabelaPacientes1670006871124 implements MigrationInter
           {
             name: 'nome',
             type: 'varchar'
+          },
+          {
+            name: 'genero',
+            type: 'varchar'
+          },
+          {
+            name: 'tipoSanguineo',
+            type: 'varchar'
           }
         ]
       })
