@@ -1,7 +1,7 @@
 export enum Generos {
-  MASCULINO = 'masculino',
-  FEMININO = 'meminino',
-  OUTRO = 'outro'
+  MASCULINO = 'Masculino',
+  FEMININO = 'Feminino',
+  OUTRO = 'Outro'
 }
 
 export enum TiposSanguineos {
@@ -13,5 +13,5 @@ export enum TiposSanguineos {
   B_NEGATIVO = 'B-',
   AB_NEGATIVO = 'AB-',
   O_NEGATIVO = 'O-',
-  NAO_INFORMADO = 'não informado'
+  NAO_INFORMADO = 'Não informado'
 }
