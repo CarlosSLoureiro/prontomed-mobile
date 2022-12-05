@@ -50,7 +50,7 @@
         "simple-import-sort"
     ],
     "rules": {
-        "camelcase": "off",
+        "camelcase": "warn",
         "simple-import-sort/imports": ["warn", {
             "groups": [
                 ["reflect-metadata"],
