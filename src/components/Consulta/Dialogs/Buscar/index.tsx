@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Button, Dialog, Divider, TextInput } from 'react-native-paper';
 import { PaperSelect } from 'react-native-paper-select';
 
-import { generos, tipos_sanguineos } from '@hooks/enums/paciente';
+import { Generos, TiposSanguineos } from '@entity/paciente/enums';
 
 import { BuscaContrato } from '@screens/Principal/Consultas/types';
 
@@ -28,7 +28,7 @@ const Buscar = ({
 
   // gêneros
   const todosOsGenerosSelecionados = 'Todos os gêneros';
-  const listagemDeGeneros: Array<ItemListagemDeGenerosContrato> = Object.values(generos).map((genero, index) => ({
+  const listagemDeGeneros: Array<ItemListagemDeGenerosContrato> = Object.values(Generos).map((genero, index) => ({
     _id: index.toString(),
     value: genero
   }));
@@ -37,7 +37,7 @@ const Buscar = ({
     listagem: listagemDeGeneros,
     selecionados: listagemDeGeneros
   });
-  const selecionarValoresPadraoGeneros = () => {
+  const selecionarValoresPadraoGeneros = (): void => {
     setGenerosFormulario({
       ...generosFormulario,
       valor: todosOsGenerosSelecionados,
@@ -58,7 +58,7 @@ const Buscar = ({
 
   // tipos sanguíneos
   const todosOsTiposSanguineosSelecionados = 'Todos os tipos sanguíneos';
-  const listagemDeTiposSanguineos: Array<ItemListagemDeTiposSanguineosContrato> = Object.values(tipos_sanguineos).map((tipoSanguineo, index) => ({
+  const listagemDeTiposSanguineos: Array<ItemListagemDeTiposSanguineosContrato> = Object.values(TiposSanguineos).map((tipoSanguineo, index) => ({
     _id: index.toString(),
     value: tipoSanguineo
   }));
@@ -67,7 +67,7 @@ const Buscar = ({
     listagem: listagemDeTiposSanguineos,
     selecionados: listagemDeTiposSanguineos
   });
-  const selecionarValoresPadraoTiposSanguineos = () => {
+  const selecionarValoresPadraoTiposSanguineos = (): void => {
     setTiposSanguineosFormulario({
       ...tiposSanguineosFormulario,
       valor: todosOsTiposSanguineosSelecionados,
@@ -87,7 +87,7 @@ const Buscar = ({
   };
 
   // botões
-  const cancelar = () => {
+  const cancelar = (): void => {
     setVisivel(false);
     if (valorAtual != null) {
       setNome(valorAtual.nome);

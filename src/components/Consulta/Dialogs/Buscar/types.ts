@@ -1,10 +1,10 @@
-import { generos, tipos_sanguineos } from '@hooks/enums/paciente';
+import { Generos, TiposSanguineos } from '@entity/paciente/enums';
 
 import { BuscaContrato } from '@screens/Principal/Consultas/types';
 
 export interface ItemListagemDeGenerosContrato {
   _id: string;
-  value: generos;
+  value: Generos;
 }
 
 export interface ListagemDeGenerosContrato {
@@ -15,7 +15,7 @@ export interface ListagemDeGenerosContrato {
 
 export interface ItemListagemDeTiposSanguineosContrato {
   _id: string;
-  value: tipos_sanguineos;
+  value: TiposSanguineos;
 }
 
 export interface ListagemDeTiposSanguineosContrato {
