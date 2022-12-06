@@ -18,7 +18,7 @@ export default class CriarPacientesFake1670300157163 implements MigrationInterfa
           telefone: '999999999',
           dataNascimento: faker.date.birthdate(),
           altura: faker.datatype.number({
-            min: 100,
+            min: 155,
             max: 180
           }) / 100,
           peso: faker.datatype.number({
