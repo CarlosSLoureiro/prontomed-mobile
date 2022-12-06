@@ -11,8 +11,18 @@ export default class PacientesRepository implements PacientesRepositoryInterface
     this.repository = database.getRepository(Paciente);
   }
 
-  public async getAll (): Promise<Array<Paciente>> {
-    const queryBuilder = this.repository.createQueryBuilder('pacientes');
+  public async total (): Promise<number> {
+    return await this.repository.count();
+  }
+
+  public async getAll (pagina: number): Promise<Array<Paciente>> {
+    const rows = 10;
+
+    const queryBuilder = this.repository.createQueryBuilder('pacientes')
+      .orderBy('pacientes.id', 'DESC')
+      .offset(rows * pagina)
+      .limit(rows);
+
     queryBuilder.leftJoinAndSelect('pacientes.consultas', 'consultas');
     return await queryBuilder.getMany();
   }
