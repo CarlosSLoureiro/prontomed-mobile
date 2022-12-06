@@ -3,4 +3,9 @@ import { NotifierInterface, ShowNotificationParams } from 'react-native-notifier
 export interface NotificationContrato {
   add: (params: ShowNotificationParams) => void;
   get: () => NotifierInterface;
+  error: (params: Partial<ShowNotificationParams>) => void;
+  success: (params: Partial<ShowNotificationParams>) => void;
+  warn: (params: Partial<ShowNotificationParams>) => void;
+  info: (params: Partial<ShowNotificationParams>) => void;
+  close: () => void;
 }
