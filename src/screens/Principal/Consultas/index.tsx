@@ -55,7 +55,7 @@ const Consultas = ({
     // TODO: atualizar resultados
     console.log('Deve buscar consultas ->', filtrosDeBusca);
 
-    void getUsers(); // testando repository
+    // void getUsers(); // testando repository
 
     Notification.info({
       title: 'Deve buscar consultas',
