@@ -1453,6 +1453,11 @@
     find-up "^5.0.0"
     js-yaml "^4.1.0"
 
+"@faker-js/faker@^7.6.0":
+  version "7.6.0"
+  resolved "https://registry.yarnpkg.com/@faker-js/faker/-/faker-7.6.0.tgz#9ea331766084288634a9247fcd8b84f16ff4ba07"
+  integrity sha512-XK6BTq1NDMo9Xqw/YkYyGjSsg44fbNwYRx7QK2CuoQgyy+f1rrTDHoExVM5PsyXCtfl2vs2vVJ0MN0yN6LppRw==
+
 "@freakycoder/react-native-helpers@^2.0.2":
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@freakycoder/react-native-helpers/-/react-native-helpers-2.0.2.tgz#7aeb296f6bc5948533776ca46735d71c7868149a"
