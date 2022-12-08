@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { TouchableOpacity } from 'react-native';
 import { Card } from '@paraboly/react-native-card';
 
 import Calendario from '@hooks/useCalendario';
@@ -57,9 +56,7 @@ const PacienteCard = ({
     return `${pesoMinimo}~${pesoMaximo}Kg`;
   };
 
-  /*
-    Fonte para exibição do resultado: https://viverbem.unimedbh.com.br/prevencao-e-controle/o-que-e-imc-como-calcular/
-  */
+  /* Fonte para exibição do resultado: https://viverbem.unimedbh.com.br/prevencao-e-controle/o-que-e-imc-como-calcular/ */
   const exibirResultadoIMC = (): void => {
     const idadeParaCalcular = 18;
     if (idade >= idadeParaCalcular) {

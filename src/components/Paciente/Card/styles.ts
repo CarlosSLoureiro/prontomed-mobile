@@ -41,32 +41,6 @@ const getStyles = () => {
             };
         }
       }
-    },
-    cardId: {
-      position: 'relative',
-      alignItems: 'center',
-      padding: 0,
-      margin: 0,
-      width: 40,
-      height: 40,
-      right: 0,
-      opacity: 0.6,
-      backgroundColor: '#000',
-      borderRadius: 50,
-      paragraph: {
-        color: '#fff'
-      }
-    },
-    data: {
-      textAlign: 'center'
-    },
-    nome: {
-      textAlign: 'center',
-      lineHeight: 25,
-      fontSize: 22
-    },
-    subtitle: {
-      textAlign: 'center'
     }
   });
 };
