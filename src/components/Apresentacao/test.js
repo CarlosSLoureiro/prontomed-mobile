@@ -1,5 +1,6 @@
-import { shallow } from 'enzyme';
 import { Pagina1, Pagina2, Pagina3, Pagina4 } from '@components/Apresentacao';
+
+import { shallow } from 'enzyme';
 
 const obterDadosDaPagina = (component) => {
   const wrapper = shallow(component);
