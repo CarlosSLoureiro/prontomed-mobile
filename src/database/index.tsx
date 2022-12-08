@@ -1,4 +1,4 @@
-import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useState } from 'react';
+import { PropsWithChildren, useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 
 import { DataSource } from 'typeorm';
@@ -7,9 +7,7 @@ import entities from './entities';
 import migrations from './migrations';
 import repositories from './repositories';
 
-import { DatabaseContextData } from './types';
-
-const DatabaseContext = createContext<DatabaseContextData>({} as DatabaseContextData);
+export * from './types';
 
 export const DatabaseProvider = ({ children }: PropsWithChildren): JSX.Element => {
   const [conexao, setConexao] = useState<DataSource | null>(null);
@@ -17,7 +15,7 @@ export const DatabaseProvider = ({ children }: PropsWithChildren): JSX.Element =
   const conectar = useCallback(() => {
     const database = new DataSource({
       type: 'expo',
-      database: 'prontomed01.db',
+      database: 'prontomed05.db',
       driver: require('expo-sqlite'),
       entities,
       migrations,
@@ -40,15 +38,11 @@ export const DatabaseProvider = ({ children }: PropsWithChildren): JSX.Element =
     return <ActivityIndicator />;
   }
 
-  return (
-    <DatabaseContext.Provider
-      value={repositories(conexao)}
-    >
-      {children}
-    </DatabaseContext.Provider>
-  );
-};
+  global.repositories = repositories(conexao);
 
-export const useDatabase = (): DatabaseContextData => {
-  return useContext(DatabaseContext);
+  return (
+    <>
+      {children}
+    </>
+  );
 };

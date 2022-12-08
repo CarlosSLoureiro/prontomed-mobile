@@ -4,8 +4,10 @@ import Icon from 'react-native-dynamic-vector-icons';
 import { NotifierComponents } from 'react-native-notifier';
 import { Portal } from 'react-native-paper';
 
-import { useDatabase } from '@database';
 import Paciente from '@entity/paciente';
+
+import ListarPacientesHelper from '@helpers/pacientes/listar';
+import ObterTotalPacientesHelper from '@helpers/pacientes/obterTotal';
 
 import Notification from '@hooks/useNotification';
 
@@ -35,15 +37,16 @@ const Pacientes = ({
     }
   };
   const [filtrosDeBusca, setFiltrosDeBusca] = useState<FiltrosDeBuscaContrato>(filtrosDeBuscaInicial);
-  const { pacientesRepository } = useDatabase();
 
   const carregarTotalPacientes = async (): Promise<void> => {
-    const total = await pacientesRepository.total();
+    const helper = new ObterTotalPacientesHelper();
+    const total = await helper.run();
     setTotalPacientes(total);
   };
 
   const carregarPacientes = async (): Promise<void> => {
-    const pacientesCarregados = await pacientesRepository.getAll(pacientesPagina);
+    const helper = new ListarPacientesHelper();
+    const pacientesCarregados = await helper.run(pacientesPagina);
     setPacientes([...pacientes, ...pacientesCarregados]);
     setPacientesPagina(pacientesPagina + 1);
   };

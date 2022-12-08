@@ -1,5 +1,5 @@
 import PacientesRepository from '@repository/pacientes';
 
-export interface DatabaseContextData {
+export interface Repositories {
   pacientesRepository: PacientesRepository;
 }

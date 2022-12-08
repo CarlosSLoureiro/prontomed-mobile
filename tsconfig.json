@@ -19,6 +19,7 @@
       "@database": ["database/index"],
       "@entity/*": ["database/entity/*"],
       "@repository/*": ["database/repository/*"],
+      "@helpers/*": ["helpers/*"],
       "@components/*": ["components/*"],
       "@hooks/*": ["hooks/*"],
       "@screens/*": ["screens/*"]
