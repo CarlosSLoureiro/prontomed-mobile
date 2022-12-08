@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { ScrollView, Text } from 'react-native';
-import Icon from 'react-native-dynamic-vector-icons';
 import { NotifierComponents } from 'react-native-notifier';
 import { Portal } from 'react-native-paper';
 
