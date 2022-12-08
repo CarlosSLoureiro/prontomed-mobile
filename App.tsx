@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 
+import { LogBox } from 'react-native';
 import { NotifierWrapper } from 'react-native-notifier';
 import { Provider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
@@ -9,6 +10,11 @@ import { DatabaseProvider } from '@database';
 
 import Apresentacao from '@screens/Apresentacao';
 import Principal from '@screens/Principal';
+
+LogBox.ignoreLogs([
+  'Require cycle:',
+  'Sending `onAnimatedValueUpdate` with no listeners registered.'
+]);
 
 const Stack = createStackNavigator();
 
