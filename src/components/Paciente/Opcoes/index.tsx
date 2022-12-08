@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 import { FAB } from 'react-native-paper';
 
-import { OcpoesBotaoContrato } from './types';
+import { OcpoesPacienteContrato } from './types';
 
 const OcpoesBotao = ({
   visivel,
   buscar,
-  filtrarDatas,
+  cadastrar,
   ordenar,
   limpar
-}: OcpoesBotaoContrato): JSX.Element => {
+}: OcpoesPacienteContrato): JSX.Element => {
   const [aberto, setAberto] = useState(false);
   const botoesPadrao = [
     {
@@ -20,7 +20,7 @@ const OcpoesBotao = ({
     {
       icon: 'account-plus',
       label: 'Cadastrar',
-      onPress: filtrarDatas
+      onPress: cadastrar
     },
     {
       icon: 'order-alphabetical-ascending',

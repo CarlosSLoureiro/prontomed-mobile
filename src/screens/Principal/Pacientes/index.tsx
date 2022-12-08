@@ -112,7 +112,7 @@ const Pacientes = ({
           <Opcoes
             visivel={paginaAtiva}
             buscar={() => {}}
-            filtrarDatas={() => {}}
+            cadastrar={() => {}}
             ordenar={() => {}}
             limpar={{
               visivel: JSON.stringify(filtrosDeBuscaInicial) !== JSON.stringify(filtrosDeBusca),
@@ -120,7 +120,6 @@ const Pacientes = ({
             }}
           />
         </Portal>
-        <Icon type="Entypo" name="users" size={124} style={styles.icon} />
         <Text style={styles.text}>Você possui {totalPacientes} pacientes!</Text>
         {
           pacientes.map((paciente, index) => <PacienteCard key={index} paciente={paciente} ultimo={pacientes.length - 1 === index} />)

@@ -3,10 +3,10 @@ interface LimparContrato {
   callback: () => void;
 }
 
-export interface OcpoesBotaoContrato {
+export interface OcpoesPacienteContrato {
   visivel: boolean;
   buscar: () => void;
-  filtrarDatas: () => void;
+  cadastrar: () => void;
   ordenar: () => void;
   limpar: LimparContrato;
 }
