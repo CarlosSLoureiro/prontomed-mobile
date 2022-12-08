@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { TouchableOpacity } from 'react-native';
-import { Card, Paragraph } from 'react-native-paper';
+import { Card } from '@paraboly/react-native-card';
 
 import Calendario from '@hooks/useCalendario';
 import Notification from '@hooks/useNotification';
@@ -20,6 +20,7 @@ const PacienteCard = ({
   const [imc, setIMC] = useState(0);
 
   const styles = getStyles();
+  const cardIconStyles = styles.card.icon(paciente.genero);
 
   const abrirMenu = (): void => setExibirMenu(true);
   const fecharMenu = (): void => setExibirMenu(false);
@@ -118,21 +119,19 @@ const PacienteCard = ({
 
   return (
         <>
-            <TouchableOpacity onPress={abrirMenuContexto}>
-                <Card style={ultimo ? { ...styles.card, ...styles.card.ultimo } : styles.card}>
-                    <Card.Title
-                        leftStyle={styles.cardId}
-                        titleNumberOfLines={0}
-                        title={
-                            <>
-                                <Paragraph style={styles.nome}>#{paciente.id}: {paciente.nome}</Paragraph>
-                            </>
-                        }
-                        subtitleStyle={styles.subtitle}
-                        subtitle={`${paciente.genero}, ${idade} anos, ${paciente.peso}Kg, ${paciente.altura}M, ${paciente.tipoSanguineo}`}
-                    />
-                </Card>
-            </TouchableOpacity>
+            <Card
+              style={ultimo ? { ...styles.card, ...styles.card.ultimo } : styles.card}
+              title={`${paciente.nome}`}
+              iconName={cardIconStyles.name}
+              iconType={cardIconStyles.type}
+              iconColor={cardIconStyles.color}
+              iconBackgroundColor={cardIconStyles.backgrounColor}
+              topRightText={`nº ${paciente.id}`}
+              bottomRightText={`${idade} anos`}
+              description={`${paciente.genero}, ${paciente.peso}Kg, ${paciente.altura}M, ${paciente.tipoSanguineo}\n${paciente?.consultas ? paciente.consultas.length : 0} consultas registradas`}
+              // @ts-expect-error - a biblioca não inclui parametros no contrato do onPress.
+              onPress={abrirMenuContexto}
+            />
             <MenuContexto
                 visivel={exibirMenu}
                 {...{ paciente, fecharMenu, menuAnchor }}

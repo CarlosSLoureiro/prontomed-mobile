@@ -16,7 +16,9 @@
   "dependencies": {
     "@babel/preset-env": "^7.20.2",
     "@faker-js/faker": "^7.6.0",
+    "@freakycoder/react-native-bounceable": "^1.0.3",
     "@freakycoder/react-native-helpers": "^2.0.2",
+    "@paraboly/react-native-card": "^1.0.3",
     "@react-navigation/native": "^6.0.16",
     "@react-navigation/stack": "^6.3.7",
     "expo": "^47.0.8",
@@ -86,5 +88,6 @@
     "ts-jest": "^29.0.3",
     "typescript": "*"
   },
+  "license": "GNU 3.0",
   "private": true
 }
