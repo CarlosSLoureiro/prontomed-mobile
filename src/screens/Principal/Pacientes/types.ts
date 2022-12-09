@@ -1,5 +1,7 @@
 import { Generos, TiposSanguineos } from '@entity/paciente/enums';
 
+import { BuscarPacienteCallbackContrato } from '@components/Paciente/Buscar/types';
+
 export interface PacientesContrato {
   paginaAtiva: boolean;
 }
@@ -9,13 +11,7 @@ export interface OrdenacaoContrato {
   chave: string;
 }
 
-export interface BuscaContrato {
-  nome: string;
-  generos: Array<Generos>;
-  tipos_sanguineos: Array<TiposSanguineos>;
-}
-
 export interface FiltrosDeBuscaContrato {
-  busca?: BuscaContrato;
+  busca?: BuscarPacienteCallbackContrato;
   ordenacao: OrdenacaoContrato;
 }

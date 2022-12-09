@@ -4,10 +4,9 @@ import { PaperSelect } from 'react-native-paper-select';
 
 import { Generos, TiposSanguineos } from '@entity/paciente/enums';
 
-import { BuscaContrato } from '@screens/Principal/Pacientes/types';
-
 import {
-  BuscarContrato,
+  BuscarPacienteCallbackContrato,
+  BuscarPacienteContrato,
   ItemListagemDeGenerosContrato,
   ItemListagemDeTiposSanguineosContrato,
   ListagemDeGenerosContrato,
@@ -19,9 +18,8 @@ const Buscar = ({
   visivel,
   setVisivel,
   callback
-}: BuscarContrato): JSX.Element => {
-  const [valorAtual,
-    setValoresAtuais] = useState<ValoresAtuaisFormulario>();
+}: BuscarPacienteContrato): JSX.Element => {
+  const [valorAtual, setValoresAtuais] = useState<ValoresAtuaisFormulario>();
 
   // nome
   const [nome, setNome] = useState<string>('');
@@ -92,7 +90,7 @@ const Buscar = ({
     if (valorAtual != null) {
       setNome(valorAtual.nome);
       setGenerosFormulario(valorAtual.generos);
-      setTiposSanguineosFormulario(valorAtual.tipos_sanguineos);
+      setTiposSanguineosFormulario(valorAtual.tiposSanguineos);
     } else {
       setNome('');
       selecionarValoresPadraoTiposSanguineos();
@@ -100,17 +98,17 @@ const Buscar = ({
     }
   };
   const buscar = (): void => {
-    const busca: BuscaContrato = {
+    const busca: BuscarPacienteCallbackContrato = {
       nome,
       generos: generosFormulario.valor !== todosOsGenerosSelecionados ? generosFormulario.selecionados.map(generos => generos.value) : [],
-      tipos_sanguineos: tiposSanguineosFormulario.valor !== todosOsTiposSanguineosSelecionados ? tiposSanguineosFormulario.selecionados.map(tipoSanguineo => tipoSanguineo.value) : []
+      tiposSanguineos: tiposSanguineosFormulario.valor !== todosOsTiposSanguineosSelecionados ? tiposSanguineosFormulario.selecionados.map(tipoSanguineo => tipoSanguineo.value) : []
     };
     setVisivel(false);
-    if (busca.nome.length || (busca.generos.length > 0) || (busca.tipos_sanguineos.length > 0)) {
+    if (busca.nome.length || (busca.generos.length > 0) || (busca.tiposSanguineos.length > 0)) {
       setValoresAtuais({
         nome: busca.nome,
         generos: generosFormulario,
-        tipos_sanguineos: tiposSanguineosFormulario
+        tiposSanguineos: tiposSanguineosFormulario
       });
       callback(busca);
     } else {

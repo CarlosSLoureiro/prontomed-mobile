@@ -10,6 +10,8 @@ import ObterTotalPacientesHelper from '@helpers/pacientes/obterTotal';
 
 import Notification from '@hooks/useNotification';
 
+import Buscar from '@components/Paciente/Buscar';
+import { BuscarPacienteCallbackContrato } from '@components/Paciente/Buscar/types';
 import PacienteCard from '@components/Paciente/Card';
 import Opcoes from '@components/Paciente/Opcoes';
 
@@ -36,6 +38,7 @@ const Pacientes = ({
     }
   };
   const [filtrosDeBusca, setFiltrosDeBusca] = useState<FiltrosDeBuscaContrato>(filtrosDeBuscaInicial);
+  const [buscarVisivel, setBuscarVisivel] = useState(false);
 
   const carregarTotalPacientes = async (): Promise<void> => {
     const helper = new ObterTotalPacientesHelper();
@@ -49,17 +52,6 @@ const Pacientes = ({
     setPacientes([...pacientes, ...pacientesCarregados]);
     setPacientesPagina(pacientesPagina + 1);
   };
-
-  useEffect(() => {
-    console.log('Deve buscar pacientes ->', filtrosDeBusca);
-    Notification.info({
-      title: 'Deve buscar pacientes',
-      description: JSON.stringify(filtrosDeBusca)
-    });
-
-    void carregarTotalPacientes();
-    void carregarPacientes(); // testando repository
-  }, [filtrosDeBusca]);
 
   const sobirScrollParaOTopo = (): void => {
     scrollRef?.current?.scrollTo({
@@ -89,6 +81,24 @@ const Pacientes = ({
     }
   };
 
+  const buscarConsultas = (busca?: BuscarPacienteCallbackContrato): void => {
+    setFiltrosDeBusca({
+      ...filtrosDeBusca,
+      ...{ busca }
+    });
+  };
+
+  useEffect(() => {
+    console.log('Deve buscar pacientes ->', filtrosDeBusca);
+    Notification.info({
+      title: 'Deve buscar pacientes',
+      description: JSON.stringify(filtrosDeBusca)
+    });
+
+    void carregarTotalPacientes();
+    void carregarPacientes();
+  }, [filtrosDeBusca]);
+
   if (!paginaAtiva) {
     sobirScrollParaOTopo();
   }
@@ -108,9 +118,10 @@ const Pacientes = ({
         contentContainerStyle={styles.conteudo}
       >
         <Portal>
+          <Buscar visivel={buscarVisivel} setVisivel={setBuscarVisivel} callback={buscarConsultas}/>
           <Opcoes
             visivel={paginaAtiva}
-            buscar={() => {}}
+            buscar={() => setBuscarVisivel(true)}
             cadastrar={() => {}}
             ordenar={() => {}}
             limpar={{
