@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { Generos } from '@entity/paciente/enums';
+import { Generos } from '@entity/Paciente/enums';
 
 import ThemeScheme from '@hooks/useThemeScheme';
 

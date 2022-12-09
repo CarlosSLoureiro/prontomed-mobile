@@ -1,7 +1,7 @@
-import PacientesRepositoryInterface from '@repository/pacientes/interface';
-import PacientesRepositoryMock from '@repository/pacientes/mock';
+import PacientesRepositoryInterface from '@repository/Pacientes/interface';
+import PacientesRepositoryMock from '@repository/Pacientes/mock';
 
-import ObterTotalPacientesHelper from '@helpers/pacientes/obterTotal';
+import ObterTotalPacientesHelper from '@helpers/Pacientes/ObterTotal';
 
 const repository: PacientesRepositoryInterface = new PacientesRepositoryMock();
 let helper: ObterTotalPacientesHelper;

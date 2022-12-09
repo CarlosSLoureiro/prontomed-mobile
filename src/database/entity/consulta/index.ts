@@ -1,6 +1,6 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-import Paciente from '../paciente';
+import Paciente from '../Paciente';
 
 @Entity('consultas')
 export default class Consulta {

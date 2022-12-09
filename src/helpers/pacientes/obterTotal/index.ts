@@ -1,5 +1,5 @@
 import { Repositories } from '@database';
-import PacientesRepositoryInterface from '@repository/pacientes/interface';
+import PacientesRepositoryInterface from '@repository/Pacientes/interface';
 
 export default class ObterTotalPacientesHelper {
   private readonly repository: PacientesRepositoryInterface;

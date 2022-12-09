@@ -1,4 +1,4 @@
-import Paciente from '@entity/paciente';
+import Paciente from '@entity/Paciente';
 
 export interface PacienteCardContrato {
   paciente: Paciente;

@@ -2,8 +2,8 @@ import { faker } from '@faker-js/faker/locale/pt_BR';
 
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-import Paciente from '@entity/paciente';
-import { Generos, TiposSanguineos } from '@entity/paciente/enums';
+import Paciente from '@entity/Paciente';
+import { Generos, TiposSanguineos } from '@entity/Paciente/enums';
 
 const QUANTIDADE = 100;
 

@@ -1,6 +1,6 @@
 import { Repositories } from '@database';
-import Paciente from '@entity/paciente';
-import PacientesRepositoryInterface from '@repository/pacientes/interface';
+import Paciente from '@entity/Paciente';
+import PacientesRepositoryInterface from '@repository/Pacientes/interface';
 
 export default class ListarPacientesHelper {
   private readonly repository: PacientesRepositoryInterface;

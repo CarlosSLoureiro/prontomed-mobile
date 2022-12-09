@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Button, Dialog, Divider, TextInput } from 'react-native-paper';
 import { PaperSelect } from 'react-native-paper-select';
 
-import { Generos, TiposSanguineos } from '@entity/paciente/enums';
+import { Generos, TiposSanguineos } from '@entity/Paciente/enums';
 
 import { BuscaContrato } from '@screens/Principal/Consultas/types';
 

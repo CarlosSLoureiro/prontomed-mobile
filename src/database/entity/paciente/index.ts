@@ -1,6 +1,6 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
-import Consulta from '../consulta';
+import Consulta from '../Consulta';
 
 import { Generos, TiposSanguineos } from './enums';
 

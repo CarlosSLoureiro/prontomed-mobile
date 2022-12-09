@@ -3,10 +3,10 @@ import { ScrollView, Text } from 'react-native';
 import { NotifierComponents } from 'react-native-notifier';
 import { Portal } from 'react-native-paper';
 
-import Paciente from '@entity/paciente';
+import Paciente from '@entity/Paciente';
 
-import ListarPacientesHelper from '@helpers/pacientes/listar';
-import ObterTotalPacientesHelper from '@helpers/pacientes/obterTotal';
+import ListarPacientesHelper from '@helpers/Pacientes/Listar';
+import ObterTotalPacientesHelper from '@helpers/Pacientes/ObterTotal';
 
 import Notification from '@hooks/useNotification';
 

@@ -1,4 +1,4 @@
-import { Generos, TiposSanguineos } from '@entity/paciente/enums';
+import { Generos, TiposSanguineos } from '@entity/Paciente/enums';
 
 export interface ItemListagemDeGenerosContrato {
   _id: string;

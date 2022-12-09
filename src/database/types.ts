@@ -1,4 +1,4 @@
-import PacientesRepository from '@repository/pacientes';
+import PacientesRepository from '@repository/Pacientes';
 
 export interface Repositories {
   pacientesRepository: PacientesRepository;

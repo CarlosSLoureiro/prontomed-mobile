@@ -1,4 +1,4 @@
-import { Generos, TiposSanguineos } from '@entity/paciente/enums';
+import { Generos, TiposSanguineos } from '@entity/Paciente/enums';
 
 import { BuscaContrato } from '@screens/Principal/Consultas/types';
 
