@@ -4,6 +4,8 @@ import { PaperSelect } from 'react-native-paper-select';
 
 import { Generos, TiposSanguineos } from '@entity/paciente/enums';
 
+import getStyles from './styles';
+
 import {
   BuscarPacienteCallbackContrato,
   BuscarPacienteContrato,
@@ -20,6 +22,8 @@ const Buscar = ({
   callback
 }: BuscarPacienteContrato): JSX.Element => {
   const [valorAtual, setValoresAtuais] = useState<ValoresAtuaisFormulario>();
+
+  const styles = getStyles();
 
   // nome
   const [nome, setNome] = useState<string>('');
@@ -117,10 +121,11 @@ const Buscar = ({
   };
 
   return (
-      <Dialog visible={visivel} onDismiss={cancelar}>
+      <Dialog visible={visivel} onDismiss={cancelar} style={styles.dialog}>
           <Dialog.Title>Como deseja buscar?</Dialog.Title>
           <Dialog.Content>
             <TextInput
+              style={styles.nome}
               onChangeText={(nome) => setNome(nome.trim())}
               value={nome}
               mode="outlined"
@@ -128,7 +133,14 @@ const Buscar = ({
               left={<TextInput.Icon icon="account" />}
             />
             <PaperSelect
+              containerStyle={styles.select.genero}
+              dialogStyle={styles.select.dialog}
+              textInputBackgroundColor={styles.select.backgroundColor}
+              dialogButtonLabelStyle={styles.select.dialog.botoes}
+              checkboxColor={styles.select.dialog.checkboxColor}
+              checkboxLabelStyle={styles.select.dialog.checkboxLabel}
               hideSearchBox={true}
+              selectAllEnable={false}
               label="Gênero do paciente"
               modalCloseButtonText="Cancelar"
               modalDoneButtonText="Selecionar"
@@ -140,7 +152,14 @@ const Buscar = ({
               errorText=""
             />
             <PaperSelect
-              hideSearchBox={false}
+              containerStyle={styles.select.tipoSanguineo}
+              dialogStyle={styles.select.dialog}
+              textInputBackgroundColor={styles.select.backgroundColor}
+              dialogButtonLabelStyle={styles.select.dialog.botoes}
+              checkboxColor={styles.select.dialog.checkboxColor}
+              checkboxLabelStyle={styles.select.dialog.checkboxLabel}
+              hideSearchBox={true}
+              selectAllEnable={false}
               searchPlaceholder="Buscar"
               label="Tipo sanguíneo do paciente"
               modalCloseButtonText="Cancelar"
@@ -155,8 +174,8 @@ const Buscar = ({
             <Divider/>
           </Dialog.Content>
           <Dialog.Actions>
-            <Button color='#000000' onPress={buscar}>Buscar</Button>
-            <Button color='#000000' onPress={cancelar}>Cancelar</Button>
+            <Button labelStyle={styles.dialog.botoes} onPress={cancelar}>Cancelar</Button>
+            <Button labelStyle={styles.dialog.botoes} onPress={buscar}>Buscar</Button>
           </Dialog.Actions>
         </Dialog>
   );

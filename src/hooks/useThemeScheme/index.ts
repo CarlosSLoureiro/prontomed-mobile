@@ -12,7 +12,7 @@ class ThemeScheme implements ThemeSchemeContrato {
   }
 
   public getScheme = (): ColorSchemeName => useColorScheme();
-  public isDarkModeScheme = (): boolean => this.getScheme() === 'dark';
+  public isDarkModeScheme = (): boolean => false; // this.getScheme() === 'dark';
   public isLightModeScheme = (): boolean => this.getScheme() === 'light';
 }
 
