@@ -14,11 +14,13 @@ import Buscar from '@components/Paciente/Buscar';
 import { BuscarPacienteCallbackContrato } from '@components/Paciente/Buscar/types';
 import PacienteCard from '@components/Paciente/Card';
 import Opcoes from '@components/Paciente/Opcoes';
+import Ordenar from '@components/Paciente/Ordenar';
 
 import getMainStyles from '../styles';
 
 import {
   FiltrosDeBuscaContrato,
+  OrdenacaoContrato,
   PacientesContrato
 } from './types';
 
@@ -39,6 +41,7 @@ const Pacientes = ({
   };
   const [filtrosDeBusca, setFiltrosDeBusca] = useState<FiltrosDeBuscaContrato>(filtrosDeBuscaInicial);
   const [buscarVisivel, setBuscarVisivel] = useState(false);
+  const [ordernarVisivel, setOrdernarVisivel] = useState(false);
 
   const carregarTotalPacientes = async (): Promise<void> => {
     const helper = new ObterTotalPacientesHelper();
@@ -81,10 +84,17 @@ const Pacientes = ({
     }
   };
 
-  const buscarConsultas = (busca?: BuscarPacienteCallbackContrato): void => {
+  const buscarPacientes = (busca?: BuscarPacienteCallbackContrato): void => {
     setFiltrosDeBusca({
       ...filtrosDeBusca,
       ...{ busca }
+    });
+  };
+
+  const reordenarPacientes = (ordenacao: OrdenacaoContrato): void => {
+    setFiltrosDeBusca({
+      ...filtrosDeBusca,
+      ...{ ordenacao }
     });
   };
 
@@ -118,12 +128,25 @@ const Pacientes = ({
         contentContainerStyle={styles.conteudo}
       >
         <Portal>
-          <Buscar visivel={buscarVisivel} setVisivel={setBuscarVisivel} callback={buscarConsultas}/>
+          <Buscar visivel={buscarVisivel} setVisivel={setBuscarVisivel} callback={buscarPacientes}/>
+          <Ordenar
+            visivel={ordernarVisivel} setVisivel={setOrdernarVisivel} callback={reordenarPacientes}
+            valorAtual={filtrosDeBusca.ordenacao}
+            valoresDeBusca={[
+              { titulo: 'Pelo nome do paciente', valor: 'nome' },
+              { titulo: 'Pela idade do paciente', valor: 'idade' },
+              { titulo: 'Pelo peso do paciente', valor: 'peso' },
+              { titulo: 'Pela altura do paciente', valor: 'altura' },
+              { titulo: 'Pela número do paciente', valor: 'id' },
+              { titulo: 'Pela número de consultas', valor: 'consultas' }
+            ]
+            }
+          />
           <Opcoes
-            visivel={paginaAtiva}
+            visivel={paginaAtiva && !(buscarVisivel || ordernarVisivel)}
             buscar={() => setBuscarVisivel(true)}
             cadastrar={() => {}}
-            ordenar={() => {}}
+            ordenar={() => setOrdernarVisivel(true)}
             limpar={{
               visivel: JSON.stringify(filtrosDeBuscaInicial) !== JSON.stringify(filtrosDeBusca),
               callback: () => setFiltrosDeBusca(filtrosDeBuscaInicial)
