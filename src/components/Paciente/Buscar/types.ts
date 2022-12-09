@@ -1,7 +1,5 @@
 import { Generos, TiposSanguineos } from '@entity/paciente/enums';
 
-import { BuscaContrato } from '@screens/Principal/Pacientes/types';
-
 export interface ItemListagemDeGenerosContrato {
   _id: string;
   value: Generos;
