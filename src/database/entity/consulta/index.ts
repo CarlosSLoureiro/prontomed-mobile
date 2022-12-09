@@ -1,4 +1,6 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+
+import Observacao from '@entity/Observacao';
 
 import Paciente from '../Paciente';
 
@@ -22,4 +24,8 @@ export default class Consulta {
 
   @CreateDateColumn()
     dataAtualizacao: Date;
+
+  @OneToMany(() => Observacao, observacao => observacao.consulta)
+  @JoinColumn({ name: 'id', referencedColumnName: 'consulta' })
+    observacoes?: Array<Observacao>;
 }
