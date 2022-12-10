@@ -1,9 +1,10 @@
-import { shallow } from 'enzyme';
 import Principal from '@screens/Principal';
-import Inicio from '@screens/Principal/Inicio';
-import Consultas from '@screens/Principal/Consultas';
-import Pacientes from '@screens/Principal/Pacientes';
 import Ajustes from '@screens/Principal/Ajustes';
+import Consultas from '@screens/Principal/Consultas';
+import Inicio from '@screens/Principal/Inicio';
+import Pacientes from '@screens/Principal/Pacientes';
+
+import { shallow } from 'enzyme';
 
 describe('Deve renderizar a tela principal do app', () => {
   const wrapper = shallow(<Principal />);
