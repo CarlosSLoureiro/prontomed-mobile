@@ -11,13 +11,8 @@
         "plugin:@typescript-eslint/recommended",
         "plugin:@typescript-eslint/recommended-requiring-type-checking"
     ],
+    "processor": "disable/disable",
     "overrides": [
-        {
-            "files": ["**/database/index.tsx"],
-            "rules": {
-                "@typescript-eslint/consistent-type-assertions": "off"
-            }
-        },
         {
             "files": ["**/styles.ts"],
             "rules": {
@@ -35,6 +30,19 @@
             "rules": {
                 "@typescript-eslint/strict-boolean-expressions": "off"
             }
+        },
+        {
+            "files": ["**/*.js"],
+            "settings": {
+                "disable/plugins": [
+                    "@typescript-eslint"
+                ]
+            }
+        },
+        {
+            "files": ["**/test.js"],
+            "env": { "jest": true },
+            "plugins": ["jest"]
         }
     ],
     "parserOptions": {
@@ -47,7 +55,8 @@
         "react-hooks",
         "@typescript-eslint",
         "prettier",
-        "simple-import-sort"
+        "simple-import-sort",
+        "disable"
     ],
     "rules": {
         "camelcase": "warn",
@@ -91,5 +100,5 @@
             "allowNumber": true
         }]
     },
-    "ignorePatterns": ["jest.*.js", "**/test.js", "*.config.js", "**/vendor/*"]
+    "ignorePatterns": ["jest.*.js", "*.config.js", "**/vendor/*"]
 }
