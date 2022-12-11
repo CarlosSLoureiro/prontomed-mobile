@@ -3,7 +3,6 @@ import { Menu } from 'react-native-paper';
 import { PacienteMenuContrato } from './types';
 
 const MenuContexto = ({
-  paciente,
   visivel,
   fecharMenu,
   menuAnchor,
