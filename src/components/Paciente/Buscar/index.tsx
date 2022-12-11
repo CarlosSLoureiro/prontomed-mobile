@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Button, Dialog, Divider, TextInput } from 'react-native-paper';
-import { PaperSelect } from 'react-native-paper-select';
 
 import { Generos, TiposSanguineos } from '@entity/Paciente/enums';
+
+import MultiSelect from '@components/Formularios/MultiSelect';
 
 import getStyles from './styles';
 
@@ -132,44 +133,22 @@ const Buscar = ({
               label="Nome do paciente"
               left={<TextInput.Icon icon="account" />}
             />
-            <PaperSelect
-              containerStyle={styles.select.genero}
-              dialogStyle={styles.select.dialog}
-              textInputBackgroundColor={styles.select.backgroundColor}
-              dialogButtonLabelStyle={styles.select.dialog.botoes}
-              checkboxColor={styles.select.dialog.checkboxColor}
-              checkboxLabelStyle={styles.select.dialog.checkboxLabel}
-              hideSearchBox={true}
-              selectAllEnable={false}
-              label="Gênero do paciente"
-              modalCloseButtonText="Cancelar"
-              modalDoneButtonText="Selecionar"
-              value={generosFormulario.valor}
-              onSelection={selecionarGenero}
-              arrayList={[...generosFormulario.listagem]}
-              selectedArrayList={[...generosFormulario.selecionados]}
-              multiEnable={true}
-              errorText=""
+            <MultiSelect
+              titulo='Gênero do paciente'
+              valor={generosFormulario.valor}
+              listagem={[...generosFormulario.listagem]}
+              selecionados={[...generosFormulario.selecionados]}
+              callback={selecionarGenero}
+              style={styles.genero}
             />
-            <PaperSelect
-              containerStyle={styles.select.tipoSanguineo}
-              dialogStyle={styles.select.dialog}
-              textInputBackgroundColor={styles.select.backgroundColor}
-              dialogButtonLabelStyle={styles.select.dialog.botoes}
-              checkboxColor={styles.select.dialog.checkboxColor}
-              checkboxLabelStyle={styles.select.dialog.checkboxLabel}
-              hideSearchBox={true}
-              selectAllEnable={false}
-              searchPlaceholder="Buscar"
-              label="Tipo sanguíneo do paciente"
-              modalCloseButtonText="Cancelar"
-              modalDoneButtonText="Selecionar"
-              value={tiposSanguineosFormulario.valor}
-              onSelection={selecionarTipoSanguineo}
-              arrayList={[...tiposSanguineosFormulario.listagem]}
-              selectedArrayList={[...tiposSanguineosFormulario.selecionados]}
-              multiEnable={true}
-              errorText=""
+            <MultiSelect
+              titulo='Tipo sanguíneo do paciente'
+              selecionarTodos={true}
+              valor={tiposSanguineosFormulario.valor}
+              listagem={[...tiposSanguineosFormulario.listagem]}
+              selecionados={[...tiposSanguineosFormulario.selecionados]}
+              callback={selecionarTipoSanguineo}
+              style={styles.tipoSanguineo}
             />
             <Divider/>
           </Dialog.Content>
