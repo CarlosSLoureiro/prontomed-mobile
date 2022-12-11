@@ -135,6 +135,7 @@ const Buscar = ({
             />
             <MultiSelect
               titulo='Gênero do paciente'
+              multi={true}
               valor={generosFormulario.valor}
               listagem={[...generosFormulario.listagem]}
               selecionados={[...generosFormulario.selecionados]}
@@ -144,6 +145,7 @@ const Buscar = ({
             <MultiSelect
               titulo='Tipo sanguíneo do paciente'
               selecionarTodos={true}
+              multi={true}
               valor={tiposSanguineosFormulario.valor}
               listagem={[...tiposSanguineosFormulario.listagem]}
               selecionados={[...tiposSanguineosFormulario.selecionados]}

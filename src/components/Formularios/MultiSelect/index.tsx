@@ -7,6 +7,7 @@ import { MultiSelectContrato } from './types';
 const MultiSelect = ({
   titulo,
   selecionarTodos = false,
+  multi,
   valor,
   listagem,
   selecionados,
@@ -33,7 +34,7 @@ const MultiSelect = ({
             onSelection={callback}
             arrayList={[...listagem]}
             selectedArrayList={[...selecionados]}
-            multiEnable={true}
+            multiEnable={multi}
             errorText=""
         />
   );

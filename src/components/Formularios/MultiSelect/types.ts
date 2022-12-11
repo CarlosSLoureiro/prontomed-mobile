@@ -10,6 +10,7 @@ export interface ListagemContrato {
 export interface MultiSelectContrato {
   titulo: string;
   selecionarTodos?: boolean;
+  multi: boolean;
   valor: string;
   listagem: Array<ListagemContrato>;
   selecionados: Array<ListagemContrato>;
