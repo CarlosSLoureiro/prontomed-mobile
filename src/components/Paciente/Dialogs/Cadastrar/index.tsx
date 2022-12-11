@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { Button, Dialog, Divider, TextInput } from 'react-native-paper';
+import { Button, Dialog, Divider } from 'react-native-paper';
 
 import Paciente from '@entity/Paciente';
 import { Generos, TiposSanguineos } from '@entity/Paciente/enums';
 
 import { ItemListagemDeGenerosContrato } from '@components/Consulta/Dialogs/Buscar/types';
 import SelectInput from '@components/Formularios/SelectInput';
+import TextInput from '@components/Formularios/TextInput';
 
 import getStyles from './styles';
 
@@ -49,14 +50,13 @@ const Cadastrar = ({
           <Dialog.Title>Como deseja buscar?</Dialog.Title>
           <Dialog.Content>
             <TextInput
+              nome="Nome do paciente"
+              icon="account"
               style={styles.nome}
-              onChangeText={nome => setPaciente({
+              callback={nome => setPaciente({
                 ...paciente,
                 nome: nome.trim()
               })}
-              mode="outlined"
-              label="Nome do paciente"
-              left={<TextInput.Icon icon="account" />}
             />
             <SelectInput
               titulo='Gênero do paciente'

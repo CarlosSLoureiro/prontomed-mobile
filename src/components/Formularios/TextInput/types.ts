@@ -4,6 +4,6 @@ export interface TextInputContrato {
   nome: string;
   icon?: string;
   valor?: string;
-  callback: Function;
+  callback: (str: string) => any;
   style?: ViewStyle;
 }
