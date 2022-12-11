@@ -7,7 +7,7 @@ export interface ListagemContrato {
   value: Generos | TiposSanguineos;
 }
 
-export interface MultiSelectContrato {
+export interface SelectInputContrato {
   titulo: string;
   selecionarTodos?: boolean;
   multi: boolean;

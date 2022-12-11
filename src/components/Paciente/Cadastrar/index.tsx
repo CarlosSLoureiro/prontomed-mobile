@@ -5,7 +5,7 @@ import Paciente from '@entity/Paciente';
 import { Generos, TiposSanguineos } from '@entity/Paciente/enums';
 
 import { ItemListagemDeGenerosContrato } from '@components/Consulta/Dialogs/Buscar/types';
-import MultiSelect from '@components/Formularios/MultiSelect';
+import SelectInput from '@components/Formularios/SelectInput';
 
 import getStyles from './styles';
 
@@ -58,7 +58,7 @@ const Cadastrar = ({
               label="Nome do paciente"
               left={<TextInput.Icon icon="account" />}
             />
-            <MultiSelect
+            <SelectInput
               titulo='Gênero do paciente'
               multi={false}
               valor={paciente.genero ?? 'Selecionar'}

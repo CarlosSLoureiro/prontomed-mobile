@@ -2,9 +2,9 @@ import { PaperSelect } from 'react-native-paper-select';
 
 import getStyles from './styles';
 
-import { MultiSelectContrato } from './types';
+import { SelectInputContrato } from './types';
 
-const MultiSelect = ({
+const SelectInput = ({
   titulo,
   selecionarTodos = false,
   multi,
@@ -13,7 +13,7 @@ const MultiSelect = ({
   selecionados,
   callback,
   style
-}: MultiSelectContrato): JSX.Element => {
+}: SelectInputContrato): JSX.Element => {
   const styles = getStyles();
 
   return (
@@ -40,4 +40,4 @@ const MultiSelect = ({
   );
 };
 
-export default MultiSelect;
+export default SelectInput;

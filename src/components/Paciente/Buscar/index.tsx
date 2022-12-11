@@ -3,7 +3,7 @@ import { Button, Dialog, Divider, TextInput } from 'react-native-paper';
 
 import { Generos, TiposSanguineos } from '@entity/Paciente/enums';
 
-import MultiSelect from '@components/Formularios/MultiSelect';
+import SelectInput from '@components/Formularios/SelectInput';
 
 import getStyles from './styles';
 
@@ -133,7 +133,7 @@ const Buscar = ({
               label="Nome do paciente"
               left={<TextInput.Icon icon="account" />}
             />
-            <MultiSelect
+            <SelectInput
               titulo='Gênero do paciente'
               multi={true}
               valor={generosFormulario.valor}
@@ -142,7 +142,7 @@ const Buscar = ({
               callback={selecionarGenero}
               style={styles.genero}
             />
-            <MultiSelect
+            <SelectInput
               titulo='Tipo sanguíneo do paciente'
               selecionarTodos={true}
               multi={true}
