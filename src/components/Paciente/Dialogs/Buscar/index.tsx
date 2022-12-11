@@ -104,7 +104,7 @@ const Buscar = ({
   };
   const buscar = (): void => {
     const busca: BuscarPacienteCallbackContrato = {
-      nome,
+      nome: nome.trim(),
       generos: generosFormulario.valor !== todosOsGenerosSelecionados ? generosFormulario.selecionados.map(generos => generos.value) : [],
       tiposSanguineos: tiposSanguineosFormulario.valor !== todosOsTiposSanguineosSelecionados ? tiposSanguineosFormulario.selecionados.map(tipoSanguineo => tipoSanguineo.value) : []
     };
@@ -127,7 +127,7 @@ const Buscar = ({
           <Dialog.Content>
             <TextInput
               style={styles.nome}
-              onChangeText={(nome) => setNome(nome.trim())}
+              onChangeText={(nome) => setNome(nome)}
               value={nome}
               mode="outlined"
               label="Nome do paciente"

@@ -1,4 +1,4 @@
-import { BuscarPacienteCallbackContrato } from '@components/Paciente/Buscar/types';
+import { BuscarPacienteCallbackContrato } from '@components/Paciente/Dialogs/Buscar/types';
 
 export interface PacientesContrato {
   paginaAtiva: boolean;

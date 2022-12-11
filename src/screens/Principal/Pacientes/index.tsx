@@ -10,12 +10,12 @@ import ObterTotalPacientesHelper from '@helpers/Pacientes/ObterTotal';
 
 import Notification from '@hooks/useNotification';
 
-import Buscar from '@components/Paciente/Buscar';
-import { BuscarPacienteCallbackContrato } from '@components/Paciente/Buscar/types';
-import Cadastrar from '@components/Paciente/Cadastrar';
 import PacienteCard from '@components/Paciente/Card';
+import Buscar from '@components/Paciente/Dialogs/Buscar';
+import { BuscarPacienteCallbackContrato } from '@components/Paciente/Dialogs/Buscar/types';
+import Cadastrar from '@components/Paciente/Dialogs/Cadastrar';
+import Ordenar from '@components/Paciente/Dialogs/Ordenar';
 import Opcoes from '@components/Paciente/Opcoes';
-import Ordenar from '@components/Paciente/Ordenar';
 
 import getMainStyles from '../styles';
 
