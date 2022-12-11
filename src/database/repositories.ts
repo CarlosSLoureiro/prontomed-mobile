@@ -1,9 +1,9 @@
 import { DataSource } from 'typeorm';
 
-import PacientesRepository from '@repository/pacientes';
+import PacientesRepository from '@repository/Pacientes';
 
-import { DatabaseContextData } from './types';
+import { Repositories } from './types';
 
-export default (conexao: DataSource): DatabaseContextData => ({
+export default (conexao: DataSource): Repositories => ({
   pacientesRepository: new PacientesRepository(conexao)
 });

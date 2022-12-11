@@ -1,3 +1,5 @@
+import { DefaultTheme } from 'react-native-paper';
+
 import ThemeScheme from '@hooks/useThemeScheme';
 
 const getStyles = () => {
@@ -17,7 +19,7 @@ const getStyles = () => {
       }
     },
     item: {
-      activeColor: '#03afff',
+      activeColor: DefaultTheme.colors.primary,
       inactiveColor: '#7d8094'
     }
   };

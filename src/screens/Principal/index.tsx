@@ -40,7 +40,7 @@ const Principal = (): JSX.Element => {
       >
         <Inicio key="0"/>
         <Consultas paginaAtiva={paginaSelecionada === 1} key="1"/>
-        <Pacientes key="2"/>
+        <Pacientes paginaAtiva={paginaSelecionada === 2} key="2"/>
         <Ajustes key="3"/>
       </PagerView>
       <View style={styles.menu}>

@@ -1,7 +1,9 @@
-import Consulta from './entity/consulta';
-import Paciente from './entity/paciente';
+import Consulta from '@entity/Consulta';
+import Observacao from '@entity/Observacao';
+import Paciente from '@entity/Paciente';
 
 export default [
   Paciente,
-  Consulta
+  Consulta,
+  Observacao
 ];

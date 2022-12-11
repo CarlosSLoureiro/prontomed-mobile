@@ -7,6 +7,7 @@ import Notification from '@hooks/useNotification';
 
 import MenuContexto from './menu';
 import getStyles from './styles';
+
 import { ConsultaCardContrato } from './types';
 
 const ConsultaCard = ({

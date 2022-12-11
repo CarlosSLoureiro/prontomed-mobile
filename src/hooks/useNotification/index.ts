@@ -1,7 +1,7 @@
 import { Notifier, NotifierComponents } from 'react-native-notifier';
-import { NotifierInterface, ShowNotificationParams } from 'react-native-notifier/lib/typescript/types';
 
 import { NotificationContrato } from './types';
+import { NotifierInterface, ShowNotificationParams } from 'react-native-notifier/lib/typescript/types';
 
 class Notification implements NotificationContrato {
   private static _instancia: Notification;
@@ -56,6 +56,19 @@ class Notification implements NotificationContrato {
     this.add({ ...defaultParams, ...params });
   }
 
+  public warn (params: Partial<ShowNotificationParams>): void {
+    const defaultParams = {
+      title: 'Warn!',
+      Component: NotifierComponents.Alert,
+      componentProps: {
+        alertType: 'warn'
+      },
+      duration: 3000
+    };
+
+    this.add({ ...defaultParams, ...params });
+  }
+
   public info (params: Partial<ShowNotificationParams>): void {
     const defaultParams = {
       title: 'Info!',
@@ -67,6 +80,10 @@ class Notification implements NotificationContrato {
     };
 
     this.add({ ...defaultParams, ...params });
+  }
+
+  public close (): void {
+    this.clear();
   }
 
   public get (): NotifierInterface {

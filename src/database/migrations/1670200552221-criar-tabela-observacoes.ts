@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, Table, TableForeignKey } from 'typeorm';
 
-export default class CriarTabelaConsultas1670006879301 implements MigrationInterface {
+export default class CriarTabelaObservacoes1670200552221 implements MigrationInterface {
   public async up (queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'consultas',
+        name: 'observacoes',
         columns: [
           {
             name: 'id',
@@ -14,25 +14,15 @@ export default class CriarTabelaConsultas1670006879301 implements MigrationInter
             generationStrategy: 'increment'
           },
           {
-            name: 'paciente',
-            type: 'integer',
-            isNullable: true
+            name: 'consulta',
+            type: 'integer'
           },
           {
-            name: 'dataAgendada',
-            type: 'datetime'
+            name: 'mensagem',
+            type: 'text'
           },
           {
-            name: 'evento',
-            type: 'varchar',
-            isNullable: true
-          },
-          {
-            name: 'dataCriacao',
-            type: 'datetime'
-          },
-          {
-            name: 'dataAtualizacao',
+            name: 'data',
             type: 'datetime'
           }
         ]
@@ -40,18 +30,18 @@ export default class CriarTabelaConsultas1670006879301 implements MigrationInter
     );
 
     await queryRunner.createForeignKey(
-      'consultas',
+      'observacoes',
       new TableForeignKey({
-        columnNames: ['paciente'],
-        referencedTableName: 'pacientes',
+        columnNames: ['consulta'],
+        referencedTableName: 'consultas',
         referencedColumnNames: ['id'],
         onUpdate: 'Cascade',
-        onDelete: 'Set NULL'
+        onDelete: 'Cascade'
       })
     );
   }
 
   public async down (queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('consultas');
+    await queryRunner.dropTable('observacoes');
   }
 }

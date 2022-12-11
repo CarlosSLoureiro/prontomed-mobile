@@ -13,6 +13,7 @@ module.exports = function (api) {
             '@database': './src/database/index',
             '@entity': './src/database/entity',
             '@repository': './src/database/repository',
+            '@helpers': './src/helpers',
             '@components': './src/components',
             '@hooks': './src/hooks',
             '@screens': './src/screens'

@@ -1,6 +1,7 @@
-import { shallow } from 'enzyme';
 import Apresentacao from '@screens/Apresentacao';
 import { Pagina1, Pagina2, Pagina3, Pagina4 } from '@components/Apresentacao';
+
+import { shallow } from 'enzyme';
 
 describe('Deve renderizar a tela de apresentação do app', () => {
   const wrapper = shallow(<Apresentacao />);

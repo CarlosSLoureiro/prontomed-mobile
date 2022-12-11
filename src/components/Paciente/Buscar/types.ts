@@ -1,7 +1,5 @@
 import { Generos, TiposSanguineos } from '@entity/Paciente/enums';
 
-import { BuscaContrato } from '@screens/Principal/Consultas/types';
-
 export interface ItemListagemDeGenerosContrato {
   _id: string;
   value: Generos;
@@ -27,11 +25,17 @@ export interface ListagemDeTiposSanguineosContrato {
 export interface ValoresAtuaisFormulario {
   nome: string;
   generos: ListagemDeGenerosContrato;
-  tipos_sanguineos: ListagemDeTiposSanguineosContrato;
+  tiposSanguineos: ListagemDeTiposSanguineosContrato;
 }
 
-export interface BuscarContrato {
+export interface BuscarPacienteCallbackContrato {
+  nome: string;
+  generos: Array<Generos>;
+  tiposSanguineos: Array<TiposSanguineos>;
+}
+
+export interface BuscarPacienteContrato {
   visivel: boolean;
   setVisivel: Function;
-  callback: (busca?: BuscaContrato) => void;
+  callback: (busca?: BuscarPacienteCallbackContrato) => void;
 }

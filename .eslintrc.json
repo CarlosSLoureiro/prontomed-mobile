@@ -11,13 +11,8 @@
         "plugin:@typescript-eslint/recommended",
         "plugin:@typescript-eslint/recommended-requiring-type-checking"
     ],
+    "processor": "disable/disable",
     "overrides": [
-        {
-            "files": ["**/database/index.tsx"],
-            "rules": {
-                "@typescript-eslint/consistent-type-assertions": "off"
-            }
-        },
         {
             "files": ["**/styles.ts"],
             "rules": {
@@ -35,6 +30,19 @@
             "rules": {
                 "@typescript-eslint/strict-boolean-expressions": "off"
             }
+        },
+        {
+            "files": ["**/*.js"],
+            "settings": {
+                "disable/plugins": [
+                    "@typescript-eslint"
+                ]
+            }
+        },
+        {
+            "files": ["**/test.js"],
+            "env": { "jest": true },
+            "plugins": ["jest"]
         }
     ],
     "parserOptions": {
@@ -47,16 +55,18 @@
         "react-hooks",
         "@typescript-eslint",
         "prettier",
-        "simple-import-sort"
+        "simple-import-sort",
+        "disable"
     ],
     "rules": {
-        "camelcase": "off",
+        "camelcase": "warn",
         "simple-import-sort/imports": ["warn", {
             "groups": [
                 ["reflect-metadata"],
                 ["^react", "^expo", "^@(?!:database|entity|repository|components|hooks|screens)/?\\w"],
                 ["^typeorm"],
                 ["^@database", "^@entity/?\\w", "^@repository/?\\w"],
+                ["^@helpers/?\\w"],
                 ["^@hooks/?\\w"],
                 ["^@screens/?\\w","^@components/?\\w"],
                 ["^\\u0000"],
@@ -73,7 +83,7 @@
             "singleline": { "delimiter": "semi", "requireLast": false },
             "multilineDetection": "brackets"
         }],
-        "@typescript-eslint/no-explicit-any": "warn",
+        "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/no-unsafe-assignment": "off",
         "@typescript-eslint/no-unsafe-return": "off",
         "@typescript-eslint/no-unsafe-member-access": "off",
@@ -90,5 +100,5 @@
             "allowNumber": true
         }]
     },
-    "ignorePatterns": ["jest.*.js", "**/__tests__/*", "*.config.js", "**/vendor/*"]
+    "ignorePatterns": ["jest.*.js", "*.config.js", "**/vendor/*"]
 }

@@ -1,4 +1,4 @@
-import { generos, tipos_sanguineos } from '@hooks/enums/paciente';
+import { Generos, TiposSanguineos } from '@entity/Paciente/enums';
 
 export interface ConsultasContrato {
   paginaAtiva: boolean;
@@ -16,8 +16,8 @@ export interface OrdenacaoContrato {
 
 export interface BuscaContrato {
   nome: string;
-  generos: Array<generos>;
-  tipos_sanguineos: Array<tipos_sanguineos>;
+  generos: Array<Generos>;
+  tipos_sanguineos: Array<TiposSanguineos>;
 }
 
 export interface FiltrosDeBuscaContrato {

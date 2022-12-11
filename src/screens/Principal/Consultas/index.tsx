@@ -4,8 +4,6 @@ import Icon from 'react-native-dynamic-vector-icons';
 import { NotifierComponents } from 'react-native-notifier';
 import { Portal } from 'react-native-paper';
 
-import { useDatabase } from '@database';
-
 import Notification from '@hooks/useNotification';
 
 import ConsultaCard from '@components/Consulta/Card';
@@ -45,17 +43,9 @@ const Consultas = ({
   };
   const [filtrosDeBusca, setFiltrosDeBusca] = useState<FiltrosDeBuscaContrato>(filtrosDeBuscaInicial);
 
-  const { pacientesRepository } = useDatabase();
-  const getUsers = async (): Promise<void> => {
-    const pacientes = await pacientesRepository.getAll();
-    console.log('pacientes >>> ', pacientes);
-  };
-
   useEffect(() => {
     // TODO: atualizar resultados
     console.log('Deve buscar consultas ->', filtrosDeBusca);
-
-    void getUsers(); // testando repository
 
     Notification.info({
       title: 'Deve buscar consultas',
