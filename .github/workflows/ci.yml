@@ -17,6 +17,6 @@ jobs:
       - name: Install Dependencies 
         run: |
           sudo yarn
-      - name: Testing with jest
+      - name: Tests with jest
         run: |
           sudo yarn test
