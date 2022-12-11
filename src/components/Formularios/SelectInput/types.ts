@@ -15,5 +15,5 @@ export interface SelectInputContrato {
   listagem: Array<ListagemContrato>;
   selecionados: Array<ListagemContrato>;
   callback: (value: any) => void;
-  style: ViewStyle;
+  style?: ViewStyle;
 }

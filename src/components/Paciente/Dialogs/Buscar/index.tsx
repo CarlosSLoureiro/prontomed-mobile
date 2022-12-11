@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Button, Dialog, Divider, TextInput } from 'react-native-paper';
+import { Button, Dialog, Divider } from 'react-native-paper';
 
 import { Generos, TiposSanguineos } from '@entity/Paciente/enums';
 
 import SelectInput from '@components/Formularios/SelectInput';
+import TextInput from '@components/Formularios/TextInput';
 
 import getStyles from './styles';
 
@@ -126,12 +127,11 @@ const Buscar = ({
           <Dialog.Title>Como deseja buscar?</Dialog.Title>
           <Dialog.Content>
             <TextInput
+              nome="Nome do paciente"
+              icon="account"
               style={styles.nome}
-              onChangeText={(nome) => setNome(nome)}
-              value={nome}
-              mode="outlined"
-              label="Nome do paciente"
-              left={<TextInput.Icon icon="account" />}
+              valor={nome}
+              callback={setNome}
             />
             <SelectInput
               titulo='Gênero do paciente'
