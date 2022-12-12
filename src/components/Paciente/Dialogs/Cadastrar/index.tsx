@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Button, Dialog, Divider } from 'react-native-paper';
-import { DatePickerModal } from 'react-native-paper-dates';
 
 import Paciente from '@entity/Paciente';
 import { Generos, TiposSanguineos } from '@entity/Paciente/enums';
