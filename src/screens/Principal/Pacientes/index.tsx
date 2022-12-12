@@ -94,7 +94,7 @@ const Pacientes = ({
   };
 
   const cadastrarPaciente = (dados: Partial<Paciente>): void => {
-    console.log('criar paciente', dados);
+    console.log('Cadastrar paciente', dados);
   };
 
   const reordenarPacientes = (ordenacao: OrdenacaoContrato): void => {
