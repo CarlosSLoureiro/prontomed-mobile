@@ -13,7 +13,8 @@ const getStyles = () => {
         color: '#000000'
       }
     },
-    nome: {
+    textInputs: {
+      marginBottom: 10
     },
     genero: {
       paddingTop: 15

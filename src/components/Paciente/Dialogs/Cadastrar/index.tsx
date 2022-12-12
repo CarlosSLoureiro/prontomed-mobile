@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { View } from 'react-native';
 import { Button, Dialog, Divider } from 'react-native-paper';
 
 import Paciente from '@entity/Paciente';
@@ -60,31 +61,33 @@ const Cadastrar = ({
 
   return (
       <Dialog visible={visivel} onDismiss={cancelar} style={styles.dialog}>
-          <Dialog.Title>Como deseja buscar?</Dialog.Title>
+          <Dialog.Title>Informações do paciente</Dialog.Title>
           <Dialog.Content>
             <TextInput
-              nome="Nome do paciente"
+              nome="Nome completo"
               icon="account"
-              style={styles.nome}
+              style={styles.textInputs}
               callback={nome => setPaciente({
                 ...paciente,
                 nome: nome.trim()
               })}
             />
             <TextInput
-              nome="Email do paciente"
+              nome="Endereço de email"
               icon="at"
               keyboard='email-address'
+              style={styles.textInputs}
               callback={email => setPaciente({
                 ...paciente,
                 email: email.trim()
               })}
             />
             <TextInput
-              nome="Telefone do paciente"
+              nome="Número do telefone"
               icon="cellphone-wireless"
               telefone={true}
               keyboard='numeric'
+              style={styles.textInputs}
               callback={telefone => setPaciente({
                 ...paciente,
                 telefone
@@ -98,7 +101,7 @@ const Cadastrar = ({
               })}
             />
             <SelectInput
-              titulo='Gênero do paciente'
+              titulo='Gênero'
               multi={false}
               valor={paciente.genero ?? 'Selecionar'}
               listagem={listagemDeGeneros}
@@ -106,8 +109,30 @@ const Cadastrar = ({
               callback={selecionarGenero}
               style={styles.genero}
             />
+            <View style={{ flexDirection: 'row' }}>
+              <View style={{ flex: 1 }}>
+                <TextInput
+                  nome="Peso (Kg)"
+                  keyboard='decimal-pad'
+                  callback={peso => setPaciente({
+                    ...paciente,
+                    peso: parseFloat(peso)
+                  })}
+                />
+              </View>
+              <View style={{ flex: 1 }}>
+                <TextInput
+                  nome="Altura (M)"
+                  keyboard='decimal-pad'
+                  callback={altura => setPaciente({
+                    ...paciente,
+                    altura: parseFloat(altura)
+                  })}
+                />
+              </View>
+            </View>
             <SelectInput
-              titulo='Tipo sanguíneo do paciente'
+              titulo='Tipo sanguíneo'
               multi={false}
               valor={paciente.tipoSanguineo ?? 'Selecionar'}
               listagem={listagemDeTiposSanguineos}
