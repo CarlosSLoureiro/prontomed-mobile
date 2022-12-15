@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { KeyboardAvoidingView, View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { Button, Dialog, Divider } from 'react-native-paper';
 
 import Paciente from '@entity/Paciente';
@@ -20,7 +21,10 @@ const Cadastrar = ({
   callback
 }: CadastrarPacienteContrato): JSX.Element => {
   const styles = getStyles();
-  const [deveReposicionarComTeclado, setDeveReposicionarComTeclado] = useState(false);
+  const [reposicionar, setReposicionar] = useState({
+    deve: false,
+    valor: 100
+  });
 
   const inputs = {
     nome: useRef(),
@@ -59,6 +63,22 @@ const Cadastrar = ({
     });
   };
 
+  let removerReposicionamento: NodeJS.Timeout;
+  const reposicionarComponente = (deve = true, valor = 100): void => {
+    const executar = (): void => {
+      setReposicionar({
+        deve,
+        valor
+      });
+    };
+    if (!deve) {
+      removerReposicionamento = setTimeout(executar, 100);
+    } else {
+      clearTimeout(removerReposicionamento);
+      executar();
+    }
+  };
+
   // botões
   const cancelar = (): void => {
     setVisivel(false);
@@ -72,8 +92,8 @@ const Cadastrar = ({
 
   return (
       <Dialog visible={visivel} onDismiss={cancelar} style={styles.dialog}>
-        <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={100} enabled={deveReposicionarComTeclado}>
-          <View style={styles.dialog}>
+        <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={reposicionar.valor} enabled={reposicionar.deve}>
+          <ScrollView style={styles.dialog} keyboardShouldPersistTaps="handled" enabled={false}>
             <Dialog.Title>Informações do paciente</Dialog.Title>
             <Dialog.Content>
               <TextInput
@@ -143,8 +163,8 @@ const Cadastrar = ({
                       ...paciente,
                       peso: parseFloat(peso.replace(',', '.'))
                     })}
-                    onFocusIn={() => setDeveReposicionarComTeclado(true)}
-                    onFocusOut={() => setDeveReposicionarComTeclado(false)}
+                    onFocusIn={() => reposicionarComponente(true)}
+                    onFocusOut={() => reposicionarComponente(false)}
                   />
                 </View>
                 <View style={{ flex: 1 }}>
@@ -157,8 +177,8 @@ const Cadastrar = ({
                       ...paciente,
                       altura: parseFloat(altura.replace(',', '.'))
                     })}
-                    onFocusIn={() => setDeveReposicionarComTeclado(true)}
-                    onFocusOut={() => setDeveReposicionarComTeclado(false)}
+                    onFocusIn={() => reposicionarComponente(true)}
+                    onFocusOut={() => reposicionarComponente(false)}
                   />
                 </View>
               </View>
@@ -178,7 +198,7 @@ const Cadastrar = ({
               <Button labelStyle={styles.dialog.botoes} onPress={cancelar}>Cancelar</Button>
               <Button labelStyle={styles.dialog.botoes} onPress={cadastrar}>Cadastrar</Button>
             </Dialog.Actions>
-          </View>
+          </ScrollView>
           </KeyboardAvoidingView>
         </Dialog>
   );

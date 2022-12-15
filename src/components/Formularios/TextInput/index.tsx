@@ -57,7 +57,7 @@ const TextInput = ({
         callback(str.trim());
       }}
       returnKeyType={nextInputRef && ['default', 'email-address'].includes(keyboard) ? 'next' : 'done'}
-      returnKeyLabel='seguinte'
+      returnKeyLabel={nextInputRef ? 'seguinte' : 'concluído'}
       onSubmitEditing={() => nextInputRef?.current?.focus()}
       onFocus={onFocusIn}
       onBlur={onFocusOut}
