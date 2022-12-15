@@ -5,6 +5,8 @@ import getStyles from './styles';
 import { SelectInputContrato } from './types';
 
 const SelectInput = ({
+  inputRef,
+  nextInputRef,
   titulo,
   selecionarTodos = false,
   multi,
@@ -18,6 +20,7 @@ const SelectInput = ({
 
   return (
         <PaperSelect
+            // inputRef={inputRef} - Aguardando https://github.com/srivastavaanurag79/react-native-paper-select/pull/25
             containerStyle={style}
             dialogStyle={styles.select.dialog}
             textInputBackgroundColor={styles.select.backgroundColor}
@@ -31,7 +34,10 @@ const SelectInput = ({
             modalCloseButtonText="Cancelar"
             modalDoneButtonText="Selecionar"
             value={valor}
-            onSelection={callback}
+            onSelection={(params) => {
+              callback(params);
+              nextInputRef?.current?.focus();
+            }}
             arrayList={[...listagem]}
             selectedArrayList={[...selecionados]}
             multiEnable={multi}

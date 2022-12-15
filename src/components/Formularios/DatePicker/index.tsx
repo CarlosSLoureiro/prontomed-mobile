@@ -9,6 +9,8 @@ import { DatePickerContrato } from './types';
 import moment from 'moment';
 
 const DatePicker = ({
+  inputRef,
+  nextInputRef,
   nome,
   valor,
   callback,
@@ -27,12 +29,22 @@ const DatePicker = ({
   return (
     <>
         <PaperTextInput
+            ref={inputRef}
             theme={isDarkMode ? DarkTheme : DefaultTheme}
             style={style}
             label={nome}
-            value={data ? moment(data).format('DD/MM/YYYY') : undefined}
+            showSoftInputOnFocus={false}
+            onChangeText={(str: string) => {
+              // evita que o usuário altere o texto do input
+              if (data !== undefined) {
+                setData(new Date(data.getTime()));
+              } else {
+                setData(undefined);
+              }
+            }}
+            value={data ? moment(data).format('DD/MM/YYYY') : ''}
             mode="outlined"
-            onPressIn={abrir}
+            onFocus={abrir}
             left={<PaperTextInput.Icon icon={'calendar'} color={isDarkMode ? 'white' : 'black'} />}
         />
         <DatePickerModal
@@ -46,6 +58,7 @@ const DatePicker = ({
               fechar();
               if (data !== undefined) {
                 callback(data);
+                nextInputRef?.current?.focus();
               }
             }}
             uppercase={false}

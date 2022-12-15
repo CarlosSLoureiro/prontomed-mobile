@@ -6,12 +6,16 @@ import ThemeScheme from '@hooks/useThemeScheme';
 import { TextInputContrato } from './types';
 
 const TextInput = ({
+  inputRef,
+  nextInputRef,
   nome,
   icon,
   valor = '',
   telefone = false,
   keyboard = 'default',
   callback,
+  onFocusIn,
+  onFocusOut,
   style
 }: TextInputContrato): JSX.Element => {
   const [input, setInput] = useState<string>(valor);
@@ -26,6 +30,7 @@ const TextInput = ({
 
   return (
     <PaperTextInput
+      ref={inputRef}
       theme={isDarkMode ? DarkTheme : DefaultTheme}
       style={style}
       label={nome}
@@ -37,6 +42,12 @@ const TextInput = ({
         setInput(str);
         callback(str.trim());
       }}
+      enablesReturnKeyAutomatically={true}
+      returnKeyType={['default', 'email-address'].includes(keyboard) ? 'next' : 'done'}
+      returnKeyLabel='seguinte'
+      onSubmitEditing={() => nextInputRef?.current?.focus()}
+      onFocus={onFocusIn}
+      onBlur={onFocusOut}
       value={input}
       mode="outlined"
       left={(icon !== undefined) ? <PaperTextInput.Icon icon={icon} color={isDarkMode ? 'white' : 'black'} /> : undefined}
