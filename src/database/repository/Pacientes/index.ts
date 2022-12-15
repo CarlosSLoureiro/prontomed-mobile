@@ -27,7 +27,7 @@ export default class PacientesRepository implements PacientesRepositoryInterface
     return await queryBuilder.getMany();
   }
 
-  public async create (dados: Partial<Paciente>): Promise<Paciente> {
+  public async cadastrar (dados: Partial<Paciente>): Promise<Paciente> {
     const paciente = this.repository.create(dados);
 
     await this.repository.save(paciente);

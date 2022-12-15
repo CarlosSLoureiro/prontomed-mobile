@@ -13,7 +13,7 @@ export default class PacientesRepositoryMock implements PacientesRepositoryInter
     return await Promise.resolve(pacientes);
   }
 
-  public async create (dados: Partial<Paciente>): Promise<Paciente> {
+  public async cadastrar (dados: Partial<Paciente>): Promise<Paciente> {
     const paciente = dados as Paciente;
 
     pacientes.push(paciente);
