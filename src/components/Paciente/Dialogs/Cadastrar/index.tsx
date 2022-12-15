@@ -93,7 +93,7 @@ const Cadastrar = ({
   return (
       <Dialog visible={visivel} onDismiss={cancelar} style={styles.dialog}>
         <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={reposicionar.valor} enabled={reposicionar.deve}>
-          <ScrollView style={styles.dialog} keyboardShouldPersistTaps="handled" enabled={false}>
+          <ScrollView style={styles.dialog} keyboardShouldPersistTaps="handled" enabled={true}>
             <Dialog.Title>Informações do paciente</Dialog.Title>
             <Dialog.Content>
               <TextInput
