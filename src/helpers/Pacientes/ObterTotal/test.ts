@@ -3,13 +3,14 @@ import PacientesRepositoryMock from '@repository/Pacientes/mock';
 
 import ObterTotalPacientesHelper from '@helpers/Pacientes/ObterTotal';
 
-const repository: PacientesRepositoryInterface = new PacientesRepositoryMock();
-let helper: ObterTotalPacientesHelper;
-
-describe('helpers > pacientes > obterTotal', () => {
-  const totalSpy = jest.spyOn(repository, 'total');
+describe('helpers > Pacientes > ObterTotal', () => {
+  let repository: PacientesRepositoryInterface;
+  let totalSpy: jest.SpyInstance<any>;
+  let helper: ObterTotalPacientesHelper;
 
   beforeEach(() => {
+    repository = new PacientesRepositoryMock();
+    totalSpy = jest.spyOn(repository, 'total');
     helper = new ObterTotalPacientesHelper(repository);
   });
 
