@@ -20,7 +20,7 @@ class Notification implements NotificationContrato {
   }
 
   public add (params: ShowNotificationParams): void {
-    if (this.current?.title !== params?.title) {
+    if (this.current?.title !== params?.title || this.current?.description !== params?.description) {
       this.current = params;
       this.onHidden = params?.onHidden;
       this.current.onHidden = () => {
