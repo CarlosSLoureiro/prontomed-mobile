@@ -8,7 +8,7 @@ export default class ObterTotalPacientesHelper {
     this.repository = repository;
   }
 
-  public async run (): Promise<number> {
+  public async executar (): Promise<number> {
     return await this.repository.total();
   }
 }

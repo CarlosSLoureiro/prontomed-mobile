@@ -9,7 +9,7 @@ export default class ListarPacientesHelper {
     this.repository = repository;
   }
 
-  public async run (pagina: number): Promise<Array<Paciente>> {
+  public async executar (pagina: number): Promise<Array<Paciente>> {
     return await this.repository.getAll(pagina);
   }
 }

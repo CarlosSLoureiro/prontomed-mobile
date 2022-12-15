@@ -47,13 +47,13 @@ const Pacientes = ({
 
   const carregarTotalPacientes = async (): Promise<void> => {
     const helper = new ObterTotalPacientesHelper();
-    const total = await helper.run();
+    const total = await helper.executar();
     setTotalPacientes(total);
   };
 
   const carregarPacientes = async (): Promise<void> => {
     const helper = new ListarPacientesHelper();
-    const pacientesCarregados = await helper.run(pacientesPagina);
+    const pacientesCarregados = await helper.executar(pacientesPagina);
     setPacientes([...pacientes, ...pacientesCarregados]);
     setPacientesPagina(pacientesPagina + 1);
   };

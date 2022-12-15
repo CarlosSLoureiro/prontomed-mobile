@@ -14,7 +14,7 @@ describe('helpers > pacientes > obterTotal', () => {
   });
 
   test('deve retornar o total de pacientes', async () => {
-    const result = await helper.run();
+    const result = await helper.executar();
 
     expect(totalSpy).toHaveBeenCalledTimes(1);
     expect(typeof result).toBe('number');
