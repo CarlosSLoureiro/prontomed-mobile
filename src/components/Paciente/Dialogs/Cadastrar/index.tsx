@@ -33,8 +33,6 @@ const Cadastrar = ({
     tipoSanguineo: useRef()
   };
 
-  console.log('deve subir? ', deveReposicionarComTeclado);
-  // nome
   const [paciente, setPaciente] = useState<Partial<Paciente>>({});
 
   // gênero
