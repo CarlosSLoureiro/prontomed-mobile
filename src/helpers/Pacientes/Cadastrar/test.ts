@@ -1,8 +1,11 @@
 import Paciente from '@entity/Paciente';
+import PacienteFactory from '@entity/Paciente/factory';
 import PacientesRepositoryInterface from '@repository/Pacientes/interface';
 import PacientesRepositoryMock from '@repository/Pacientes/mock';
 
 import CadastrarPacientesHelper from '@helpers/Pacientes/Cadastrar';
+
+const factory = new PacienteFactory();
 
 describe('helpers > Pacientes > Cadastrar', () => {
   let repository: PacientesRepositoryInterface;
@@ -15,11 +18,17 @@ describe('helpers > Pacientes > Cadastrar', () => {
     helper = new CadastrarPacientesHelper(repository);
   });
 
-  test('deve retornar erro quando nome do paciente for inválido', async () => {
-    const dados: Partial<Paciente> = {};
+  describe('deve retornar erro quando nome do paciente for inválido', () => {
+    const nomes = [undefined, 'A', 'AL'];
+    nomes.forEach(nome => test(`testa com nome > ${nome ?? 'undefined'}`, async () => {
+      const dados: Partial<Paciente> = {
+        ...factory,
+        nome
+      };
 
-    await expect(helper.executar(dados)).rejects.toThrow(`O nome do paciente deve ter ao menos ${helper.tamanhoMinimoNome} caracteres`);
-    expect(cadastrarSpy).toHaveBeenCalledTimes(0);
+      await expect(helper.executar(dados)).rejects.toThrow(`O nome do paciente deve ter ao menos ${helper.tamanhoMinimoNome} caracteres`);
+      expect(cadastrarSpy).toHaveBeenCalledTimes(0);
+    }));
   });
 
   describe('deve retornar erro quando nome do paciente for inválido', () => {
@@ -27,6 +36,7 @@ describe('helpers > Pacientes > Cadastrar', () => {
 
     emails.forEach(email => test(`testa com email > ${email}`, async () => {
       const dados: Partial<Paciente> = {
+        ...factory,
         nome: 'Carlos Loureiro',
         email
       };
