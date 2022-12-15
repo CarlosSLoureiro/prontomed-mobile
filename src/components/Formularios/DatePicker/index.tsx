@@ -54,12 +54,11 @@ const DatePicker = ({
             onDismiss={(fechar)}
             date={data ?? new Date()}
             onConfirm={params => {
-              setData(params.date as Date);
+              const dataSelecionada = params.date as Date;
+              setData(dataSelecionada);
+              callback(dataSelecionada);
               fechar();
-              if (data !== undefined) {
-                callback(data);
-                nextInputRef?.current?.focus();
-              }
+              nextInputRef?.current?.focus();
             }}
             uppercase={false}
             label={nome}
