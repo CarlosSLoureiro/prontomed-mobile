@@ -141,7 +141,7 @@ const Cadastrar = ({
                     keyboard='decimal-pad'
                     callback={peso => setPaciente({
                       ...paciente,
-                      peso: parseFloat(peso)
+                      peso: parseFloat(peso.replace(',', '.'))
                     })}
                     onFocusIn={() => setDeveReposicionarComTeclado(true)}
                     onFocusOut={() => setDeveReposicionarComTeclado(false)}
@@ -155,7 +155,7 @@ const Cadastrar = ({
                     keyboard='decimal-pad'
                     callback={altura => setPaciente({
                       ...paciente,
-                      altura: parseFloat(altura)
+                      altura: parseFloat(altura.replace(',', '.'))
                     })}
                     onFocusIn={() => setDeveReposicionarComTeclado(true)}
                     onFocusOut={() => setDeveReposicionarComTeclado(false)}
