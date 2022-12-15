@@ -28,6 +28,17 @@ const TextInput = ({
       .replace(/(\d{5})(\d)/, '$1-$2');
   };
 
+  const formatarDecimal = (texto: string): string => {
+    let str = texto.replaceAll(',', '.').replaceAll('.', '');
+
+    const num = parseInt(str) / 100;
+    if (!isNaN(num)) {
+      str = String(num.toFixed(2));
+    }
+
+    return str.replace('.', ',');
+  };
+
   return (
     <PaperTextInput
       ref={inputRef}
@@ -38,6 +49,9 @@ const TextInput = ({
       onChangeText={(str: string) => {
         if (telefone) {
           str = formatarTelefone(str);
+        }
+        if (keyboard === 'decimal-pad') {
+          str = formatarDecimal(str);
         }
         setInput(str);
         callback(str.trim());
