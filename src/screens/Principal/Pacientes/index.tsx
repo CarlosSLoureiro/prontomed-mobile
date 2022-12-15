@@ -5,6 +5,7 @@ import { Portal } from 'react-native-paper';
 
 import Paciente from '@entity/Paciente';
 
+import CadastrarPacientesHelper from '@helpers/Pacientes/Cadastrar';
 import ListarPacientesHelper from '@helpers/Pacientes/Listar';
 import ObterTotalPacientesHelper from '@helpers/Pacientes/ObterTotal';
 
@@ -93,8 +94,24 @@ const Pacientes = ({
     });
   };
 
-  const cadastrarPaciente = (dados: Partial<Paciente>): void => {
-    console.log('Cadastrar paciente', dados);
+  const cadastrarPaciente = async (dados: Partial<Paciente>): Promise<Paciente | undefined> => {
+    const helper = new CadastrarPacientesHelper();
+
+    try {
+      const paciente = await helper.executar(dados);
+
+      Notification.success({
+        title: `Paciente ${paciente.nome} cadastrado`
+      });
+
+      return paciente;
+    } catch (err) {
+      Notification.error({
+        title: 'Não foi possível cadastrar o paciente',
+        description: (err as Error).message,
+        duration: 10000
+      });
+    }
   };
 
   const reordenarPacientes = (ordenacao: OrdenacaoContrato): void => {
