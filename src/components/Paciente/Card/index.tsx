@@ -16,6 +16,7 @@ const PacienteCard = ({
   const [exibirMenu, setExibirMenu] = useState(false);
   const [menuAnchor, setMenuAnchor] = useState({ x: 0, y: 0 });
   const [idade, setIdade] = useState(0);
+  const [mesesIdade, setMesesIdade] = useState(0);
   const [imc, setIMC] = useState(0);
 
   const styles = getStyles();
@@ -43,6 +44,11 @@ const PacienteCard = ({
       idade--;
     }
     return idade;
+  };
+
+  const calcularMesesDeIdade = (dataNascimento: Date): number => {
+    const hoje = new Date();
+    return hoje.getMonth() - dataNascimento.getMonth();
   };
 
   const calcularIMC = (peso: number, altura: number): number => {
@@ -101,8 +107,24 @@ const PacienteCard = ({
     }
   };
 
+  const obterSingularPlural = (palavra: string, valor: number): string => {
+    if (valor <= 1) {
+      switch (palavra) {
+        case 'anos': return 'ano';
+        case 'meses': return 'mês';
+        default: return palavra;
+      }
+    } else {
+      return palavra;
+    }
+  };
+
   useEffect(() => {
-    setIdade(calcularIdade(paciente.dataNascimento));
+    const valorIdade = calcularIdade(paciente.dataNascimento);
+    setIdade(valorIdade);
+    if (valorIdade < 1) {
+      setMesesIdade(calcularMesesDeIdade(paciente.dataNascimento));
+    }
     setIMC(calcularIMC(paciente.peso, paciente.altura));
   }, [paciente]);
 
@@ -116,7 +138,7 @@ const PacienteCard = ({
               iconColor={cardIconStyles.color}
               iconBackgroundColor={cardIconStyles.backgrounColor}
               topRightText={`nº ${paciente.id}`}
-              bottomRightText={`${idade} anos`}
+              bottomRightText={(idade > 0 ? `${idade} ${obterSingularPlural('anos', idade)}` : `${mesesIdade} ${obterSingularPlural('meses', mesesIdade)}`)}
               description={`${paciente.genero}, ${paciente.peso}Kg, ${paciente.altura}M, ${paciente.tipoSanguineo}\n${paciente?.consultas ? paciente.consultas.length : 0} consultas registradas`}
               // @ts-expect-error - a biblioca não inclui parametros no contrato do onPress.
               onPress={abrirMenuContexto}
