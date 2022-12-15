@@ -101,8 +101,13 @@ const Pacientes = ({
       const paciente = await helper.executar(dados);
 
       Notification.success({
-        title: `Paciente ${paciente.nome} cadastrado`
+        title: `Paciente ${paciente.nome} cadastrado`,
+        duration: 10000
       });
+
+      setPacientes([...[paciente], ...pacientes]);
+      setTotalPacientes(totalPacientes + 1);
+      sobirScrollParaOTopo();
 
       return paciente;
     } catch (err) {

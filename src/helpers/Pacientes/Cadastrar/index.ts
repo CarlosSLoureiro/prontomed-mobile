@@ -1,6 +1,5 @@
 import { Repositories } from '@database';
 import Paciente from '@entity/Paciente';
-import { Generos } from '@entity/Paciente/enums';
 import PacientesRepositoryInterface from '@repository/Pacientes/interface';
 
 export default class CadastrarPacientesHelper {

@@ -150,7 +150,7 @@ const Cadastrar = ({
                 nextInputRef={inputs.peso}
                 titulo='Gênero'
                 multi={false}
-                valor={paciente.genero ?? 'Selecionar'}
+                valor={paciente.genero ?? ''}
                 listagem={listagemDeGeneros}
                 selecionados={listagemDeGeneros.filter(item => item.value === paciente.genero)}
                 callback={selecionarGenero}
@@ -190,7 +190,7 @@ const Cadastrar = ({
                 inputRef={inputs.tipoSanguineo}
                 titulo='Tipo sanguíneo'
                 multi={false}
-                valor={paciente.tipoSanguineo ?? 'Selecionar'}
+                valor={paciente.tipoSanguineo ?? ''}
                 listagem={listagemDeTiposSanguineos}
                 selecionados={listagemDeTiposSanguineos.filter(item => item.value === paciente.tipoSanguineo)}
                 callback={selecionarTipoSanguineo}
