@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ScrollView } from 'react-native-gesture-handler';
 import { Button, Dialog, Divider } from 'react-native-paper';
 
 import { Generos, TiposSanguineos } from '@entity/Paciente/enums';
@@ -124,6 +125,7 @@ const Buscar = ({
 
   return (
       <Dialog visible={visivel} onDismiss={cancelar} style={styles.dialog}>
+        <ScrollView style={styles.dialog} keyboardShouldPersistTaps="handled" enabled={false}>
           <Dialog.Title>Como deseja buscar?</Dialog.Title>
           <Dialog.Content>
             <TextInput
@@ -158,7 +160,8 @@ const Buscar = ({
             <Button labelStyle={styles.dialog.botoes} onPress={cancelar}>Cancelar</Button>
             <Button labelStyle={styles.dialog.botoes} onPress={buscar}>Buscar</Button>
           </Dialog.Actions>
-        </Dialog>
+        </ScrollView>
+      </Dialog>
   );
 };
 
