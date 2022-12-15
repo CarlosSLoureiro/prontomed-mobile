@@ -9,7 +9,7 @@ export interface TextInputContrato {
   valor?: string;
   telefone?: boolean;
   keyboard?: KeyboardType;
-  callback: (str: string) => any;
+  callback: (str: string | undefined) => any;
   onFocusIn?: () => void;
   onFocusOut?: () => void;
   style?: ViewStyle;

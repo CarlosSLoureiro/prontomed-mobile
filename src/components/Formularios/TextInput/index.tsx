@@ -54,7 +54,7 @@ const TextInput = ({
           str = formatarDecimal(str);
         }
         setInput(str);
-        callback(str.trim());
+        callback(str.trim() !== '' ? str.trim() : undefined);
       }}
       returnKeyType={nextInputRef && ['default', 'email-address'].includes(keyboard) ? 'next' : 'done'}
       returnKeyLabel={nextInputRef ? 'seguinte' : 'concluído'}
