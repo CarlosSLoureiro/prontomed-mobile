@@ -85,9 +85,13 @@ const Cadastrar = ({
     setPaciente({});
   };
   const cadastrar = (): void => {
-    setVisivel(false);
-    callback(paciente);
-    setPaciente({});
+    void (async () => {
+      const resultado = await callback(paciente);
+      if (resultado !== undefined) {
+        setVisivel(false);
+        setPaciente({});
+      }
+    })();
   };
 
   return (
@@ -104,7 +108,7 @@ const Cadastrar = ({
                 style={styles.textInputs}
                 callback={nome => setPaciente({
                   ...paciente,
-                  nome: nome.trim()
+                  nome
                 })}
               />
               <TextInput
@@ -116,7 +120,7 @@ const Cadastrar = ({
                 style={styles.textInputs}
                 callback={email => setPaciente({
                   ...paciente,
-                  email: email.trim()
+                  email
                 })}
               />
               <TextInput
@@ -161,7 +165,7 @@ const Cadastrar = ({
                     keyboard='decimal-pad'
                     callback={peso => setPaciente({
                       ...paciente,
-                      peso: parseFloat(peso.replace(',', '.'))
+                      peso: peso !== undefined ? parseFloat(peso.replace(',', '.')) : peso
                     })}
                     onFocusIn={() => reposicionarComponente(true)}
                     onFocusOut={() => reposicionarComponente(false)}
@@ -175,7 +179,7 @@ const Cadastrar = ({
                     keyboard='decimal-pad'
                     callback={altura => setPaciente({
                       ...paciente,
-                      altura: parseFloat(altura.replace(',', '.'))
+                      altura: altura !== undefined ? parseFloat(altura.replace(',', '.')) : altura
                     })}
                     onFocusIn={() => reposicionarComponente(true)}
                     onFocusOut={() => reposicionarComponente(false)}
