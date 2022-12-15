@@ -49,13 +49,6 @@ const PacienteCard = ({
     return Number((peso / (altura * altura)).toFixed(1));
   };
 
-  const calcularPesoIdeal = (altura: number): string => {
-    const pesoMinimo = ((altura * altura) * 18.5).toFixed(1);
-    const pesoMaximo = ((altura * altura) * 35).toFixed(1);
-
-    return `${pesoMinimo}~${pesoMaximo}Kg`;
-  };
-
   /* Fonte para exibição do resultado: https://viverbem.unimedbh.com.br/prevencao-e-controle/o-que-e-imc-como-calcular/ */
   const exibirResultadoIMC = (): void => {
     const idadeParaCalcular = 18;
@@ -73,32 +66,31 @@ const PacienteCard = ({
           };
 
       const titulo = `IMC de ${paciente.nome} é ${imc}`;
-      const pesoIdeal = calcularPesoIdeal(paciente.altura);
 
       Notification.close();
 
       if (imc < ranges.baixo) {
         Notification.warn({
           title: titulo,
-          description: `Seu paciente, encontra-se abaixo do peso ideal (${pesoIdeal}).`,
+          description: 'Seu paciente, encontra-se abaixo do peso ideal',
           duration: 30000
         });
       } else if (imc >= ranges.baixo && imc < ranges.normal) {
         Notification.success({
           title: titulo,
-          description: `Seu paciente, encontra-se com o peso ideal (${pesoIdeal}).`,
+          description: 'Seu paciente, encontra-se com o peso ideal',
           duration: 30000
         });
       } else if (imc >= ranges.normal && imc < ranges.alto) {
         Notification.warn({
           title: titulo,
-          description: `Seu paciente, encontra-se acima do peso ideal (${pesoIdeal}).`,
+          description: 'Seu paciente, encontra-se acima do peso ideal',
           duration: 30000
         });
       } else if (imc >= ranges.alto) {
         Notification.error({
           title: titulo,
-          description: `Seu paciente, encontra-se muito acima do peso ideal (${pesoIdeal}).`,
+          description: 'Seu paciente, encontra-se muito acima do peso ideal',
           duration: 30000
         });
       }
