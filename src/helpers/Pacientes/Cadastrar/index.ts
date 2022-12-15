@@ -29,7 +29,7 @@ export default class CadastrarPacientesHelper {
   private telefoneInvalido (telefone: string | undefined): boolean {
     if (telefone !== undefined) {
       const apenasNumeros = telefone.replace(/\D/g, '');
-      return (apenasNumeros.length < 10 && apenasNumeros.length > 11);
+      return (apenasNumeros.length < 10 || apenasNumeros.length > 11);
     } else {
       return false;
     }
