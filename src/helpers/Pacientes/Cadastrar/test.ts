@@ -18,7 +18,7 @@ describe('helpers > Pacientes > Cadastrar', () => {
     helper = new CadastrarPacientesHelper(repository);
   });
 
-  describe('deve retornar erro quando nome do paciente for inválido', () => {
+  describe('deve retornar erro quando o nome do paciente for inválido', () => {
     const nomes = [undefined, 'A', 'AL'];
     nomes.forEach(nome => test(`testa com nome > ${nome ?? 'undefined'}`, async () => {
       const dados: Partial<Paciente> = {
@@ -31,7 +31,7 @@ describe('helpers > Pacientes > Cadastrar', () => {
     }));
   });
 
-  describe('deve retornar erro quando nome do paciente for inválido', () => {
+  describe('deve retornar erro quando o email do paciente for inválido', () => {
     const emails = ['carlos', 'carlos@gmail,com', 'loureirogmail.com'];
 
     emails.forEach(email => test(`testa com email > ${email}`, async () => {
