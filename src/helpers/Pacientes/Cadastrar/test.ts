@@ -37,7 +37,6 @@ describe('helpers > Pacientes > Cadastrar', () => {
     emails.forEach(email => test(`testa com email > ${email}`, async () => {
       const dados: Partial<Paciente> = {
         ...factory,
-        nome: 'Carlos Loureiro',
         email
       };
 
