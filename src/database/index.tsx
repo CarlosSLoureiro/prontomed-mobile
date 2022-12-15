@@ -15,7 +15,7 @@ export const DatabaseProvider = ({ children }: PropsWithChildren): JSX.Element =
   const conectar = useCallback(() => {
     const database = new DataSource({
       type: 'expo',
-      database: 'prontomed06.db',
+      database: 'prontomed08.db',
       driver: require('expo-sqlite'),
       entities,
       migrations,
