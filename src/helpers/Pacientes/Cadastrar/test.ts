@@ -18,6 +18,11 @@ describe('helpers > Pacientes > Cadastrar', () => {
     helper = new CadastrarPacientesHelper(repository);
   });
 
+  test('deve cadastrar o paciente com sucesso', async () => {
+    await expect(helper.executar(factory)).resolves.toBeInstanceOf(Paciente);
+    expect(cadastrarSpy).toHaveBeenCalledWith(factory);
+  });
+
   describe('deve retornar erro quando o nome do paciente for inválido', () => {
     const nomes = [undefined, 'A', 'AL'];
     nomes.forEach(nome => test(`testa com nome > ${nome ?? 'undefined'}`, async () => {
