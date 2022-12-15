@@ -131,7 +131,7 @@ const PacienteCard = ({
             />
             <MenuContexto
                 visivel={exibirMenu}
-                {...{ paciente, fecharMenu, menuAnchor }}
+                {...{ fecharMenu, menuAnchor }}
                 items={[
                   {
                     titulo: 'Agendar consulta',

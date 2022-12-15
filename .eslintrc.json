@@ -20,7 +20,7 @@
             }
         },
         {
-            "files": ["**/entities/**"],
+            "files": ["**/entities/**", "**/Formularios/**"],
             "rules": {
                 "@typescript-eslint/no-unsafe-call": "off"
             }

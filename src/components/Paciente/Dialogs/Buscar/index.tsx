@@ -1,8 +1,11 @@
 import { useState } from 'react';
-import { Button, Dialog, Divider, TextInput } from 'react-native-paper';
-import { PaperSelect } from 'react-native-paper-select';
+import { ScrollView } from 'react-native-gesture-handler';
+import { Button, Dialog, Divider } from 'react-native-paper';
 
 import { Generos, TiposSanguineos } from '@entity/Paciente/enums';
+
+import SelectInput from '@components/Formularios/SelectInput';
+import TextInput from '@components/Formularios/TextInput';
 
 import getStyles from './styles';
 
@@ -103,7 +106,7 @@ const Buscar = ({
   };
   const buscar = (): void => {
     const busca: BuscarPacienteCallbackContrato = {
-      nome,
+      nome: nome.trim(),
       generos: generosFormulario.valor !== todosOsGenerosSelecionados ? generosFormulario.selecionados.map(generos => generos.value) : [],
       tiposSanguineos: tiposSanguineosFormulario.valor !== todosOsTiposSanguineosSelecionados ? tiposSanguineosFormulario.selecionados.map(tipoSanguineo => tipoSanguineo.value) : []
     };
@@ -122,54 +125,34 @@ const Buscar = ({
 
   return (
       <Dialog visible={visivel} onDismiss={cancelar} style={styles.dialog}>
+        <ScrollView style={styles.dialog} keyboardShouldPersistTaps="handled" enabled={false}>
           <Dialog.Title>Como deseja buscar?</Dialog.Title>
           <Dialog.Content>
             <TextInput
+              nome="Nome do paciente"
+              icon="account"
               style={styles.nome}
-              onChangeText={(nome) => setNome(nome.trim())}
-              value={nome}
-              mode="outlined"
-              label="Nome do paciente"
-              left={<TextInput.Icon icon="account" />}
+              valor={nome}
+              callback={setNome}
             />
-            <PaperSelect
-              containerStyle={styles.select.genero}
-              dialogStyle={styles.select.dialog}
-              textInputBackgroundColor={styles.select.backgroundColor}
-              dialogButtonLabelStyle={styles.select.dialog.botoes}
-              checkboxColor={styles.select.dialog.checkboxColor}
-              checkboxLabelStyle={styles.select.dialog.checkboxLabel}
-              hideSearchBox={true}
-              selectAllEnable={false}
-              label="Gênero do paciente"
-              modalCloseButtonText="Cancelar"
-              modalDoneButtonText="Selecionar"
-              value={generosFormulario.valor}
-              onSelection={selecionarGenero}
-              arrayList={[...generosFormulario.listagem]}
-              selectedArrayList={[...generosFormulario.selecionados]}
-              multiEnable={true}
-              errorText=""
+            <SelectInput
+              titulo='Gênero do paciente'
+              multi={true}
+              valor={generosFormulario.valor}
+              listagem={[...generosFormulario.listagem]}
+              selecionados={[...generosFormulario.selecionados]}
+              callback={selecionarGenero}
+              style={styles.genero}
             />
-            <PaperSelect
-              containerStyle={styles.select.tipoSanguineo}
-              dialogStyle={styles.select.dialog}
-              textInputBackgroundColor={styles.select.backgroundColor}
-              dialogButtonLabelStyle={styles.select.dialog.botoes}
-              checkboxColor={styles.select.dialog.checkboxColor}
-              checkboxLabelStyle={styles.select.dialog.checkboxLabel}
-              hideSearchBox={true}
-              selectAllEnable={false}
-              searchPlaceholder="Buscar"
-              label="Tipo sanguíneo do paciente"
-              modalCloseButtonText="Cancelar"
-              modalDoneButtonText="Selecionar"
-              value={tiposSanguineosFormulario.valor}
-              onSelection={selecionarTipoSanguineo}
-              arrayList={[...tiposSanguineosFormulario.listagem]}
-              selectedArrayList={[...tiposSanguineosFormulario.selecionados]}
-              multiEnable={true}
-              errorText=""
+            <SelectInput
+              titulo='Tipo sanguíneo do paciente'
+              selecionarTodos={true}
+              multi={true}
+              valor={tiposSanguineosFormulario.valor}
+              listagem={[...tiposSanguineosFormulario.listagem]}
+              selecionados={[...tiposSanguineosFormulario.selecionados]}
+              callback={selecionarTipoSanguineo}
+              style={styles.tipoSanguineo}
             />
             <Divider/>
           </Dialog.Content>
@@ -177,7 +160,8 @@ const Buscar = ({
             <Button labelStyle={styles.dialog.botoes} onPress={cancelar}>Cancelar</Button>
             <Button labelStyle={styles.dialog.botoes} onPress={buscar}>Buscar</Button>
           </Dialog.Actions>
-        </Dialog>
+        </ScrollView>
+      </Dialog>
   );
 };
 

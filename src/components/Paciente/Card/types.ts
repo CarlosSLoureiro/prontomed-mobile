@@ -17,7 +17,6 @@ interface MenuItem {
 }
 
 export interface PacienteMenuContrato {
-  paciente: Paciente;
   visivel: boolean;
   fecharMenu: () => void;
   menuAnchor?: MenuArchor;

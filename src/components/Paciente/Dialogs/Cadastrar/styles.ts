@@ -13,26 +13,14 @@ const getStyles = () => {
         color: '#000000'
       }
     },
-    nome: {
+    textInputs: {
+      marginBottom: 10
     },
-    select: {
-      backgroundColor: '#f9f9f9',
-      dialog: {
-        backgroundColor: '#ffffff',
-        checkboxColor: DefaultTheme.colors.primary,
-        checkboxLabel: {
-          color: '#000000'
-        },
-        botoes: {
-          color: '#000000'
-        }
-      },
-      genero: {
-        paddingTop: 15
-      },
-      tipoSanguineo: {
-        paddingTop: 10
-      }
+    genero: {
+      paddingTop: 15
+    },
+    tipoSanguineo: {
+      paddingTop: 10
     }
   });
 };
