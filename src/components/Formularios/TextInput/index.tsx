@@ -57,7 +57,7 @@ const TextInput = ({
         callback(str.trim());
       }}
       enablesReturnKeyAutomatically={true}
-      returnKeyType={['default', 'email-address'].includes(keyboard) ? 'next' : 'done'}
+      returnKeyType={nextInputRef && ['default', 'email-address'].includes(keyboard) ? 'next' : 'done'}
       returnKeyLabel='seguinte'
       onSubmitEditing={() => nextInputRef?.current?.focus()}
       onFocus={onFocusIn}
