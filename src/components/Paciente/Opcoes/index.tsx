@@ -37,7 +37,7 @@ const OcpoesBotao = ({
   const [botoes, setBotoes] = useState(botoesPadrao);
 
   useEffect(() => {
-    setBotoes(limpar.visivel ? botoesPadrao.concat([botaoLimpar]) : botoesPadrao);
+    setBotoes(limpar.visivel ? [botaoLimpar].concat(botoesPadrao) : botoesPadrao);
   }, [limpar.visivel]);
 
   return (
