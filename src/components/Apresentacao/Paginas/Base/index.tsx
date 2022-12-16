@@ -1,6 +1,7 @@
 import { Text, View } from 'react-native';
 
 import getStyles from './styles';
+
 import { PaginaBaseContrato } from './types';
 
 const PaginaBase = ({
