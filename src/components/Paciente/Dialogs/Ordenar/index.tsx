@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button, Dialog, Divider, RadioButton } from 'react-native-paper';
 
-import { OrdenacaoContrato } from '@screens/Principal/Pacientes/types';
+import { OrdenacaoPacientesContrato } from '@repository/Pacientes/types';
 
 import getStyles from './styles';
 
@@ -27,7 +27,7 @@ const Ordenar = ({
 
   const ordenar = (): void => {
     setVisivel(false);
-    const ordenacao: OrdenacaoContrato = {
+    const ordenacao: OrdenacaoPacientesContrato = {
       ordem,
       chave
     };

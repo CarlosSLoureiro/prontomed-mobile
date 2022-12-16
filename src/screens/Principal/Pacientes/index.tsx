@@ -4,6 +4,7 @@ import { NotifierComponents } from 'react-native-notifier';
 import { Portal } from 'react-native-paper';
 
 import Paciente from '@entity/Paciente';
+import { FiltrosDeBuscarPacientesContrato, OrdenacaoPacientesContrato } from '@repository/Pacientes/types';
 
 import CadastrarPacientesHelper from '@helpers/Pacientes/Cadastrar';
 import ListarPacientesHelper from '@helpers/Pacientes/Listar';
@@ -20,11 +21,7 @@ import Opcoes from '@components/Paciente/Opcoes';
 
 import getMainStyles from '../styles';
 
-import {
-  FiltrosDeBuscaContrato,
-  OrdenacaoContrato,
-  PacientesContrato
-} from './types';
+import { PacientesContrato } from './types';
 
 const Pacientes = ({
   paginaAtiva
@@ -36,13 +33,13 @@ const Pacientes = ({
   const [pacientesPagina, setPacientesPagina] = useState(0);
   const [totalPacientes, setTotalPacientes] = useState(0);
   const scrollRef = useRef<ScrollView>(null);
-  const filtrosDeBuscaInicial: FiltrosDeBuscaContrato = {
+  const filtrosDeBuscaInicial: FiltrosDeBuscarPacientesContrato = {
     ordenacao: {
       ordem: 'decrescente',
       chave: 'id'
     }
   };
-  const [filtrosDeBusca, setFiltrosDeBusca] = useState<FiltrosDeBuscaContrato>(filtrosDeBuscaInicial);
+  const [filtrosDeBusca, setFiltrosDeBusca] = useState<FiltrosDeBuscarPacientesContrato>(filtrosDeBuscaInicial);
   const [buscarVisivel, setBuscarVisivel] = useState(false);
   const [cadastrarVisivel, setCadastrarVisivel] = useState(false);
   const [ordernarVisivel, setOrdernarVisivel] = useState(false);
@@ -55,7 +52,7 @@ const Pacientes = ({
 
   const carregarPacientes = async (): Promise<void> => {
     const helper = new ListarPacientesHelper();
-    const pacientesCarregados = await helper.executar(pacientesPagina);
+    const pacientesCarregados = await helper.executar(pacientesPagina, filtrosDeBusca);
 
     /* funde os resultados */
     const listagem = [...pacientes, ...pacientesCarregados.filter(pacienteCarregado => {
@@ -127,7 +124,7 @@ const Pacientes = ({
     }
   };
 
-  const reordenarPacientes = (ordenacao: OrdenacaoContrato): void => {
+  const reordenarPacientes = (ordenacao: OrdenacaoPacientesContrato): void => {
     setFiltrosDeBusca({
       ...filtrosDeBusca,
       ...{ ordenacao }
@@ -141,6 +138,7 @@ const Pacientes = ({
       description: JSON.stringify(filtrosDeBusca)
     });
 
+    setPacientesPagina(0);
     void carregarTotalPacientes();
     void carregarPacientes();
   }, [filtrosDeBusca]);
