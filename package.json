@@ -10,7 +10,7 @@
     "web": "expo start --web",
     "test": "jest",
     "test:watch": "yarn test --watch",
-    "test:ci": "yarn --coverage",
+    "test:ci": "yarn test --coverage",
     "eslint": "./node_modules/.bin/eslint --ignore-path .gitignore . --fix",
     "tsc": "./node_modules/.bin/tsc --noEmit",
     "lint": "yarn tsc && yarn eslint --quiet",
