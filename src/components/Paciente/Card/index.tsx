@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Linking } from 'react-native';
 import { Card } from '@paraboly/react-native-card';
 
 import Calendario from '@hooks/useCalendario';
@@ -107,6 +108,17 @@ const PacienteCard = ({
     }
   };
 
+  const fazerLigacao = (): void => {
+    const apenasNumeros = paciente.telefone.replace(/\D/g, '');
+    void Linking.openURL(`tel:${apenasNumeros}`);
+  };
+
+  const enviarEmail = (): void => {
+    if (paciente.email !== undefined) {
+      void Linking.openURL(`mailto:${paciente.email}`);
+    }
+  };
+
   const obterSingularPlural = (palavra: string, valor: number): string => {
     if (valor <= 1) {
       switch (palavra) {
@@ -162,7 +174,22 @@ const PacienteCard = ({
                       })();
                     }
                   },
-
+                  {
+                    titulo: 'Fazer ligação',
+                    icone: 'phone-forward-outline',
+                    callback: () => {
+                      fazerLigacao();
+                      fecharMenu();
+                    }
+                  },
+                  {
+                    titulo: 'Enviar email',
+                    icone: 'email-fast-outline',
+                    callback: () => {
+                      enviarEmail();
+                      fecharMenu();
+                    }
+                  },
                   {
                     titulo: 'Editar paciente',
                     icone: 'account-edit-outline',
