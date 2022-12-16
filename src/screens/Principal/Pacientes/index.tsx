@@ -32,6 +32,7 @@ const Pacientes = ({
   const styles = getMainStyles();
   const [carregando, setCarregando] = useState(false);
   const [pacientes, setPacientes] = useState<Array<Paciente>>([]);
+  const [pacientesAdicionados, setPacientesAdicionados] = useState<Array<Paciente>>([]);
   const [pacientesPagina, setPacientesPagina] = useState(0);
   const [totalPacientes, setTotalPacientes] = useState(0);
   const scrollRef = useRef<ScrollView>(null);
@@ -55,7 +56,13 @@ const Pacientes = ({
   const carregarPacientes = async (): Promise<void> => {
     const helper = new ListarPacientesHelper();
     const pacientesCarregados = await helper.executar(pacientesPagina);
-    setPacientes([...pacientes, ...pacientesCarregados]);
+
+    /* funde os resultados */
+    const listagem = [...pacientes, ...pacientesCarregados.filter(pacienteCarregado => {
+      return !pacientes.some(paciente => paciente.id === pacienteCarregado.id);
+    })];
+
+    setPacientes(listagem);
     setPacientesPagina(pacientesPagina + 1);
   };
 
@@ -106,6 +113,7 @@ const Pacientes = ({
       });
 
       setPacientes([...[paciente], ...pacientes]);
+      setPacientesAdicionados([...[paciente], ...pacientesAdicionados]);
       setTotalPacientes(totalPacientes + 1);
       sobirScrollParaOTopo();
 
