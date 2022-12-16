@@ -133,7 +133,7 @@ const Buscar = ({
               icon="account"
               style={styles.nome}
               valor={nome}
-              callback={setNome}
+              callback={valor => setNome(valor ?? '')}
             />
             <SelectInput
               titulo='Gênero do paciente'
