@@ -15,7 +15,7 @@ export default class PacientesRepository implements PacientesRepositoryInterface
     return await this.repository.count();
   }
 
-  public async getAll (pagina: number): Promise<Array<Paciente>> {
+  public async listar (pagina: number): Promise<Array<Paciente>> {
     const rows = 10;
 
     const queryBuilder = this.repository.createQueryBuilder('pacientes')
@@ -35,7 +35,7 @@ export default class PacientesRepository implements PacientesRepositoryInterface
     return paciente;
   }
 
-  public async delete (id: number): Promise<void> {
+  public async deletar (id: number): Promise<void> {
     await this.repository.delete(id);
   }
 }

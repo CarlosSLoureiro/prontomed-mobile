@@ -9,7 +9,7 @@ export default class PacientesRepositoryMock implements PacientesRepositoryInter
     return await Promise.resolve(pacientes.length);
   }
 
-  public async getAll (pagina: number): Promise<Array<Paciente>> {
+  public async listar (pagina: number): Promise<Array<Paciente>> {
     return await Promise.resolve(pacientes);
   }
 
@@ -21,7 +21,7 @@ export default class PacientesRepositoryMock implements PacientesRepositoryInter
     return await Promise.resolve(paciente);
   }
 
-  public async delete (id: number): Promise<void> {
+  public async deletar (id: number): Promise<void> {
     pacientes = pacientes.filter(paciente => (paciente.id !== id));
     await Promise.resolve();
   }

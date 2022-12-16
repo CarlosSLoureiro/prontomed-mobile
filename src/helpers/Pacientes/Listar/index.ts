@@ -10,6 +10,6 @@ export default class ListarPacientesHelper {
   }
 
   public async executar (pagina: number): Promise<Array<Paciente>> {
-    return await this.repository.getAll(pagina);
+    return await this.repository.listar(pagina);
   }
 }
