@@ -51,9 +51,9 @@ describe('helpers > Pacientes > Cadastrar', () => {
   });
 
   describe('deve retornar erro quando o telefone do paciente for inválido', () => {
-    const telefones = [undefined, '(21) 99999-99999', '(21) 99999-99', '123456'];
+    const telefones = ['(21) 99999-99999', '(21) 99999-99', '123456'];
 
-    telefones.forEach(telefone => test(`testa com telefone > ${telefone ?? 'undefined'}`, async () => {
+    telefones.forEach(telefone => test(`testa com telefone > ${telefone}`, async () => {
       const dados: Partial<Paciente> = {
         ...factory,
         telefone
