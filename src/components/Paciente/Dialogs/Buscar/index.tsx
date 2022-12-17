@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Button, Dialog, Divider } from 'react-native-paper';
 
@@ -22,11 +22,24 @@ import {
 const Buscar = ({
   visivel,
   setVisivel,
-  callback
+  callback,
+  valorAtual
 }: BuscarPacienteContrato): JSX.Element => {
-  const [valorAtual, setValoresAtuais] = useState<ValoresAtuaisFormulario>();
+  const [valoresAtuais, setValoresAtuais] = useState<ValoresAtuaisFormulario>();
 
+  useEffect(() => {
+    if (valorAtual === undefined) {
+      setValoresAtuais(undefined);
+      resetarFormulario();
+    }
+  }, [valorAtual]);
   const styles = getStyles();
+
+  const resetarFormulario = (): void => {
+    setNome('');
+    selecionarValoresPadraoTiposSanguineos();
+    selecionarValoresPadraoGeneros();
+  };
 
   // nome
   const [nome, setNome] = useState<string>('');
@@ -94,14 +107,12 @@ const Buscar = ({
   // botões
   const cancelar = (): void => {
     setVisivel(false);
-    if (valorAtual != null) {
-      setNome(valorAtual.nome);
-      setGenerosFormulario(valorAtual.generos);
-      setTiposSanguineosFormulario(valorAtual.tiposSanguineos);
+    if (valoresAtuais != null) {
+      setNome(valoresAtuais.nome);
+      setGenerosFormulario(valoresAtuais.generos);
+      setTiposSanguineosFormulario(valoresAtuais.tiposSanguineos);
     } else {
-      setNome('');
-      selecionarValoresPadraoTiposSanguineos();
-      selecionarValoresPadraoGeneros();
+      resetarFormulario();
     }
   };
   const buscar = (): void => {
@@ -133,7 +144,7 @@ const Buscar = ({
               icon="account"
               style={styles.nome}
               valor={nome}
-              callback={setNome}
+              callback={valor => setNome(valor ?? '')}
             />
             <SelectInput
               titulo='Gênero do paciente'

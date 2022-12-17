@@ -1,16 +1,20 @@
 import { Repositories } from '@database';
 import Paciente from '@entity/Paciente';
 import PacientesRepositoryInterface from '@repository/Pacientes/interface';
-import { FiltrosDeBuscarPacientesContrato } from '@repository/Pacientes/types';
 
-export default class ListarPacientesHelper {
+import validar from '@validators/paciente';
+
+export default class CadastrarPacientesHelper {
   private readonly repository: PacientesRepositoryInterface;
+  public readonly tamanhoMinimoNome = 3;
 
   constructor (repository: PacientesRepositoryInterface = (global.repositories as Repositories).pacientesRepository) {
     this.repository = repository;
   }
 
-  public async executar (pagina: number, filtros: FiltrosDeBuscarPacientesContrato): Promise<Array<Paciente>> {
-    return await this.repository.listar(pagina, filtros);
+  public async executar (dados: Partial<Paciente>): Promise<Paciente> {
+    validar(dados);
+    const paciente = await this.repository.cadastrar(dados);
+    return paciente;
   }
 }

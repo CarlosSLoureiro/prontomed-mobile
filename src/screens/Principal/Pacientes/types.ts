@@ -1,15 +1,7 @@
-import { BuscarPacienteCallbackContrato } from '@components/Paciente/Dialogs/Buscar/types';
+import Paciente from '@entity/Paciente';
 
 export interface PacientesContrato {
   paginaAtiva: boolean;
 }
 
-export interface OrdenacaoContrato {
-  ordem: string;
-  chave: string;
-}
-
-export interface FiltrosDeBuscaContrato {
-  busca?: BuscarPacienteCallbackContrato;
-  ordenacao: OrdenacaoContrato;
-}
+export type cadastrarEditarCallback = (dados: Partial<Paciente>) => Promise<Paciente | undefined>;

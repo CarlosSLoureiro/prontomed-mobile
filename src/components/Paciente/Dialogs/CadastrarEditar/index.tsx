@@ -13,14 +13,17 @@ import TextInput from '@components/Formularios/TextInput';
 
 import getStyles from './styles';
 
-import { CadastrarPacienteContrato } from './types';
+import { CadastrarPacienteContrato, EditarPacienteContrato } from './types';
 
 const Cadastrar = ({
+  formularioRef,
   visivel,
   setVisivel,
-  callback
+  cadastrarCallback,
+  editarCallback
 }: CadastrarPacienteContrato): JSX.Element => {
   const styles = getStyles();
+  const [modoEdicao, setModoEdicao] = useState(false);
   const [reposicionar, setReposicionar] = useState({
     deve: false,
     valor: 100
@@ -37,7 +40,20 @@ const Cadastrar = ({
     tipoSanguineo: useRef()
   };
 
-  const [paciente, setPaciente] = useState<Partial<Paciente>>({});
+  const [dadosAtuais, setDadosAtuais] = useState<Partial<Paciente>>({});
+
+  const editarPaciente: EditarPacienteContrato = (paciente: Paciente) => {
+    setVisivel(true);
+    setModoEdicao(true);
+    setDadosAtuais(paciente);
+    setPaciente(paciente);
+  };
+
+  if (formularioRef !== undefined) {
+    formularioRef.current = editarPaciente;
+  }
+
+  const [paciente, setPaciente] = useState<Partial<Paciente>>(dadosAtuais);
 
   // gênero
   const listagemDeGeneros: Array<ItemListagemDeGenerosContrato> = Object.values(Generos).map((genero, index) => ({
@@ -82,12 +98,25 @@ const Cadastrar = ({
   // botões
   const cancelar = (): void => {
     setVisivel(false);
+    setModoEdicao(false);
+    setDadosAtuais({});
     setPaciente({});
   };
   const cadastrar = (): void => {
-    setVisivel(false);
-    callback(paciente);
-    setPaciente({});
+    void (async () => {
+      const resultado = await cadastrarCallback(paciente);
+      if (resultado !== undefined) {
+        cancelar();
+      }
+    })();
+  };
+  const editar = (): void => {
+    void (async () => {
+      const resultado = await editarCallback(paciente);
+      if (resultado !== undefined) {
+        cancelar();
+      }
+    })();
   };
 
   return (
@@ -101,10 +130,11 @@ const Cadastrar = ({
                 nextInputRef={inputs.email}
                 nome="Nome completo"
                 icon="account"
+                valor={dadosAtuais.nome ?? ''}
                 style={styles.textInputs}
                 callback={nome => setPaciente({
                   ...paciente,
-                  nome: nome.trim()
+                  nome
                 })}
               />
               <TextInput
@@ -113,10 +143,11 @@ const Cadastrar = ({
                 nome="Endereço de email"
                 icon="at"
                 keyboard='email-address'
+                valor={dadosAtuais.email ?? ''}
                 style={styles.textInputs}
                 callback={email => setPaciente({
                   ...paciente,
-                  email: email.trim()
+                  email
                 })}
               />
               <TextInput
@@ -126,6 +157,7 @@ const Cadastrar = ({
                 icon="cellphone-wireless"
                 telefone={true}
                 keyboard='phone-pad'
+                valor={dadosAtuais.telefone ?? ''}
                 style={styles.textInputs}
                 callback={telefone => setPaciente({
                   ...paciente,
@@ -136,6 +168,7 @@ const Cadastrar = ({
                 inputRef={inputs.dataNascimento}
                 nextInputRef={inputs.genero}
                 nome="Data de nascimento"
+                valor={dadosAtuais.dataNascimento ?? undefined}
                 callback={dataNascimento => setPaciente({
                   ...paciente,
                   dataNascimento
@@ -146,9 +179,9 @@ const Cadastrar = ({
                 nextInputRef={inputs.peso}
                 titulo='Gênero'
                 multi={false}
-                valor={paciente.genero ?? 'Selecionar'}
+                valor={paciente.genero ?? dadosAtuais.genero ?? ''}
                 listagem={listagemDeGeneros}
-                selecionados={listagemDeGeneros.filter(item => item.value === paciente.genero)}
+                selecionados={listagemDeGeneros.filter(item => item.value === (paciente.genero ?? dadosAtuais.genero))}
                 callback={selecionarGenero}
                 style={styles.genero}
               />
@@ -159,9 +192,11 @@ const Cadastrar = ({
                     nextInputRef={inputs.altura}
                     nome="Peso (Kg)"
                     keyboard='decimal-pad'
+                    valor={(dadosAtuais.peso ?? '').toString()}
+                    style={styles.textInputs}
                     callback={peso => setPaciente({
                       ...paciente,
-                      peso: parseFloat(peso.replace(',', '.'))
+                      peso: peso !== undefined ? parseFloat(peso.replace(',', '.')) : peso
                     })}
                     onFocusIn={() => reposicionarComponente(true)}
                     onFocusOut={() => reposicionarComponente(false)}
@@ -173,9 +208,11 @@ const Cadastrar = ({
                     nextInputRef={inputs.tipoSanguineo}
                     nome="Altura (M)"
                     keyboard='decimal-pad'
+                    valor={(dadosAtuais.altura ?? '').toString()}
+                    style={styles.textInputs}
                     callback={altura => setPaciente({
                       ...paciente,
-                      altura: parseFloat(altura.replace(',', '.'))
+                      altura: altura !== undefined ? parseFloat(altura.replace(',', '.')) : altura
                     })}
                     onFocusIn={() => reposicionarComponente(true)}
                     onFocusOut={() => reposicionarComponente(false)}
@@ -186,9 +223,9 @@ const Cadastrar = ({
                 inputRef={inputs.tipoSanguineo}
                 titulo='Tipo sanguíneo'
                 multi={false}
-                valor={paciente.tipoSanguineo ?? 'Selecionar'}
+                valor={paciente.tipoSanguineo ?? dadosAtuais.tipoSanguineo ?? ''}
                 listagem={listagemDeTiposSanguineos}
-                selecionados={listagemDeTiposSanguineos.filter(item => item.value === paciente.tipoSanguineo)}
+                selecionados={listagemDeTiposSanguineos.filter(item => item.value === (paciente.tipoSanguineo ?? dadosAtuais.tipoSanguineo))}
                 callback={selecionarTipoSanguineo}
                 style={styles.tipoSanguineo}
               />
@@ -196,7 +233,7 @@ const Cadastrar = ({
             </Dialog.Content>
             <Dialog.Actions>
               <Button labelStyle={styles.dialog.botoes} onPress={cancelar}>Cancelar</Button>
-              <Button labelStyle={styles.dialog.botoes} onPress={cadastrar}>Cadastrar</Button>
+              <Button labelStyle={styles.dialog.botoes} onPress={modoEdicao ? editar : cadastrar}>{modoEdicao ? 'Salvar' : 'Cadastrar'}</Button>
             </Dialog.Actions>
           </ScrollView>
           </KeyboardAvoidingView>

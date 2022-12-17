@@ -20,6 +20,7 @@
       "@entity/*": ["database/entity/*"],
       "@repository/*": ["database/repository/*"],
       "@helpers/*": ["helpers/*"],
+      "@validators/*": ["validators/*"],
       "@components/*": ["components/*"],
       "@hooks/*": ["hooks/*"],
       "@screens/*": ["screens/*"]

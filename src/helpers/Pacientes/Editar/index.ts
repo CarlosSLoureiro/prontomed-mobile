@@ -1,14 +1,19 @@
 import { Repositories } from '@database';
+import Paciente from '@entity/Paciente';
 import PacientesRepositoryInterface from '@repository/Pacientes/interface';
 
-export default class ObterTotalPacientesHelper {
+import validar from '@validators/paciente';
+
+export default class EditarPacientesHelper {
   private readonly repository: PacientesRepositoryInterface;
+  public readonly tamanhoMinimoNome = 3;
 
   constructor (repository: PacientesRepositoryInterface = (global.repositories as Repositories).pacientesRepository) {
     this.repository = repository;
   }
 
-  public async executar (): Promise<number> {
-    return await this.repository.total();
+  public async executar (paciente: Partial<Paciente>): Promise<Paciente> {
+    validar(paciente);
+    return await this.repository.editar(paciente);
   }
 }

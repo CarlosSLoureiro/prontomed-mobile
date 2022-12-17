@@ -1,14 +1,14 @@
-import { OrdenacaoContrato } from '@screens/Principal/Pacientes/types';
+import { OrdenacaoPacientesContrato } from '@repository/Pacientes/types';
 
 export interface ValoresDeBusca {
   titulo: string;
-  valor: string;
+  valor: 'pacientes.nome' | 'pacientes.idade' | 'pacientes.peso' | 'pacientes.altura' | 'pacientes.id' | 'totalConsultas';
 }
 
 export interface OrdenarContrato {
   visivel: boolean;
   setVisivel: Function;
-  callback: (selecionado: OrdenacaoContrato) => void;
-  valorAtual: OrdenacaoContrato;
+  callback: (selecionado: OrdenacaoPacientesContrato) => void;
+  valorAtual: OrdenacaoPacientesContrato;
   valoresDeBusca: Array<ValoresDeBusca>;
 }

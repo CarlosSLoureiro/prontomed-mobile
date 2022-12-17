@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { ScrollView, Text } from 'react-native';
-import { NotifierComponents } from 'react-native-notifier';
 import { Portal } from 'react-native-paper';
 
 import Paciente from '@entity/Paciente';
+import { FiltrosDeBuscarPacientesContrato, OrdenacaoPacientesContrato } from '@repository/Pacientes/types';
 
+import CadastrarPacientesHelper from '@helpers/Pacientes/Cadastrar';
+import EditarPacientesHelper from '@helpers/Pacientes/Editar';
 import ListarPacientesHelper from '@helpers/Pacientes/Listar';
 import ObterTotalPacientesHelper from '@helpers/Pacientes/ObterTotal';
 
@@ -13,17 +15,13 @@ import Notification from '@hooks/useNotification';
 import PacienteCard from '@components/Paciente/Card';
 import Buscar from '@components/Paciente/Dialogs/Buscar';
 import { BuscarPacienteCallbackContrato } from '@components/Paciente/Dialogs/Buscar/types';
-import Cadastrar from '@components/Paciente/Dialogs/Cadastrar';
+import Cadastrar from '@components/Paciente/Dialogs/CadastrarEditar';
 import Ordenar from '@components/Paciente/Dialogs/Ordenar';
 import Opcoes from '@components/Paciente/Opcoes';
 
 import getMainStyles from '../styles';
 
-import {
-  FiltrosDeBuscaContrato,
-  OrdenacaoContrato,
-  PacientesContrato
-} from './types';
+import { cadastrarEditarCallback, PacientesContrato } from './types';
 
 const Pacientes = ({
   paginaAtiva
@@ -31,31 +29,120 @@ const Pacientes = ({
   const styles = getMainStyles();
   const [carregando, setCarregando] = useState(false);
   const [pacientes, setPacientes] = useState<Array<Paciente>>([]);
+  const [pacientesAdicionados, setPacientesAdicionados] = useState<Array<Paciente>>([]);
   const [pacientesPagina, setPacientesPagina] = useState(0);
   const [totalPacientes, setTotalPacientes] = useState(0);
   const scrollRef = useRef<ScrollView>(null);
-  const filtrosDeBuscaInicial: FiltrosDeBuscaContrato = {
+  const filtrosDeBuscaInicial: FiltrosDeBuscarPacientesContrato = {
     ordenacao: {
       ordem: 'decrescente',
-      chave: 'id'
+      chave: 'pacientes.id'
     }
   };
-  const [filtrosDeBusca, setFiltrosDeBusca] = useState<FiltrosDeBuscaContrato>(filtrosDeBuscaInicial);
+  const [filtrosDeBusca, setFiltrosDeBusca] = useState<FiltrosDeBuscarPacientesContrato>(filtrosDeBuscaInicial);
   const [buscarVisivel, setBuscarVisivel] = useState(false);
   const [cadastrarVisivel, setCadastrarVisivel] = useState(false);
   const [ordernarVisivel, setOrdernarVisivel] = useState(false);
+  const cadastrarEditarPacienteRef = useRef<any>();
 
   const carregarTotalPacientes = async (): Promise<void> => {
     const helper = new ObterTotalPacientesHelper();
-    const total = await helper.run();
+    const total = await helper.executar();
     setTotalPacientes(total);
   };
 
-  const carregarPacientes = async (): Promise<void> => {
+  const carregarPacientes = async (deveResetar = false): Promise<void> => {
     const helper = new ListarPacientesHelper();
-    const pacientesCarregados = await helper.run(pacientesPagina);
-    setPacientes([...pacientes, ...pacientesCarregados]);
-    setPacientesPagina(pacientesPagina + 1);
+
+    try {
+      const listagemAtual = deveResetar ? [] : pacientes;
+      const paginaAtual = deveResetar ? 0 : pacientesPagina;
+
+      const pacientesCarregados = await helper.executar(paginaAtual, filtrosDeBusca);
+
+      if (pacientesCarregados.length) {
+        /* funde os resultados */
+        const listagem = [...listagemAtual, ...pacientesCarregados.filter(pacienteCarregado => {
+          return !listagemAtual.some(paciente => paciente.id === pacienteCarregado.id);
+        })];
+
+        setPacientes(listagem);
+        setPacientesPagina(paginaAtual + 1);
+      } else if (!totalPacientes) {
+        Notification.info({
+          title: 'Não há pacientes cadastrados',
+          duration: 5000
+        });
+      } else if (paginaAtual > 0) {
+        Notification.info({
+          title: 'Não há mais pacientes',
+          description: 'Tente alterar os filtros de busca',
+          duration: 5000
+        });
+      } else {
+        setPacientes([]);
+        Notification.info({
+          title: 'Não há pacientes',
+          description: 'Tente alterar os filtros de busca',
+          duration: 5000
+        });
+      }
+    } catch (err) {
+      Notification.error({
+        title: 'Não foi possível carregar a listagem',
+        description: (err as Error).message,
+        duration: 10000
+      });
+    }
+  };
+
+  const cadastrarPaciente: cadastrarEditarCallback = async (dados: Partial<Paciente>): Promise<Paciente | undefined> => {
+    const helper = new CadastrarPacientesHelper();
+
+    try {
+      const paciente = await helper.executar(dados);
+
+      Notification.success({
+        title: `O paciente ${paciente.nome} foi cadastrado`,
+        duration: 10000
+      });
+
+      setPacientes([...[paciente], ...pacientes]);
+      setPacientesAdicionados([...[paciente], ...pacientesAdicionados]);
+      setTotalPacientes(totalPacientes + 1);
+      sobirScrollParaOTopo();
+
+      return paciente;
+    } catch (err) {
+      Notification.error({
+        title: 'Não foi possível cadastrar o paciente',
+        description: (err as Error).message,
+        duration: 10000
+      });
+    }
+  };
+
+  const editarPaciente: cadastrarEditarCallback = async (dados: Partial<Paciente>): Promise<Paciente | undefined> => {
+    const helper = new EditarPacientesHelper();
+
+    try {
+      const pacienteEditado = await helper.executar(dados);
+
+      Notification.success({
+        title: `Paciente ${pacienteEditado.nome} atualizado`,
+        duration: 10000
+      });
+
+      setPacientes([...pacientes.map(paciente => ((paciente.id === pacienteEditado.id) ? pacienteEditado : paciente))]);
+
+      return pacienteEditado;
+    } catch (err) {
+      Notification.error({
+        title: 'Não foi possível atualizar o paciente',
+        description: (err as Error).message,
+        duration: 10000
+      });
+    }
   };
 
   const sobirScrollParaOTopo = (): void => {
@@ -70,22 +157,6 @@ const Pacientes = ({
     return (!carregando) && ((layoutMeasurement.height + contentOffset.y) >= contentSize.height);
   };
 
-  const carregarMaisPacientes = async (): Promise<void> => {
-    if (pacientes.length < totalPacientes) {
-      await carregarPacientes();
-    } else {
-      Notification.add({
-        title: 'Não há mais pacientes',
-        description: 'Tente alterar os filtros de busca',
-        Component: NotifierComponents.Alert,
-        componentProps: {
-          alertType: 'error'
-        },
-        duration: 5000
-      });
-    }
-  };
-
   const buscarPacientes = (busca?: BuscarPacienteCallbackContrato): void => {
     setFiltrosDeBusca({
       ...filtrosDeBusca,
@@ -93,11 +164,7 @@ const Pacientes = ({
     });
   };
 
-  const cadastrarPaciente = (dados: Partial<Paciente>): void => {
-    console.log('Cadastrar paciente', dados);
-  };
-
-  const reordenarPacientes = (ordenacao: OrdenacaoContrato): void => {
+  const reordenarPacientes = (ordenacao: OrdenacaoPacientesContrato): void => {
     setFiltrosDeBusca({
       ...filtrosDeBusca,
       ...{ ordenacao }
@@ -105,14 +172,9 @@ const Pacientes = ({
   };
 
   useEffect(() => {
-    console.log('Deve buscar pacientes ->', filtrosDeBusca);
-    Notification.info({
-      title: 'Deve buscar pacientes',
-      description: JSON.stringify(filtrosDeBusca)
-    });
-
+    sobirScrollParaOTopo();
     void carregarTotalPacientes();
-    void carregarPacientes();
+    void carregarPacientes(true);
   }, [filtrosDeBusca]);
 
   if (!paginaAtiva) {
@@ -125,7 +187,7 @@ const Pacientes = ({
           if (deveCarregarMais(nativeEvent)) {
             void (async () => {
               setCarregando(true);
-              await carregarMaisPacientes()
+              await carregarPacientes()
                 .finally(() => setCarregando(false));
             })();
           }
@@ -134,18 +196,23 @@ const Pacientes = ({
         contentContainerStyle={styles.conteudo}
       >
         <Portal>
-          <Buscar visivel={buscarVisivel} setVisivel={setBuscarVisivel} callback={buscarPacientes}/>
-          <Cadastrar visivel={cadastrarVisivel} setVisivel={setCadastrarVisivel} callback={cadastrarPaciente}/>
+          <Buscar visivel={buscarVisivel} setVisivel={setBuscarVisivel} callback={buscarPacientes} valorAtual={filtrosDeBusca.busca} />
+          <Cadastrar
+            formularioRef={cadastrarEditarPacienteRef}
+            visivel={cadastrarVisivel} setVisivel={setCadastrarVisivel}
+            cadastrarCallback={cadastrarPaciente}
+            editarCallback={editarPaciente}
+          />
           <Ordenar
             visivel={ordernarVisivel} setVisivel={setOrdernarVisivel} callback={reordenarPacientes}
             valorAtual={filtrosDeBusca.ordenacao}
             valoresDeBusca={[
-              { titulo: 'Pelo nome do paciente', valor: 'nome' },
-              { titulo: 'Pela idade do paciente', valor: 'idade' },
-              { titulo: 'Pelo peso do paciente', valor: 'peso' },
-              { titulo: 'Pela altura do paciente', valor: 'altura' },
-              { titulo: 'Pela número do paciente', valor: 'id' },
-              { titulo: 'Pela número de consultas', valor: 'consultas' }
+              { titulo: 'Pelo nome do paciente', valor: 'pacientes.nome' },
+              { titulo: 'Pela idade do paciente', valor: 'pacientes.idade' },
+              { titulo: 'Pelo peso do paciente', valor: 'pacientes.peso' },
+              { titulo: 'Pela altura do paciente', valor: 'pacientes.altura' },
+              { titulo: 'Pela número do paciente', valor: 'pacientes.id' },
+              { titulo: 'Pela número de consultas', valor: 'totalConsultas' }
             ]}
           />
           <Opcoes
@@ -161,7 +228,7 @@ const Pacientes = ({
         </Portal>
         <Text style={styles.text}>Você possui {totalPacientes} pacientes!</Text>
         {
-          pacientes.map((paciente, index) => <PacienteCard key={index} paciente={paciente} ultimo={pacientes.length - 1 === index} />)
+          pacientes.map((paciente, index) => <PacienteCard key={index} formularioRef={cadastrarEditarPacienteRef} paciente={paciente} ultimo={pacientes.length - 1 === index} />)
         }
       </ScrollView>
   );

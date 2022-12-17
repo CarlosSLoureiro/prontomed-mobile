@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Linking } from 'react-native';
 import { Card } from '@paraboly/react-native-card';
 
 import Calendario from '@hooks/useCalendario';
@@ -11,11 +12,13 @@ import { PacienteCardContrato } from './types';
 
 const PacienteCard = ({
   paciente,
+  formularioRef,
   ultimo = false
 }: PacienteCardContrato): JSX.Element => {
   const [exibirMenu, setExibirMenu] = useState(false);
   const [menuAnchor, setMenuAnchor] = useState({ x: 0, y: 0 });
   const [idade, setIdade] = useState(0);
+  const [mesesIdade, setMesesIdade] = useState(0);
   const [imc, setIMC] = useState(0);
 
   const styles = getStyles();
@@ -45,15 +48,13 @@ const PacienteCard = ({
     return idade;
   };
 
-  const calcularIMC = (peso: number, altura: number): number => {
-    return Number((peso / (altura * altura)).toFixed(1));
+  const calcularMesesDeIdade = (dataNascimento: Date): number => {
+    const hoje = new Date();
+    return hoje.getMonth() - dataNascimento.getMonth();
   };
 
-  const calcularPesoIdeal = (altura: number): string => {
-    const pesoMinimo = ((altura * altura) * 18.5).toFixed(1);
-    const pesoMaximo = ((altura * altura) * 35).toFixed(1);
-
-    return `${pesoMinimo}~${pesoMaximo}Kg`;
+  const calcularIMC = (peso: number, altura: number): number => {
+    return Number((peso / (altura * altura)).toFixed(1));
   };
 
   /* Fonte para exibição do resultado: https://viverbem.unimedbh.com.br/prevencao-e-controle/o-que-e-imc-como-calcular/ */
@@ -73,32 +74,31 @@ const PacienteCard = ({
           };
 
       const titulo = `IMC de ${paciente.nome} é ${imc}`;
-      const pesoIdeal = calcularPesoIdeal(paciente.altura);
 
       Notification.close();
 
       if (imc < ranges.baixo) {
         Notification.warn({
           title: titulo,
-          description: `Seu paciente, encontra-se abaixo do peso ideal (${pesoIdeal}).`,
+          description: 'Seu paciente, encontra-se abaixo do peso ideal',
           duration: 30000
         });
       } else if (imc >= ranges.baixo && imc < ranges.normal) {
         Notification.success({
           title: titulo,
-          description: `Seu paciente, encontra-se com o peso ideal (${pesoIdeal}).`,
+          description: 'Seu paciente, encontra-se com o peso ideal',
           duration: 30000
         });
       } else if (imc >= ranges.normal && imc < ranges.alto) {
         Notification.warn({
           title: titulo,
-          description: `Seu paciente, encontra-se acima do peso ideal (${pesoIdeal}).`,
+          description: 'Seu paciente, encontra-se acima do peso ideal',
           duration: 30000
         });
       } else if (imc >= ranges.alto) {
         Notification.error({
           title: titulo,
-          description: `Seu paciente, encontra-se muito acima do peso ideal (${pesoIdeal}).`,
+          description: 'Seu paciente, encontra-se muito acima do peso ideal',
           duration: 30000
         });
       }
@@ -109,8 +109,35 @@ const PacienteCard = ({
     }
   };
 
+  const fazerLigacao = (): void => {
+    const apenasNumeros = paciente.telefone.replace(/\D/g, '');
+    void Linking.openURL(`tel:${apenasNumeros}`);
+  };
+
+  const enviarEmail = (): void => {
+    if (paciente.email !== undefined) {
+      void Linking.openURL(`mailto:${paciente.email}`);
+    }
+  };
+
+  const obterSingularPlural = (palavra: string, valor: number): string => {
+    if (valor <= 1) {
+      switch (palavra) {
+        case 'anos': return 'ano';
+        case 'meses': return 'mês';
+        default: return palavra;
+      }
+    } else {
+      return palavra;
+    }
+  };
+
   useEffect(() => {
-    setIdade(calcularIdade(paciente.dataNascimento));
+    const valorIdade = calcularIdade(paciente.dataNascimento);
+    setIdade(valorIdade);
+    if (valorIdade < 1) {
+      setMesesIdade(calcularMesesDeIdade(paciente.dataNascimento));
+    }
     setIMC(calcularIMC(paciente.peso, paciente.altura));
   }, [paciente]);
 
@@ -124,9 +151,9 @@ const PacienteCard = ({
               iconColor={cardIconStyles.color}
               iconBackgroundColor={cardIconStyles.backgrounColor}
               topRightText={`nº ${paciente.id}`}
-              bottomRightText={`${idade} anos`}
+              bottomRightText={(idade > 0 ? `${idade} ${obterSingularPlural('anos', idade)}` : `${mesesIdade} ${obterSingularPlural('meses', mesesIdade)}`)}
               description={`${paciente.genero}, ${paciente.peso}Kg, ${paciente.altura}M, ${paciente.tipoSanguineo}\n${paciente?.consultas ? paciente.consultas.length : 0} consultas registradas`}
-              // @ts-expect-error - a biblioca não inclui parametros no contrato do onPress.
+              // @ts-expect-error - a biblioteca não inclui parametros no contrato do onPress.
               onPress={abrirMenuContexto}
             />
             <MenuContexto
@@ -148,11 +175,27 @@ const PacienteCard = ({
                       })();
                     }
                   },
-
+                  {
+                    titulo: 'Fazer ligação',
+                    icone: 'phone-forward-outline',
+                    callback: () => {
+                      fazerLigacao();
+                      fecharMenu();
+                    }
+                  },
+                  {
+                    titulo: 'Enviar email',
+                    icone: 'email-fast-outline',
+                    callback: () => {
+                      enviarEmail();
+                      fecharMenu();
+                    }
+                  },
                   {
                     titulo: 'Editar paciente',
                     icone: 'account-edit-outline',
                     callback: () => {
+                      formularioRef?.current(paciente);
                       fecharMenu();
                     }
                   },

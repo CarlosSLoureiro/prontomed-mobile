@@ -2,6 +2,7 @@ import { View } from 'react-native';
 
 import Botao from './botao';
 import getStyles from './styles';
+
 import { RodapeContrato } from './types';
 
 const Rodape = ({

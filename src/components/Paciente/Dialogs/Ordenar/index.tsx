@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Dialog, Divider, RadioButton } from 'react-native-paper';
 
-import { OrdenacaoContrato } from '@screens/Principal/Pacientes/types';
+import { OrdenacaoPacientesContrato } from '@repository/Pacientes/types';
 
 import getStyles from './styles';
 
@@ -17,6 +17,11 @@ const Ordenar = ({
   const [ordem, setOrdem] = useState(valorAtual.ordem);
   const [chave, setChave] = useState(valorAtual.chave);
 
+  useEffect(() => {
+    setOrdem(valorAtual.ordem);
+    setChave(valorAtual.chave);
+  }, [valorAtual]);
+
   const styles = getStyles();
 
   const cancelar = (): void => {
@@ -27,7 +32,7 @@ const Ordenar = ({
 
   const ordenar = (): void => {
     setVisivel(false);
-    const ordenacao: OrdenacaoContrato = {
+    const ordenacao: OrdenacaoPacientesContrato = {
       ordem,
       chave
     };
