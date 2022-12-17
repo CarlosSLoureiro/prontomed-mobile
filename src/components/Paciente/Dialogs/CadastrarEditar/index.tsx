@@ -5,7 +5,6 @@ import { Button, Dialog, Divider } from 'react-native-paper';
 
 import Paciente from '@entity/Paciente';
 import { Generos, TiposSanguineos } from '@entity/Paciente/enums';
-import PacienteFactory from '@entity/Paciente/factory';
 
 import { ItemListagemDeGenerosContrato, ItemListagemDeTiposSanguineosContrato } from '@components/Consulta/Dialogs/Buscar/types';
 import DatePicker from '@components/Formularios/DatePicker';
@@ -20,7 +19,8 @@ const Cadastrar = ({
   formularioRef,
   visivel,
   setVisivel,
-  callback
+  cadastrarCallback,
+  editarCallback
 }: CadastrarPacienteContrato): JSX.Element => {
   const styles = getStyles();
   const [modoEdicao, setModoEdicao] = useState(false);
@@ -46,6 +46,7 @@ const Cadastrar = ({
     setVisivel(true);
     setModoEdicao(true);
     setDadosAtuais(paciente);
+    setPaciente(paciente);
   };
 
   if (formularioRef !== undefined) {
@@ -103,22 +104,19 @@ const Cadastrar = ({
   };
   const cadastrar = (): void => {
     void (async () => {
-      const resultado = await callback(paciente);
+      const resultado = await cadastrarCallback(paciente);
       if (resultado !== undefined) {
         cancelar();
       }
     })();
   };
   const editar = (): void => {
-    console.log('editar paciente', paciente);
-    /*
     void (async () => {
-      const resultado = await cadastrarCallback(paciente);
+      const resultado = await editarCallback(paciente);
       if (resultado !== undefined) {
         cancelar();
       }
     })();
-    */
   };
 
   return (

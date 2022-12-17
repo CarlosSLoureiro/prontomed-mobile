@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { ScrollView, Text } from 'react-native';
-import { NotifierComponents } from 'react-native-notifier';
 import { Portal } from 'react-native-paper';
 
 import Paciente from '@entity/Paciente';
 import { FiltrosDeBuscarPacientesContrato, OrdenacaoPacientesContrato } from '@repository/Pacientes/types';
 
 import CadastrarPacientesHelper from '@helpers/Pacientes/Cadastrar';
+import EditarPacientesHelper from '@helpers/Pacientes/Editar';
 import ListarPacientesHelper from '@helpers/Pacientes/Listar';
 import ObterTotalPacientesHelper from '@helpers/Pacientes/ObterTotal';
 
@@ -15,13 +15,13 @@ import Notification from '@hooks/useNotification';
 import PacienteCard from '@components/Paciente/Card';
 import Buscar from '@components/Paciente/Dialogs/Buscar';
 import { BuscarPacienteCallbackContrato } from '@components/Paciente/Dialogs/Buscar/types';
-import Cadastrar from '@components/Paciente/Dialogs/Cadastrar';
+import Cadastrar from '@components/Paciente/Dialogs/CadastrarEditar';
 import Ordenar from '@components/Paciente/Dialogs/Ordenar';
 import Opcoes from '@components/Paciente/Opcoes';
 
 import getMainStyles from '../styles';
 
-import { PacientesContrato } from './types';
+import { cadastrarEditarCallback, PacientesContrato } from './types';
 
 const Pacientes = ({
   paginaAtiva
@@ -96,14 +96,14 @@ const Pacientes = ({
     }
   };
 
-  const cadastrarPaciente = async (dados: Partial<Paciente>): Promise<Paciente | undefined> => {
+  const cadastrarPaciente: cadastrarEditarCallback = async (dados: Partial<Paciente>): Promise<Paciente | undefined> => {
     const helper = new CadastrarPacientesHelper();
 
     try {
       const paciente = await helper.executar(dados);
 
       Notification.success({
-        title: `Paciente ${paciente.nome} cadastrado`,
+        title: `O paciente ${paciente.nome} foi cadastrado`,
         duration: 10000
       });
 
@@ -116,6 +116,29 @@ const Pacientes = ({
     } catch (err) {
       Notification.error({
         title: 'Não foi possível cadastrar o paciente',
+        description: (err as Error).message,
+        duration: 10000
+      });
+    }
+  };
+
+  const editarPaciente: cadastrarEditarCallback = async (dados: Partial<Paciente>): Promise<Paciente | undefined> => {
+    const helper = new EditarPacientesHelper();
+
+    try {
+      const pacienteEditado = await helper.executar(dados);
+
+      Notification.success({
+        title: `Paciente ${pacienteEditado.nome} atualizado`,
+        duration: 10000
+      });
+
+      setPacientes([...pacientes.map(paciente => ((paciente.id === pacienteEditado.id) ? pacienteEditado : paciente))]);
+
+      return pacienteEditado;
+    } catch (err) {
+      Notification.error({
+        title: 'Não foi possível atualizar o paciente',
         description: (err as Error).message,
         duration: 10000
       });
@@ -174,7 +197,12 @@ const Pacientes = ({
       >
         <Portal>
           <Buscar visivel={buscarVisivel} setVisivel={setBuscarVisivel} callback={buscarPacientes} valorAtual={filtrosDeBusca.busca} />
-          <Cadastrar formularioRef={cadastrarEditarPacienteRef} visivel={cadastrarVisivel} setVisivel={setCadastrarVisivel} callback={cadastrarPaciente}/>
+          <Cadastrar
+            formularioRef={cadastrarEditarPacienteRef}
+            visivel={cadastrarVisivel} setVisivel={setCadastrarVisivel}
+            cadastrarCallback={cadastrarPaciente}
+            editarCallback={editarPaciente}
+          />
           <Ordenar
             visivel={ordernarVisivel} setVisivel={setOrdernarVisivel} callback={reordenarPacientes}
             valorAtual={filtrosDeBusca.ordenacao}

@@ -2,7 +2,7 @@ import { MutableRefObject } from 'react';
 
 import Paciente from '@entity/Paciente';
 
-import { EditarPacienteContrato } from '../Dialogs/Cadastrar/types';
+import { EditarPacienteContrato } from '../Dialogs/CadastrarEditar/types';
 
 export interface PacienteCardContrato {
   formularioRef?: MutableRefObject<EditarPacienteContrato>;
