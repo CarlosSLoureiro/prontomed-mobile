@@ -6,7 +6,7 @@ import { FiltrosDeBuscarPacientesContrato } from '@repository/Pacientes/types';
 export default class ListarPacientesHelper {
   private readonly repository: PacientesRepositoryInterface;
 
-  constructor (repository: PacientesRepositoryInterface = (global.repositories as Repositories).pacientesRepository) {
+  constructor (repository: PacientesRepositoryInterace = (global.repositories as Repositories).pacientesRepository) {
     this.repository = repository;
   }
 
