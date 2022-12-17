@@ -12,6 +12,7 @@ import { PacienteCardContrato } from './types';
 
 const PacienteCard = ({
   paciente,
+  formularioRef,
   ultimo = false
 }: PacienteCardContrato): JSX.Element => {
   const [exibirMenu, setExibirMenu] = useState(false);
@@ -194,6 +195,7 @@ const PacienteCard = ({
                     titulo: 'Editar paciente',
                     icone: 'account-edit-outline',
                     callback: () => {
+                      formularioRef?.current(paciente);
                       fecharMenu();
                     }
                   },

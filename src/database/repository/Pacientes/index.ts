@@ -1,4 +1,4 @@
-import { DataSource, In, Like, Repository } from 'typeorm';
+import { DataSource, FindOneOptions, In, Like, Repository } from 'typeorm';
 
 import Paciente from '@entity/Paciente';
 
@@ -13,8 +13,8 @@ export default class PacientesRepository implements PacientesRepositoryInterface
     this.repository = database.getRepository(Paciente);
   }
 
-  public async total (): Promise<number> {
-    return await this.repository.count();
+  public async encontrar (opcoes: FindOneOptions<Paciente>): Promise<Paciente | undefined> {
+    return await this.repository.findOne(opcoes) ?? undefined;
   }
 
   public async listar (pagina: number, filtros: FiltrosDeBuscarPacientesContrato): Promise<Array<Paciente>> {
@@ -53,11 +53,20 @@ export default class PacientesRepository implements PacientesRepositoryInterface
     return await queryBuilder.getMany();
   }
 
+  public async total (): Promise<number> {
+    return await this.repository.count();
+  }
+
   public async cadastrar (dados: Partial<Paciente>): Promise<Paciente> {
     const paciente = this.repository.create(dados);
 
     dados.dataAtualizacao = dados.dataCriacao = new Date();
 
+    return await this.repository.save(paciente);
+  }
+
+  public async editar (paciente: Partial<Paciente>): Promise<Paciente> {
+    paciente.dataAtualizacao = new Date();
     return await this.repository.save(paciente);
   }
 

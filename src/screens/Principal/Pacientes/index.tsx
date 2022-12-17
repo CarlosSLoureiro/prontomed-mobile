@@ -43,6 +43,7 @@ const Pacientes = ({
   const [buscarVisivel, setBuscarVisivel] = useState(false);
   const [cadastrarVisivel, setCadastrarVisivel] = useState(false);
   const [ordernarVisivel, setOrdernarVisivel] = useState(false);
+  const cadastrarEditarPacienteRef = useRef<any>();
 
   const carregarTotalPacientes = async (): Promise<void> => {
     const helper = new ObterTotalPacientesHelper();
@@ -173,7 +174,7 @@ const Pacientes = ({
       >
         <Portal>
           <Buscar visivel={buscarVisivel} setVisivel={setBuscarVisivel} callback={buscarPacientes} valorAtual={filtrosDeBusca.busca} />
-          <Cadastrar visivel={cadastrarVisivel} setVisivel={setCadastrarVisivel} callback={cadastrarPaciente}/>
+          <Cadastrar formularioRef={cadastrarEditarPacienteRef} visivel={cadastrarVisivel} setVisivel={setCadastrarVisivel} callback={cadastrarPaciente}/>
           <Ordenar
             visivel={ordernarVisivel} setVisivel={setOrdernarVisivel} callback={reordenarPacientes}
             valorAtual={filtrosDeBusca.ordenacao}
@@ -199,7 +200,7 @@ const Pacientes = ({
         </Portal>
         <Text style={styles.text}>Você possui {totalPacientes} pacientes!</Text>
         {
-          pacientes.map((paciente, index) => <PacienteCard key={index} paciente={paciente} ultimo={pacientes.length - 1 === index} />)
+          pacientes.map((paciente, index) => <PacienteCard key={index} formularioRef={cadastrarEditarPacienteRef} paciente={paciente} ultimo={pacientes.length - 1 === index} />)
         }
       </ScrollView>
   );

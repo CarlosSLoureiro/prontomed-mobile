@@ -4,7 +4,7 @@ import PacientesRepositoryInterface from '@repository/Pacientes/interface';
 
 import validar from '@validators/paciente';
 
-export default class CadastrarPacientesHelper {
+export default class EditarPacientesHelper {
   private readonly repository: PacientesRepositoryInterface;
   public readonly tamanhoMinimoNome = 3;
 
@@ -12,9 +12,8 @@ export default class CadastrarPacientesHelper {
     this.repository = repository;
   }
 
-  public async executar (dados: Partial<Paciente>): Promise<Paciente> {
-    validar(dados);
-    const paciente = await this.repository.cadastrar(dados);
-    return paciente;
+  public async executar (paciente: Partial<Paciente>): Promise<Paciente> {
+    validar(paciente);
+    return await this.repository.editar(paciente);
   }
 }
