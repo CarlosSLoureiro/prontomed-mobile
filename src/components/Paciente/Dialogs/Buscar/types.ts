@@ -1,4 +1,5 @@
 import { Generos, TiposSanguineos } from '@entity/Paciente/enums';
+import { BuscarPacientesContrato } from '@repository/Pacientes/types';
 
 export interface ItemListagemDeGenerosContrato {
   _id: string;
@@ -38,4 +39,5 @@ export interface BuscarPacienteContrato {
   visivel: boolean;
   setVisivel: Function;
   callback: (busca?: BuscarPacienteCallbackContrato) => void;
+  valorAtual?: BuscarPacientesContrato;
 }

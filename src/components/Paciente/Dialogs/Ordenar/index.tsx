@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Dialog, Divider, RadioButton } from 'react-native-paper';
 
 import { OrdenacaoPacientesContrato } from '@repository/Pacientes/types';
@@ -16,6 +16,11 @@ const Ordenar = ({
 }: OrdenarContrato): JSX.Element => {
   const [ordem, setOrdem] = useState(valorAtual.ordem);
   const [chave, setChave] = useState(valorAtual.chave);
+
+  useEffect(() => {
+    setOrdem(valorAtual.ordem);
+    setChave(valorAtual.chave);
+  }, [valorAtual]);
 
   const styles = getStyles();
 
