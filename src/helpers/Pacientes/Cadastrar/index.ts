@@ -2,7 +2,7 @@ import { Repositories } from '@database';
 import Paciente from '@entity/Paciente';
 import PacientesRepositoryInterface from '@repository/Pacientes/interface';
 
-import validar from '@validators/paciente';
+import validar from '@validators/Paciente';
 
 export default class CadastrarPacientesHelper {
   private readonly repository: PacientesRepositoryInterface;
