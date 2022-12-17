@@ -36,7 +36,7 @@ const Pacientes = ({
   const filtrosDeBuscaInicial: FiltrosDeBuscarPacientesContrato = {
     ordenacao: {
       ordem: 'decrescente',
-      chave: 'id'
+      chave: 'pacientes.id'
     }
   };
   const [filtrosDeBusca, setFiltrosDeBusca] = useState<FiltrosDeBuscarPacientesContrato>(filtrosDeBuscaInicial);
@@ -50,52 +50,49 @@ const Pacientes = ({
     setTotalPacientes(total);
   };
 
-  const carregarPacientes = async (): Promise<void> => {
+  const carregarPacientes = async (deveResetar = false): Promise<void> => {
     const helper = new ListarPacientesHelper();
-    const pacientesCarregados = await helper.executar(pacientesPagina, filtrosDeBusca);
 
-    /* funde os resultados */
-    const listagem = [...pacientes, ...pacientesCarregados.filter(pacienteCarregado => {
-      return !pacientes.some(paciente => paciente.id === pacienteCarregado.id);
-    })];
+    try {
+      const listagemAtual = deveResetar ? [] : pacientes;
+      const paginaAtual = deveResetar ? 0 : pacientesPagina;
 
-    setPacientes(listagem);
-    setPacientesPagina(pacientesPagina + 1);
-  };
+      const pacientesCarregados = await helper.executar(paginaAtual, filtrosDeBusca);
 
-  const sobirScrollParaOTopo = (): void => {
-    scrollRef?.current?.scrollTo({
-      y: 0,
-      animated: true
-    });
-  };
+      if (pacientesCarregados.length) {
+        /* funde os resultados */
+        const listagem = [...listagemAtual, ...pacientesCarregados.filter(pacienteCarregado => {
+          return !listagemAtual.some(paciente => paciente.id === pacienteCarregado.id);
+        })];
 
-  const deveCarregarMais = ({ layoutMeasurement, contentOffset, contentSize }: any): boolean => {
-    // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-    return (!carregando) && ((layoutMeasurement.height + contentOffset.y) >= contentSize.height);
-  };
-
-  const carregarMaisPacientes = async (): Promise<void> => {
-    if (pacientes.length < totalPacientes) {
-      await carregarPacientes();
-    } else {
-      Notification.add({
-        title: 'Não há mais pacientes',
-        description: 'Tente alterar os filtros de busca',
-        Component: NotifierComponents.Alert,
-        componentProps: {
-          alertType: 'error'
-        },
-        duration: 5000
+        setPacientes(listagem);
+        setPacientesPagina(paginaAtual + 1);
+      } else if (!totalPacientes) {
+        Notification.info({
+          title: 'Não há pacientes cadastrados',
+          duration: 5000
+        });
+      } else if (paginaAtual > 0) {
+        Notification.info({
+          title: 'Não há mais pacientes',
+          description: 'Tente alterar os filtros de busca',
+          duration: 5000
+        });
+      } else {
+        setPacientes([]);
+        Notification.info({
+          title: 'Não há pacientes',
+          description: 'Tente alterar os filtros de busca',
+          duration: 5000
+        });
+      }
+    } catch (err) {
+      Notification.error({
+        title: 'Não foi possível carregar a listagem',
+        description: (err as Error).message,
+        duration: 10000
       });
     }
-  };
-
-  const buscarPacientes = (busca?: BuscarPacienteCallbackContrato): void => {
-    setFiltrosDeBusca({
-      ...filtrosDeBusca,
-      ...{ busca }
-    });
   };
 
   const cadastrarPaciente = async (dados: Partial<Paciente>): Promise<Paciente | undefined> => {
@@ -124,6 +121,25 @@ const Pacientes = ({
     }
   };
 
+  const sobirScrollParaOTopo = (): void => {
+    scrollRef?.current?.scrollTo({
+      y: 0,
+      animated: true
+    });
+  };
+
+  const deveCarregarMais = ({ layoutMeasurement, contentOffset, contentSize }: any): boolean => {
+    // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+    return (!carregando) && ((layoutMeasurement.height + contentOffset.y) >= contentSize.height);
+  };
+
+  const buscarPacientes = (busca?: BuscarPacienteCallbackContrato): void => {
+    setFiltrosDeBusca({
+      ...filtrosDeBusca,
+      ...{ busca }
+    });
+  };
+
   const reordenarPacientes = (ordenacao: OrdenacaoPacientesContrato): void => {
     setFiltrosDeBusca({
       ...filtrosDeBusca,
@@ -132,15 +148,9 @@ const Pacientes = ({
   };
 
   useEffect(() => {
-    console.log('Deve buscar pacientes ->', filtrosDeBusca);
-    Notification.info({
-      title: 'Deve buscar pacientes',
-      description: JSON.stringify(filtrosDeBusca)
-    });
-
-    setPacientesPagina(0);
+    sobirScrollParaOTopo();
     void carregarTotalPacientes();
-    void carregarPacientes();
+    void carregarPacientes(true);
   }, [filtrosDeBusca]);
 
   if (!paginaAtiva) {
@@ -153,7 +163,7 @@ const Pacientes = ({
           if (deveCarregarMais(nativeEvent)) {
             void (async () => {
               setCarregando(true);
-              await carregarMaisPacientes()
+              await carregarPacientes()
                 .finally(() => setCarregando(false));
             })();
           }
@@ -162,18 +172,18 @@ const Pacientes = ({
         contentContainerStyle={styles.conteudo}
       >
         <Portal>
-          <Buscar visivel={buscarVisivel} setVisivel={setBuscarVisivel} callback={buscarPacientes}/>
+          <Buscar visivel={buscarVisivel} setVisivel={setBuscarVisivel} callback={buscarPacientes} valorAtual={filtrosDeBusca.busca} />
           <Cadastrar visivel={cadastrarVisivel} setVisivel={setCadastrarVisivel} callback={cadastrarPaciente}/>
           <Ordenar
             visivel={ordernarVisivel} setVisivel={setOrdernarVisivel} callback={reordenarPacientes}
             valorAtual={filtrosDeBusca.ordenacao}
             valoresDeBusca={[
-              { titulo: 'Pelo nome do paciente', valor: 'nome' },
-              { titulo: 'Pela idade do paciente', valor: 'idade' },
-              { titulo: 'Pelo peso do paciente', valor: 'peso' },
-              { titulo: 'Pela altura do paciente', valor: 'altura' },
-              { titulo: 'Pela número do paciente', valor: 'id' },
-              { titulo: 'Pela número de consultas', valor: 'consultas' }
+              { titulo: 'Pelo nome do paciente', valor: 'pacientes.nome' },
+              { titulo: 'Pela idade do paciente', valor: 'pacientes.idade' },
+              { titulo: 'Pelo peso do paciente', valor: 'pacientes.peso' },
+              { titulo: 'Pela altura do paciente', valor: 'pacientes.altura' },
+              { titulo: 'Pela número do paciente', valor: 'pacientes.id' },
+              { titulo: 'Pela número de consultas', valor: 'totalConsultas' }
             ]}
           />
           <Opcoes

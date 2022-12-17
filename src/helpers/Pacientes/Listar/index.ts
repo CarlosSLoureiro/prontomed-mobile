@@ -11,6 +11,6 @@ export default class ListarPacientesHelper {
   }
 
   public async executar (pagina: number, filtros: FiltrosDeBuscarPacientesContrato): Promise<Array<Paciente>> {
-    return await this.repository.listar(pagina);
+    return await this.repository.listar(pagina, filtros);
   }
 }

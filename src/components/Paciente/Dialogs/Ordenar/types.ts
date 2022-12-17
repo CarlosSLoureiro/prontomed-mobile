@@ -2,7 +2,7 @@ import { OrdenacaoPacientesContrato } from '@repository/Pacientes/types';
 
 export interface ValoresDeBusca {
   titulo: string;
-  valor: string;
+  valor: 'pacientes.nome' | 'pacientes.idade' | 'pacientes.peso' | 'pacientes.altura' | 'pacientes.id' | 'totalConsultas';
 }
 
 export interface OrdenarContrato {

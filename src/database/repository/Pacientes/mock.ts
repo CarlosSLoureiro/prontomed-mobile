@@ -9,7 +9,7 @@ export default class PacientesRepositoryMock implements PacientesRepositoryInter
     return await Promise.resolve(pacientes.length);
   }
 
-  public async listar (pagina: number): Promise<Array<Paciente>> {
+  public async listar (): Promise<Array<Paciente>> {
     return await Promise.resolve(pacientes);
   }
 
