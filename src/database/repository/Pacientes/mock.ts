@@ -30,8 +30,8 @@ export default class PacientesRepositoryMock implements PacientesRepositoryInter
     return await Promise.resolve(dados as Paciente);
   }
 
-  public async deletar (id: number): Promise<void> {
-    pacientes = pacientes.filter(paciente => (paciente.id !== id));
-    await Promise.resolve();
+  public async excluir (paciente: Paciente): Promise<Paciente> {
+    pacientes = pacientes.filter(p => (p.id !== paciente.id));
+    return await Promise.resolve(paciente);
   }
 }

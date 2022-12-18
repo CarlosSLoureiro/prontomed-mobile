@@ -70,7 +70,7 @@ export default class PacientesRepository implements PacientesRepositoryInterface
     return await this.repository.save(paciente);
   }
 
-  public async deletar (id: number): Promise<void> {
-    await this.repository.delete(id);
+  public async excluir (paciente: Paciente): Promise<Paciente> {
+    return await this.repository.remove(paciente);
   }
 }

@@ -7,6 +7,7 @@ import { FiltrosDeBuscarPacientesContrato, OrdenacaoPacientesContrato } from '@r
 
 import CadastrarPacientesHelper from '@helpers/Pacientes/Cadastrar';
 import EditarPacientesHelper from '@helpers/Pacientes/Editar';
+import ExcluirPacientesHelper from '@helpers/Pacientes/Excluir';
 import ListarPacientesHelper from '@helpers/Pacientes/Listar';
 import ObterTotalPacientesHelper from '@helpers/Pacientes/ObterTotal';
 
@@ -16,12 +17,13 @@ import PacienteCard from '@components/Paciente/Card';
 import Buscar from '@components/Paciente/Dialogs/Buscar';
 import { BuscarPacienteCallbackContrato } from '@components/Paciente/Dialogs/Buscar/types';
 import CadastrarEditar from '@components/Paciente/Dialogs/CadastrarEditar';
+import Excluir from '@components/Paciente/Dialogs/Excluir';
 import Ordenar from '@components/Paciente/Dialogs/Ordenar';
 import Opcoes from '@components/Paciente/Opcoes';
 
 import getMainStyles from '../styles';
 
-import { cadastrarEditarCallback, PacientesContrato } from './types';
+import { cadastrarEditarCallback, excluirCallback, PacientesContrato } from './types';
 
 const Pacientes = ({
   paginaAtiva
@@ -29,7 +31,6 @@ const Pacientes = ({
   const styles = getMainStyles();
   const [carregando, setCarregando] = useState(false);
   const [pacientes, setPacientes] = useState<Array<Paciente>>([]);
-  const [pacientesAdicionados, setPacientesAdicionados] = useState<Array<Paciente>>([]);
   const [pacientesPagina, setPacientesPagina] = useState(0);
   const [totalPacientes, setTotalPacientes] = useState(0);
   const scrollRef = useRef<ScrollView>(null);
@@ -44,6 +45,7 @@ const Pacientes = ({
   const [cadastrarVisivel, setCadastrarVisivel] = useState(false);
   const [ordernarVisivel, setOrdernarVisivel] = useState(false);
   const cadastrarEditarPacienteRef = useRef<any>();
+  const excluirPacienteRef = useRef<any>();
 
   const carregarTotalPacientes = async (): Promise<void> => {
     const helper = new ObterTotalPacientesHelper();
@@ -108,7 +110,6 @@ const Pacientes = ({
       });
 
       setPacientes([...[paciente], ...pacientes]);
-      setPacientesAdicionados([...[paciente], ...pacientesAdicionados]);
       setTotalPacientes(totalPacientes + 1);
       sobirScrollParaOTopo();
 
@@ -139,6 +140,29 @@ const Pacientes = ({
     } catch (err) {
       Notification.error({
         title: 'Não foi possível atualizar o paciente',
+        description: (err as Error).message,
+        duration: 10000
+      });
+    }
+  };
+
+  const excluirPaciente: excluirCallback = async (paciente: Paciente): Promise<Paciente | undefined> => {
+    const helper = new ExcluirPacientesHelper();
+
+    try {
+      const pacienteExcluido = await helper.executar(paciente);
+
+      setPacientes([...pacientes.filter(pacientes => (pacientes.id !== pacienteExcluido.id))]);
+      setTotalPacientes(totalPacientes - 1);
+
+      Notification.info({
+        title: `Paciente ${pacienteExcluido.nome} foi excluído (a)`,
+        duration: 10000
+      });
+      return pacienteExcluido;
+    } catch (err) {
+      Notification.error({
+        title: 'Não foi possível excluir o (a) paciente',
         description: (err as Error).message,
         duration: 10000
       });
@@ -203,6 +227,10 @@ const Pacientes = ({
             cadastrarCallback={cadastrarPaciente}
             editarCallback={editarPaciente}
           />
+          <Excluir
+            formularioRef={excluirPacienteRef}
+            callback={excluirPaciente}
+          />
           <Ordenar
             visivel={ordernarVisivel} setVisivel={setOrdernarVisivel} callback={reordenarPacientes}
             valorAtual={filtrosDeBusca.ordenacao}
@@ -228,7 +256,13 @@ const Pacientes = ({
         </Portal>
         <Text style={styles.text}>Você possui {totalPacientes} pacientes!</Text>
         {
-          pacientes.map((paciente, index) => <PacienteCard key={index} formularioRef={cadastrarEditarPacienteRef} paciente={paciente} ultimo={pacientes.length - 1 === index} />)
+          pacientes.map((paciente, index) => <PacienteCard
+            key={index}
+            editarFormularioRef={cadastrarEditarPacienteRef}
+            excluirFormularioRef={excluirPacienteRef}
+            paciente={paciente}
+            ultimo={pacientes.length - 1 === index}
+          />)
         }
       </ScrollView>
   );

@@ -3,9 +3,11 @@ import { MutableRefObject } from 'react';
 import Paciente from '@entity/Paciente';
 
 import { EditarPacienteContrato } from '../Dialogs/CadastrarEditar/types';
+import { ExcluirPacienteRefContrato } from '../Dialogs/Excluir/types';
 
 export interface PacienteCardContrato {
-  formularioRef?: MutableRefObject<EditarPacienteContrato>;
+  editarFormularioRef?: MutableRefObject<EditarPacienteContrato>;
+  excluirFormularioRef?: MutableRefObject<ExcluirPacienteRefContrato>;
   paciente: Paciente;
   ultimo?: boolean;
 }
