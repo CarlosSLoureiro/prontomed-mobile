@@ -15,7 +15,7 @@ import Notification from '@hooks/useNotification';
 import PacienteCard from '@components/Paciente/Card';
 import Buscar from '@components/Paciente/Dialogs/Buscar';
 import { BuscarPacienteCallbackContrato } from '@components/Paciente/Dialogs/Buscar/types';
-import Cadastrar from '@components/Paciente/Dialogs/CadastrarEditar';
+import CadastrarEditar from '@components/Paciente/Dialogs/CadastrarEditar';
 import Ordenar from '@components/Paciente/Dialogs/Ordenar';
 import Opcoes from '@components/Paciente/Opcoes';
 
@@ -197,7 +197,7 @@ const Pacientes = ({
       >
         <Portal>
           <Buscar visivel={buscarVisivel} setVisivel={setBuscarVisivel} callback={buscarPacientes} valorAtual={filtrosDeBusca.busca} />
-          <Cadastrar
+          <CadastrarEditar
             formularioRef={cadastrarEditarPacienteRef}
             visivel={cadastrarVisivel} setVisivel={setCadastrarVisivel}
             cadastrarCallback={cadastrarPaciente}

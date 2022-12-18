@@ -15,7 +15,7 @@ import getStyles from './styles';
 
 import { CadastrarPacienteContrato, EditarPacienteContrato } from './types';
 
-const Cadastrar = ({
+const CadastrarEditar = ({
   formularioRef,
   visivel,
   setVisivel,
@@ -241,4 +241,4 @@ const Cadastrar = ({
   );
 };
 
-export default Cadastrar;
+export default CadastrarEditar;
