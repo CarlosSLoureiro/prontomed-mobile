@@ -16,12 +16,13 @@ import PacienteCard from '@components/Paciente/Card';
 import Buscar from '@components/Paciente/Dialogs/Buscar';
 import { BuscarPacienteCallbackContrato } from '@components/Paciente/Dialogs/Buscar/types';
 import CadastrarEditar from '@components/Paciente/Dialogs/CadastrarEditar';
+import Excluir from '@components/Paciente/Dialogs/Excluir';
 import Ordenar from '@components/Paciente/Dialogs/Ordenar';
 import Opcoes from '@components/Paciente/Opcoes';
 
 import getMainStyles from '../styles';
 
-import { cadastrarEditarCallback, PacientesContrato } from './types';
+import { cadastrarEditarCallback, excluirCallback, PacientesContrato } from './types';
 
 const Pacientes = ({
   paginaAtiva
@@ -44,6 +45,7 @@ const Pacientes = ({
   const [cadastrarVisivel, setCadastrarVisivel] = useState(false);
   const [ordernarVisivel, setOrdernarVisivel] = useState(false);
   const cadastrarEditarPacienteRef = useRef<any>();
+  const excluirPacienteRef = useRef<any>();
 
   const carregarTotalPacientes = async (): Promise<void> => {
     const helper = new ObterTotalPacientesHelper();
@@ -145,6 +147,14 @@ const Pacientes = ({
     }
   };
 
+  const excluirPaciente: excluirCallback = async (paciente: Paciente): Promise<void> => {
+    const helper = new ListarPacientesHelper();
+
+    const pacientesCarregados = await helper.executar(0, filtrosDeBusca);
+
+    console.log('excluir paciente', paciente);
+  };
+
   const sobirScrollParaOTopo = (): void => {
     scrollRef?.current?.scrollTo({
       y: 0,
@@ -203,6 +213,10 @@ const Pacientes = ({
             cadastrarCallback={cadastrarPaciente}
             editarCallback={editarPaciente}
           />
+          <Excluir
+            formularioRef={excluirPacienteRef}
+            callback={excluirPaciente}
+          />
           <Ordenar
             visivel={ordernarVisivel} setVisivel={setOrdernarVisivel} callback={reordenarPacientes}
             valorAtual={filtrosDeBusca.ordenacao}
@@ -228,7 +242,13 @@ const Pacientes = ({
         </Portal>
         <Text style={styles.text}>Você possui {totalPacientes} pacientes!</Text>
         {
-          pacientes.map((paciente, index) => <PacienteCard key={index} formularioRef={cadastrarEditarPacienteRef} paciente={paciente} ultimo={pacientes.length - 1 === index} />)
+          pacientes.map((paciente, index) => <PacienteCard
+            key={index}
+            editarFormularioRef={cadastrarEditarPacienteRef}
+            excluirFormularioRef={excluirPacienteRef}
+            paciente={paciente}
+            ultimo={pacientes.length - 1 === index}
+          />)
         }
       </ScrollView>
   );

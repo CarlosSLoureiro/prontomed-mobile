@@ -12,7 +12,8 @@ import { PacienteCardContrato } from './types';
 
 const PacienteCard = ({
   paciente,
-  formularioRef,
+  editarFormularioRef,
+  excluirFormularioRef,
   ultimo = false
 }: PacienteCardContrato): JSX.Element => {
   const [exibirMenu, setExibirMenu] = useState(false);
@@ -195,7 +196,7 @@ const PacienteCard = ({
                     titulo: 'Editar paciente',
                     icone: 'account-edit-outline',
                     callback: () => {
-                      formularioRef?.current(paciente);
+                      editarFormularioRef?.current(paciente);
                       fecharMenu();
                     }
                   },
@@ -211,7 +212,7 @@ const PacienteCard = ({
                     titulo: 'Excluir paciente',
                     icone: 'file-remove',
                     callback: () => {
-                      console.log(`Excluir: ${paciente.nome}`);
+                      excluirFormularioRef?.current(paciente);
                       fecharMenu();
                     }
                   }
