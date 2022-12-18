@@ -31,7 +31,6 @@ const Pacientes = ({
   const styles = getMainStyles();
   const [carregando, setCarregando] = useState(false);
   const [pacientes, setPacientes] = useState<Array<Paciente>>([]);
-  const [pacientesAdicionados, setPacientesAdicionados] = useState<Array<Paciente>>([]);
   const [pacientesPagina, setPacientesPagina] = useState(0);
   const [totalPacientes, setTotalPacientes] = useState(0);
   const scrollRef = useRef<ScrollView>(null);
@@ -111,7 +110,6 @@ const Pacientes = ({
       });
 
       setPacientes([...[paciente], ...pacientes]);
-      setPacientesAdicionados([...[paciente], ...pacientesAdicionados]);
       setTotalPacientes(totalPacientes + 1);
       sobirScrollParaOTopo();
 
