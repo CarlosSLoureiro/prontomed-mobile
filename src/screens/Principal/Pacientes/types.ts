@@ -6,4 +6,4 @@ export interface PacientesContrato {
 
 export type cadastrarEditarCallback = (dados: Partial<Paciente>) => Promise<Paciente | undefined>;
 
-export type excluirCallback = (paciente: Paciente) => Promise<void>;
+export type excluirCallback = (paciente: Paciente) => Promise<Paciente | undefined>;

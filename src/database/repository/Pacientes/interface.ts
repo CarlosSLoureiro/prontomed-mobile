@@ -10,5 +10,5 @@ export default interface PacientesRepositoryInterface {
   total: () => Promise<number>;
   cadastrar: (paciente: Partial<Paciente>) => Promise<Paciente>;
   editar: (paciente: Partial<Paciente>) => Promise<Paciente>;
-  deletar: (id: number) => Promise<void>;
+  excluir: (paciente: Paciente) => Promise<Paciente>;
 }

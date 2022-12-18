@@ -7,6 +7,7 @@ import { FiltrosDeBuscarPacientesContrato, OrdenacaoPacientesContrato } from '@r
 
 import CadastrarPacientesHelper from '@helpers/Pacientes/Cadastrar';
 import EditarPacientesHelper from '@helpers/Pacientes/Editar';
+import ExcluirPacientesHelper from '@helpers/Pacientes/Excluir';
 import ListarPacientesHelper from '@helpers/Pacientes/Listar';
 import ObterTotalPacientesHelper from '@helpers/Pacientes/ObterTotal';
 
@@ -147,12 +148,27 @@ const Pacientes = ({
     }
   };
 
-  const excluirPaciente: excluirCallback = async (paciente: Paciente): Promise<void> => {
-    const helper = new ListarPacientesHelper();
+  const excluirPaciente: excluirCallback = async (paciente: Paciente): Promise<Paciente | undefined> => {
+    const helper = new ExcluirPacientesHelper();
 
-    const pacientesCarregados = await helper.executar(0, filtrosDeBusca);
+    try {
+      const pacienteExcluido = await helper.executar(paciente);
 
-    console.log('excluir paciente', paciente);
+      setPacientes([...pacientes.filter(pacientes => (pacientes.id !== pacienteExcluido.id))]);
+      setTotalPacientes(totalPacientes - 1);
+
+      Notification.info({
+        title: `Paciente ${pacienteExcluido.nome} foi excluído (a)`,
+        duration: 10000
+      });
+      return pacienteExcluido;
+    } catch (err) {
+      Notification.error({
+        title: 'Não foi possível excluir o (a) paciente',
+        description: (err as Error).message,
+        duration: 10000
+      });
+    }
   };
 
   const sobirScrollParaOTopo = (): void => {
