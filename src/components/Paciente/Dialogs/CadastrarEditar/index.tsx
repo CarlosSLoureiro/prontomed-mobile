@@ -101,8 +101,10 @@ const CadastrarEditar = ({
   const cancelar = (): void => {
     setVisivel(false);
     setModoEdicao(false);
-    setDadosAtuais({});
-    setPaciente({});
+    setTimeout(() => {
+      setDadosAtuais({});
+      setPaciente({});
+    }, 500);
   };
   const cadastrar = (): void => {
     void (async () => {
