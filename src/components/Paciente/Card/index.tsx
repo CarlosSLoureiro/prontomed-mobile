@@ -12,6 +12,7 @@ import { PacienteCardContrato } from './types';
 
 const PacienteCard = ({
   paciente,
+  agendarFormularioRef,
   editarFormularioRef,
   excluirFormularioRef,
   ultimo = false
@@ -165,6 +166,9 @@ const PacienteCard = ({
                     titulo: 'Agendar consulta',
                     icone: 'calendar-check',
                     callback: () => {
+                      agendarFormularioRef?.current(paciente);
+                      fecharMenu();
+                      return;
                       void (async () => {
                         const consulta = await Calendario.agendarConsulta(paciente.nome);
                         if (consulta !== null) {

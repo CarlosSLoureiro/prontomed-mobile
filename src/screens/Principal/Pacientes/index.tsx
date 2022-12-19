@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ScrollView, Text } from 'react-native';
 import { Portal } from 'react-native-paper';
 
+import Consulta from '@entity/Consulta';
 import Paciente from '@entity/Paciente';
 import { FiltrosDeBuscarPacientesContrato, OrdenacaoPacientesContrato } from '@repository/Pacientes/types';
 
@@ -14,6 +15,7 @@ import ObterTotalPacientesHelper from '@helpers/Pacientes/ObterTotal';
 import Notification from '@hooks/useNotification';
 
 import PacienteCard from '@components/Paciente/Card';
+import AgendarConsulta from '@components/Paciente/Dialogs/AgendarConsulta';
 import Buscar from '@components/Paciente/Dialogs/Buscar';
 import { BuscarPacienteCallbackContrato } from '@components/Paciente/Dialogs/Buscar/types';
 import CadastrarEditar from '@components/Paciente/Dialogs/CadastrarEditar';
@@ -23,7 +25,7 @@ import Opcoes from '@components/Paciente/Opcoes';
 
 import getMainStyles from '../styles';
 
-import { cadastrarEditarCallback, excluirCallback, PacientesContrato } from './types';
+import { agendaraConsultaCallback, cadastrarEditarCallback, excluirCallback, PacientesContrato } from './types';
 
 const Pacientes = ({
   paginaAtiva
@@ -44,6 +46,8 @@ const Pacientes = ({
   const [buscarVisivel, setBuscarVisivel] = useState(false);
   const [cadastrarVisivel, setCadastrarVisivel] = useState(false);
   const [ordernarVisivel, setOrdernarVisivel] = useState(false);
+
+  const agendarConsultaRef = useRef<any>();
   const cadastrarEditarPacienteRef = useRef<any>();
   const excluirPacienteRef = useRef<any>();
 
@@ -169,6 +173,11 @@ const Pacientes = ({
     }
   };
 
+  const agendarConsulta: agendaraConsultaCallback = async (paciente: Paciente, data: Date): Promise<Consulta | undefined> => {
+    console.log('agendar consulta para paciente', paciente);
+    return await Promise.resolve(undefined);
+  };
+
   const sobirScrollParaOTopo = (): void => {
     scrollRef?.current?.scrollTo({
       y: 0,
@@ -220,7 +229,16 @@ const Pacientes = ({
         contentContainerStyle={styles.conteudo}
       >
         <Portal>
-          <Buscar visivel={buscarVisivel} setVisivel={setBuscarVisivel} callback={buscarPacientes} valorAtual={filtrosDeBusca.busca} />
+          <Buscar
+            visivel={buscarVisivel}
+            setVisivel={setBuscarVisivel}
+            callback={buscarPacientes}
+            valorAtual={filtrosDeBusca.busca}
+          />
+          <AgendarConsulta
+            formularioRef={agendarConsultaRef}
+            callback={agendarConsulta}
+          />
           <CadastrarEditar
             formularioRef={cadastrarEditarPacienteRef}
             visivel={cadastrarVisivel} setVisivel={setCadastrarVisivel}
@@ -258,6 +276,7 @@ const Pacientes = ({
         {
           pacientes.map((paciente, index) => <PacienteCard
             key={index}
+            agendarFormularioRef={agendarConsultaRef}
             editarFormularioRef={cadastrarEditarPacienteRef}
             excluirFormularioRef={excluirPacienteRef}
             paciente={paciente}
