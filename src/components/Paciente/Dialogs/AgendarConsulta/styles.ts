@@ -15,12 +15,6 @@ const getStyles = () => {
     },
     text: {
       fontSize: 16
-    },
-    genero: {
-      paddingTop: 15
-    },
-    tipoSanguineo: {
-      paddingTop: 10
     }
   });
 };
