@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DarkTheme, DefaultTheme, TextInput as PaperTextInput } from 'react-native-paper';
 
 import ThemeScheme from '@hooks/useThemeScheme';
@@ -20,6 +20,12 @@ const TextInput = ({
 }: TextInputContrato): JSX.Element => {
   const [input, setInput] = useState<string>(valor);
   const isDarkMode = ThemeScheme.isDarkModeScheme();
+
+  useEffect(() => {
+    if (keyboard === 'decimal-pad' && valor.length > 0) {
+      setInput(valor.replaceAll('.', ','));
+    }
+  }, [valor]);
 
   const formatarTelefone = (texto: string): string => {
     return texto

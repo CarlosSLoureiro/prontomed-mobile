@@ -154,7 +154,7 @@ const PacienteCard = ({
               iconBackgroundColor={cardIconStyles.backgrounColor}
               topRightText={`nº ${paciente.id}`}
               bottomRightText={(idade > 0 ? `${idade} ${obterSingularPlural('anos', idade)}` : `${mesesIdade} ${obterSingularPlural('meses', mesesIdade)}`)}
-              description={`${paciente.genero}, ${paciente.peso}Kg, ${paciente.altura}M, ${paciente.tipoSanguineo}\n${paciente?.consultas ? paciente.consultas.length : 0} consultas registradas`}
+              description={`${paciente.genero}, ${paciente.peso.toString().replace('.', ',')}Kg, ${paciente.altura.toString().replace('.', ',')}M, ${paciente.tipoSanguineo}\n${paciente?.consultas ? paciente.consultas.length : 0} consultas registradas`}
               // @ts-expect-error - a biblioteca não inclui parametros no contrato do onPress.
               onPress={abrirMenuContexto}
             />
