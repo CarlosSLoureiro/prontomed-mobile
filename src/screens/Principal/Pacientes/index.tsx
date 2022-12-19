@@ -175,6 +175,8 @@ const Pacientes = ({
 
   const agendarConsulta: agendaraConsultaCallback = async (paciente: Paciente, data: Date): Promise<Consulta | undefined> => {
     console.log('agendar consulta para paciente', paciente);
+    console.log('data', data);
+    console.log('');
     return await Promise.resolve(undefined);
   };
 

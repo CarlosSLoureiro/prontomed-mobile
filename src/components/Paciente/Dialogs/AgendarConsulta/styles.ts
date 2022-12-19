@@ -15,6 +15,9 @@ const getStyles = () => {
     },
     text: {
       fontSize: 16
+    },
+    input: {
+      marginTop: 10
     }
   });
 };
