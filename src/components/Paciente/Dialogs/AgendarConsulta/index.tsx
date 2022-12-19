@@ -5,7 +5,7 @@ import Paciente from '@entity/Paciente';
 
 import getStyles from './styles';
 
-import { AgendarConsultaContrato, AgendarConsultaRefContrato } from './types';
+import { AgendarConsultaContrato } from './types';
 
 const AgendarConsulta = ({
   formularioRef,
@@ -15,13 +15,15 @@ const AgendarConsulta = ({
   const [visivel, setVisivel] = useState(false);
   const [paciente, setPaciente] = useState<Paciente | undefined>();
 
-  const agendarConsulta: AgendarConsultaRefContrato = (paciente: Paciente): void => {
+  const abrirDialog = (paciente: Paciente): void => {
     setVisivel(true);
     setPaciente(paciente);
   };
 
   if (formularioRef !== undefined) {
-    formularioRef.current = agendarConsulta;
+    formularioRef.current = {
+      abrirDialog
+    };
   }
 
   const cancelar = (): void => {

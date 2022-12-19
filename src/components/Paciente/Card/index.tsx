@@ -166,7 +166,7 @@ const PacienteCard = ({
                     titulo: 'Agendar consulta',
                     icone: 'calendar-check',
                     callback: () => {
-                      agendarFormularioRef?.current(paciente);
+                      agendarFormularioRef?.current.abrirDialog(paciente);
                       fecharMenu();
                       return;
                       void (async () => {
@@ -200,7 +200,7 @@ const PacienteCard = ({
                     titulo: 'Editar paciente',
                     icone: 'account-edit-outline',
                     callback: () => {
-                      editarFormularioRef?.current(paciente);
+                      editarFormularioRef?.current.abrirDialog(paciente);
                       fecharMenu();
                     }
                   },
@@ -216,7 +216,7 @@ const PacienteCard = ({
                     titulo: 'Excluir paciente',
                     icone: 'file-remove',
                     callback: () => {
-                      excluirFormularioRef?.current(paciente);
+                      excluirFormularioRef?.current.abrirDialog(paciente);
                       fecharMenu();
                     }
                   }

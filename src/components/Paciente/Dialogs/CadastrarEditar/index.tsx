@@ -13,7 +13,7 @@ import TextInput from '@components/Formularios/TextInput';
 
 import getStyles from './styles';
 
-import { CadastrarPacienteContrato, EditarPacienteContrato } from './types';
+import { CadastrarPacienteContrato } from './types';
 
 const CadastrarEditar = ({
   formularioRef,
@@ -42,7 +42,7 @@ const CadastrarEditar = ({
 
   const [dadosAtuais, setDadosAtuais] = useState<Partial<Paciente>>({});
 
-  const editarPaciente: EditarPacienteContrato = (paciente: Paciente) => {
+  const abrirDialog = (paciente: Paciente): void => {
     setVisivel(true);
     setModoEdicao(true);
     setDadosAtuais(paciente);
@@ -50,7 +50,9 @@ const CadastrarEditar = ({
   };
 
   if (formularioRef !== undefined) {
-    formularioRef.current = editarPaciente;
+    formularioRef.current = {
+      abrirDialog
+    };
   }
 
   const [paciente, setPaciente] = useState<Partial<Paciente>>(dadosAtuais);

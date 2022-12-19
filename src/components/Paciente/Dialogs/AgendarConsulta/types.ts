@@ -4,7 +4,9 @@ import Paciente from '@entity/Paciente';
 
 import { agendaraConsultaCallback } from '@screens/Principal/Pacientes/types';
 
-export type AgendarConsultaRefContrato = (paciente: Paciente) => void;
+export interface AgendarConsultaRefContrato {
+  abrirDialog: (paciente: Paciente) => void;
+}
 
 export interface AgendarConsultaContrato {
   formularioRef?: MutableRefObject<AgendarConsultaRefContrato>;
