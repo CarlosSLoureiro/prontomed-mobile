@@ -17,3 +17,5 @@ jest.mock('@react-navigation/stack', () => ({
 jest.mock('expo-calendar', () => {});
 
 jest.mock('@paraboly/react-native-card', () => {});
+
+jest.mock('@react-native-async-storage/async-storage', () => {});
