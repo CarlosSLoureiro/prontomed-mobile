@@ -39,7 +39,7 @@ const DateTimePicker = ({
 
   const atualizarHora = (params): void => {
     const dataAgendada = data !== undefined ? new Date(data.getTime()) : new Date();
-    dataAgendada.setHours(params.hours as number, params.minutes as number, 0);
+    dataAgendada.setHours(params.hours as number, params.minutes as number, 0, 0);
     valor = dataAgendada;
     setData(dataAgendada);
     callback(dataAgendada);
