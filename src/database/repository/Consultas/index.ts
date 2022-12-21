@@ -13,13 +13,12 @@ export default class ConsultasRepository implements ConsultasRepositoryInterface
   }
 
   public async agendar (paciente: Paciente, data: Date): Promise<Consulta> {
-    const consulta = this.repository.create({
-      paciente,
-      dataAgendada: data
-    });
+    const consulta = this.repository.create();
 
+    consulta.paciente = paciente;
+    consulta.dataAgendada = data;
     consulta.dataAtualizacao = consulta.dataCriacao = new Date();
 
-    return await this.repository.save(paciente);
+    return await this.repository.save(consulta);
   }
 }

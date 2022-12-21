@@ -6,6 +6,7 @@ import Consulta from '@entity/Consulta';
 import Paciente from '@entity/Paciente';
 import { FiltrosDeBuscarPacientesContrato, OrdenacaoPacientesContrato } from '@repository/Pacientes/types';
 
+import AgendarConsultasHelper from '@helpers/Consultas/Agendar';
 import CadastrarPacientesHelper from '@helpers/Pacientes/Cadastrar';
 import EditarPacientesHelper from '@helpers/Pacientes/Editar';
 import ExcluirPacientesHelper from '@helpers/Pacientes/Excluir';
@@ -174,10 +175,32 @@ const Pacientes = ({
   };
 
   const agendarConsulta: agendaraConsultaCallback = async (paciente: Paciente, data: Date): Promise<Consulta | undefined> => {
-    console.log('agendar consulta para paciente', paciente);
-    console.log('data', data);
-    console.log('');
-    return await Promise.resolve(undefined);
+    const helper = new AgendarConsultasHelper();
+
+    try {
+      const consulta = await helper.executar(paciente, data);
+
+      setPacientes([...pacientes.map(p => {
+        if (p.id === paciente.id) {
+          p.consultas?.push(consulta);
+          return p;
+        } else {
+          return p;
+        }
+      })]);
+
+      Notification.success({
+        title: `Consulta nº ${consulta.id} agendada com sucesso`,
+        duration: 10000
+      });
+      return consulta;
+    } catch (err) {
+      Notification.error({
+        title: 'Não foi possível agendar a consulta',
+        description: (err as Error).message,
+        duration: 10000
+      });
+    }
   };
 
   const sobirScrollParaOTopo = (): void => {
