@@ -17,7 +17,12 @@ const Item = ({
   useEffect(() => {
     void (async () => {
       const valorSalvo = await AsyncStorage.getItem(`ProntoMed:${variavel}`);
-      setValor(valorSalvo === 'true');
+      if (valorSalvo !== null) {
+        setValor(valorSalvo === 'true');
+      } else {
+        await AsyncStorage.setItem(`ProntoMed:${variavel}`, (true).toString());
+        setValor(true);
+      }
     })();
   }, [variavel]);
 
