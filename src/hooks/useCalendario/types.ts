@@ -1,7 +1,5 @@
-import { NotifierInterface, ShowNotificationParams } from 'react-native-notifier/lib/typescript/types';
+import * as Calendar from 'expo-calendar';
 
 export interface CalendarioContrato {
-  obterCelendario: () => Promise<string | null>;
-  criarCalendario: () => Promise<string | null>;
-  agendarConsulta: (nome: string) => Promise<string | null>;
+  agendarConsulta: (params: Partial<Calendar.Event>) => Promise<string | undefined>;
 }

@@ -1,4 +1,5 @@
 import * as Calendar from 'expo-calendar';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Notification from '@hooks/useNotification';
 
@@ -7,16 +8,17 @@ import { CalendarioContrato } from './types';
 class Calendario implements CalendarioContrato {
   private static _instancia: Calendario;
 
+  private readonly variavel = 'ProntoMed:ID_CALENDARIO';
+
   public static get Instancia (): Calendario {
     return this._instancia || (this._instancia = new this());
   }
 
-  public async obterCelendario (): Promise<string | null> {
+  private async obterCelendario (id: string): Promise<string | null> {
     const { status } = await Calendar.requestCalendarPermissionsAsync();
     if (status === 'granted') {
       const calendarios = await Calendar.getCalendarsAsync(Calendar.EntityTypes.EVENT);
-      // TODO: futuramente, para possibilitar a troca do título do calendário, deverá ser salvo no SQLLite o 'each.id' do calendário
-      const calendarioProntoMed = calendarios.filter(each => each.title === 'ProntoMed');
+      const calendarioProntoMed = calendarios.filter(each => each.id === id);
       const calendario = calendarioProntoMed[0]?.id ?? null;
       return calendario;
     } else {
@@ -29,7 +31,7 @@ class Calendario implements CalendarioContrato {
     }
   }
 
-  public async criarCalendario (): Promise<string | null> {
+  private async criarCalendario (): Promise<string | null> {
     const calendarioId = await Calendar.createCalendarAsync({
       title: 'ProntoMed',
       color: 'yellow',
@@ -42,28 +44,33 @@ class Calendario implements CalendarioContrato {
     return calendarioId ?? null;
   }
 
-  public async agendarConsulta (nome: string): Promise<string | null> {
-    let calendario = await this.obterCelendario();
+  public async agendarConsulta (params: Partial<Calendar.Event>): Promise<string | undefined> {
+    const id = await AsyncStorage.getItem(this.variavel);
+
+    let calendario: string | null = null;
+
+    if (id !== null) {
+      calendario = await this.obterCelendario(id);
+    }
 
     if (calendario === null) {
       calendario = await this.criarCalendario();
+
+      if (calendario !== null) {
+        await AsyncStorage.setItem(this.variavel, calendario);
+      }
     }
 
     if (calendario === null) {
       Notification.error({
         title: 'Não foi possível agendar a consulta!',
-        duration: 3000
+        description: 'Você precisa permitir que o ProntoMed possa acessar seu calendário',
+        duration: 5000
       });
-      return null;
+      return undefined;
     }
 
-    const eventoId = await Calendar.createEventAsync(calendario, {
-      title: `Consulta com ${nome}`,
-      startDate: new Date('2022-11-20 22:00:00'),
-      endDate: new Date('2022-11-20 23:00:00')
-    });
-
-    return eventoId ?? null;
+    return await Calendar.createEventAsync(calendario, params);
   }
 }
 
