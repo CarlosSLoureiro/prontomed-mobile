@@ -20,4 +20,8 @@ export default class PacientesRepositoryMock implements ConsultasRepositoryInter
   public async obterPossivelConsultaEmConflito (data: Date): Promise<Consulta | undefined> {
     return await Promise.resolve(new Consulta());
   }
+
+  public async editar (consulta: Partial<Consulta>): Promise<Consulta> {
+    return await Promise.resolve(consulta as Consulta);
+  }
 }

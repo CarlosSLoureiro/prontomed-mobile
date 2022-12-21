@@ -40,4 +40,9 @@ export default class ConsultasRepository implements ConsultasRepositoryInterface
 
     return await queryBuilder.getOne() ?? undefined;
   }
+
+  public async editar (consulta: Partial<Consulta>): Promise<Consulta> {
+    consulta.dataAtualizacao = new Date();
+    return await this.repository.save(consulta);
+  }
 }
