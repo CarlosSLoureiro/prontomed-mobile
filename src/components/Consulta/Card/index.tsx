@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { Card, Paragraph } from 'react-native-paper';
 
-import Calendario from '@hooks/useCalendario';
 import Notification from '@hooks/useNotification';
 
 import MenuContexto from './menu';
@@ -57,21 +56,6 @@ const ConsultaCard = ({
                 visivel={exibirMenu}
                 {...{ nome, fecharMenu, menuAnchor }}
                 items={[
-                  {
-                    titulo: 'Agendar',
-                    icone: 'calendar-check',
-                    callback: () => {
-                      void (async () => {
-                        const consulta = await Calendario.agendarConsulta(nome);
-                        if (consulta !== null) {
-                          Notification.success({
-                            title: 'Agendado com sucesso!'
-                          });
-                          fecharMenu();
-                        }
-                      })();
-                    }
-                  },
                   {
                     titulo: 'Remarcar',
                     icone: 'calendar-clock',

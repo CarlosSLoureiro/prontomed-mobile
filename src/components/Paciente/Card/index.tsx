@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Linking } from 'react-native';
 import { Card } from '@paraboly/react-native-card';
 
-import Calendario from '@hooks/useCalendario';
 import Notification from '@hooks/useNotification';
 
 import MenuContexto from './menu';
@@ -12,6 +11,7 @@ import { PacienteCardContrato } from './types';
 
 const PacienteCard = ({
   paciente,
+  agendarFormularioRef,
   editarFormularioRef,
   excluirFormularioRef,
   ultimo = false
@@ -153,7 +153,7 @@ const PacienteCard = ({
               iconBackgroundColor={cardIconStyles.backgrounColor}
               topRightText={`nº ${paciente.id}`}
               bottomRightText={(idade > 0 ? `${idade} ${obterSingularPlural('anos', idade)}` : `${mesesIdade} ${obterSingularPlural('meses', mesesIdade)}`)}
-              description={`${paciente.genero}, ${paciente.peso}Kg, ${paciente.altura}M, ${paciente.tipoSanguineo}\n${paciente?.consultas ? paciente.consultas.length : 0} consultas registradas`}
+              description={`${paciente.genero}, ${paciente.peso.toString().replace('.', ',')}Kg, ${paciente.altura.toString().replace('.', ',')}M, ${paciente.tipoSanguineo}\n${paciente?.consultas ? paciente.consultas.length : 0} consultas registradas`}
               // @ts-expect-error - a biblioteca não inclui parametros no contrato do onPress.
               onPress={abrirMenuContexto}
             />
@@ -165,15 +165,8 @@ const PacienteCard = ({
                     titulo: 'Agendar consulta',
                     icone: 'calendar-check',
                     callback: () => {
-                      void (async () => {
-                        const consulta = await Calendario.agendarConsulta(paciente.nome);
-                        if (consulta !== null) {
-                          Notification.success({
-                            title: 'Agendado com sucesso!'
-                          });
-                          fecharMenu();
-                        }
-                      })();
+                      agendarFormularioRef?.current.abrirDialog(paciente);
+                      fecharMenu();
                     }
                   },
                   {
@@ -196,7 +189,7 @@ const PacienteCard = ({
                     titulo: 'Editar paciente',
                     icone: 'account-edit-outline',
                     callback: () => {
-                      editarFormularioRef?.current(paciente);
+                      editarFormularioRef?.current.abrirDialog(paciente);
                       fecharMenu();
                     }
                   },
@@ -212,7 +205,7 @@ const PacienteCard = ({
                     titulo: 'Excluir paciente',
                     icone: 'file-remove',
                     callback: () => {
-                      excluirFormularioRef?.current(paciente);
+                      excluirFormularioRef?.current.abrirDialog(paciente);
                       fecharMenu();
                     }
                   }

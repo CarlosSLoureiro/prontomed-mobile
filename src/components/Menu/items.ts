@@ -29,7 +29,7 @@ const items = [
   {
     page: 4,
     nome: 'Ajustes',
-    title: 'Ajustes do app',
+    title: 'Ajustes do ProntoMed',
     icon: {
       font: 'SimpleLineIcons',
       name: 'settings'

@@ -51,7 +51,7 @@ const DatePicker = ({
             locale="pt"
             mode="single"
             visible={visivel}
-            onDismiss={(fechar)}
+            onDismiss={fechar}
             date={data ?? new Date()}
             onConfirm={params => {
               const dataSelecionada = params.date as Date;
@@ -60,7 +60,8 @@ const DatePicker = ({
               fechar();
               nextInputRef?.current?.focus();
             }}
-            uppercase={false}
+            uppercase={true}
+            animationType="slide"
             label={nome}
             saveLabel="Salvar"
         />

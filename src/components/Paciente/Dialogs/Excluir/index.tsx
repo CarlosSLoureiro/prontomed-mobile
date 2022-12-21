@@ -6,7 +6,7 @@ import { Generos } from '@entity/Paciente/enums';
 
 import getStyles from './styles';
 
-import { ExcluirPacienteContrato, ExcluirPacienteRefContrato } from './types';
+import { ExcluirPacienteContrato } from './types';
 
 const Excluir = ({
   formularioRef,
@@ -16,13 +16,15 @@ const Excluir = ({
   const [visivel, setVisivel] = useState(false);
   const [paciente, setPaciente] = useState<Paciente | undefined>();
 
-  const excluirPaciente: ExcluirPacienteRefContrato = (paciente: Paciente): void => {
+  const abrirDialog = (paciente: Paciente): void => {
     setVisivel(true);
     setPaciente(paciente);
   };
 
   if (formularioRef !== undefined) {
-    formularioRef.current = excluirPaciente;
+    formularioRef.current = {
+      abrirDialog
+    };
   }
 
   const obterMaasculinoFeminino = (palavra: string): string => {
