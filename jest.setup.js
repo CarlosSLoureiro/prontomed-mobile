@@ -18,4 +18,7 @@ jest.mock('expo-calendar', () => {});
 
 jest.mock('@paraboly/react-native-card', () => {});
 
-jest.mock('@react-native-async-storage/async-storage', () => {});
+jest.mock('@react-native-async-storage/async-storage', () => ({
+    setItem: jest.fn(),
+    getItem: jest.fn()
+}));
