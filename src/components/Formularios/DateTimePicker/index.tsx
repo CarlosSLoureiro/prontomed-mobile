@@ -25,9 +25,15 @@ const DateTimePicker = ({
   const isDarkMode = ThemeScheme.isDarkModeScheme();
 
   const abrirData = (): void => setDataVisivel(true);
-  const fecharData = (): void => setDataVisivel(false);
+  const fecharData = (): void => {
+    setData(valor);
+    setDataVisivel(false);
+  };
   const abrirHora = (): void => setHoraVisivel(true);
-  const fecharHora = (): void => setHoraVisivel(false);
+  const fecharHora = (): void => {
+    setData(valor);
+    setHoraVisivel(false);
+  };
 
   const atualizarData = (params): void => {
     const dataSelecionada = params.date as Date;
