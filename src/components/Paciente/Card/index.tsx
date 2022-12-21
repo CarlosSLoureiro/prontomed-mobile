@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Linking } from 'react-native';
 import { Card } from '@paraboly/react-native-card';
 
-import Calendario from '@hooks/useCalendario';
 import Notification from '@hooks/useNotification';
 
 import MenuContexto from './menu';
@@ -168,16 +167,6 @@ const PacienteCard = ({
                     callback: () => {
                       agendarFormularioRef?.current.abrirDialog(paciente);
                       fecharMenu();
-                      return;
-                      void (async () => {
-                        const consulta = await Calendario.agendarConsulta(paciente.nome);
-                        if (consulta !== null) {
-                          Notification.success({
-                            title: 'Agendado com sucesso!'
-                          });
-                          fecharMenu();
-                        }
-                      })();
                     }
                   },
                   {
