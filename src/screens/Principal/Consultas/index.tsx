@@ -29,10 +29,14 @@ const Consultas = ({
   paginaAtiva
 }: ConsultasContrato): JSX.Element => {
   const styles = getMainStyles();
+  const consultasPorPagina = 10;
+
   const [carregando, setCarregando] = useState(false);
   const [consultas, setConsultas] = useState<Array<Consulta>>([]);
   const [consultasPagina, setConsultasPagina] = useState(0);
   const [totalConsultas, setTotalConsultas] = useState(0);
+  const [totalConsultasAgendadas, setTotalConsultasAgendadas] = useState(0);
+  const [totalConsultasAtrasadas, setTotalConsultasAtrasadas] = useState(0);
   const scrollRef = useRef<ScrollView>(null);
   const [buscarVisivel, setBuscarVisivel] = useState(false);
   const [filtrarDatasVisivel, setFiltrarDatasVisivel] = useState(false);
@@ -49,6 +53,18 @@ const Consultas = ({
     const helper = new ObterTotalConsultasHelper();
     const total = await helper.executar();
     setTotalConsultas(total);
+  };
+
+  const carregarTotalAgendadas = async (): Promise<void> => {
+    const helper = new ObterTotalConsultasHelper();
+    const total = await helper.executar('agendadas');
+    setTotalConsultasAgendadas(total);
+  };
+
+  const carregarTotalAtrasadas = async (): Promise<void> => {
+    const helper = new ObterTotalConsultasHelper();
+    const total = await helper.executar('atrasadas');
+    setTotalConsultasAtrasadas(total);
   };
 
   const sobirScrollParaOTopo = () => {
@@ -91,7 +107,7 @@ const Consultas = ({
       const listagemAtual = deveResetar ? [] : consultas;
       const paginaAtual = deveResetar ? 0 : consultasPagina;
 
-      const consultasCarregados = await helper.executar(paginaAtual, filtrosDeBusca);
+      const consultasCarregados = await helper.executar(paginaAtual, consultasPorPagina, filtrosDeBusca);
 
       if (consultasCarregados.length) {
         /* funde os resultados */
@@ -101,24 +117,24 @@ const Consultas = ({
 
         setConsultas(listagem);
         setConsultasPagina(paginaAtual + 1);
-      } else if (!totalConsultas) {
-        Notification.info({
-          title: 'Não há consultas agendadas',
-          duration: 5000
-        });
-      } else if (paginaAtual > 0) {
-        Notification.info({
-          title: 'Não há mais consultas agendadas',
-          description: 'Tente alterar os filtros de busca',
-          duration: 5000
-        });
       } else {
-        setConsultas([]);
-        Notification.info({
-          title: 'Não há consultas',
-          description: 'Tente alterar os filtros de busca',
-          duration: 5000
-        });
+        const baseTotalConsultas = (filtrosDeBusca.busca?.finalizadas ?? false) ? totalConsultas : totalConsultasAgendadas;
+        if (baseTotalConsultas > consultasPorPagina) {
+          if (paginaAtual > 0) {
+            Notification.info({
+              title: 'Não há mais consultas',
+              description: 'Tente alterar os filtros de busca',
+              duration: 5000
+            });
+          } else if (totalConsultas) {
+            setConsultas([]);
+            Notification.info({
+              title: 'Não há consultas',
+              description: 'Tente alterar os filtros de busca',
+              duration: 5000
+            });
+          }
+        }
       }
     } catch (err) {
       Notification.error({
@@ -129,16 +145,32 @@ const Consultas = ({
     }
   };
 
+  const obterStatus = (): string => {
+    const todasAsBuscas = filtrosDeBusca.busca?.finalizadas ?? false;
+    if (totalConsultas > 0) {
+      const consultasRegistradas = totalConsultas > 1 ? 'consultas registradas' : 'consulta registrada';
+      const consultasAgendadasStr = totalConsultasAgendadas > 1 ? 'consultas agendadas' : 'consulta agendada';
+      const atrasadasStr = totalConsultasAtrasadas > 1 ? 'atrasadas' : 'atrasada';
+
+      if (todasAsBuscas) {
+        return `Você possui ${totalConsultas} ${consultasRegistradas}`;
+      } else if (totalConsultasAtrasadas > 1) {
+        return `Você possui ${totalConsultasAgendadas} ${consultasAgendadasStr} e ${totalConsultasAtrasadas} ${atrasadasStr}`;
+      } else {
+        return `Você possui ${totalConsultasAgendadas} ${consultasAgendadasStr}`;
+      }
+    } else {
+      return 'Você não possui consultas registradas';
+    }
+  };
+
   useEffect(() => {
     console.log('Deve buscar consultas ->', filtrosDeBusca);
 
-    Notification.info({
-      title: 'Deve buscar consultas',
-      description: JSON.stringify(filtrosDeBusca)
-    });
-
     void carregarConsultas();
     void carregarTotalConsultas();
+    void carregarTotalAgendadas();
+    void carregarTotalAtrasadas();
   }, [filtrosDeBusca]);
 
   if (!paginaAtiva) {
@@ -174,7 +206,7 @@ const Consultas = ({
             }}
           />
         </Portal>
-        <Text style={styles.text}>Suas consultas!</Text>
+        <Text style={styles.text}>{ obterStatus() }</Text>
         {
           consultas.map((consulta, index) => <ConsultaCard key={index} consulta={consulta} ultimo={consultas.length - 1 === index} />)
         }

@@ -1,4 +1,4 @@
-import { Between, DataSource, Repository } from 'typeorm';
+import { Between, DataSource, LessThan, Repository } from 'typeorm';
 
 import Consulta from '@entity/Consulta';
 import Paciente from '@entity/Paciente';
@@ -14,13 +14,11 @@ export default class ConsultasRepository implements ConsultasRepositoryInterface
     this.repository = database.getRepository(Consulta);
   }
 
-  public async listar (pagina: number, filtros: any): Promise<Array<Consulta>> {
-    const rows = 10;
-
+  public async listar (pagina: number, quantidade: number, filtros: any): Promise<Array<Consulta>> {
     return await this.repository.find({
       relations: ['paciente'],
-      take: rows,
-      skip: rows * pagina
+      take: quantidade,
+      skip: quantidade * pagina
     });
   }
 
@@ -28,10 +26,22 @@ export default class ConsultasRepository implements ConsultasRepositoryInterface
     return await this.repository.count();
   }
 
+  public async totalAgendadas (): Promise<number> {
+    return await this.repository.countBy({ finalizada: false });
+  }
+
+  public async totalAtrasadas (): Promise<number> {
+    return await this.repository.countBy({
+      finalizada: false,
+      dataAgendada: LessThan(new Date())
+    });
+  }
+
   public async agendar (paciente: Paciente, data: Date): Promise<Consulta> {
     const consulta = this.repository.create();
 
     consulta.paciente = paciente;
+    consulta.finalizada = false;
     consulta.dataAgendada = data;
     consulta.dataAtualizacao = consulta.dataCriacao = new Date();
 

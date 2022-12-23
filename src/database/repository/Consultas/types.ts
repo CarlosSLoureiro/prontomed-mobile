@@ -4,7 +4,7 @@ export type ValoresDeOrdem = 'decrescente' | 'crescente';
 
 export interface BuscarConsultasContrato {
   valor: string;
-  finalizados: boolean;
+  finalizadas: boolean;
 }
 
 export interface DatasConsultasContrato {

@@ -1,6 +1,8 @@
 import { Repositories } from '@database';
 import ConsultasRepositoryInterface from '@repository/Consultas/interface';
 
+import { TiposDeTotal } from './types';
+
 export default class ObterTotalConsultasHelper {
   private readonly repository: ConsultasRepositoryInterface;
 
@@ -8,7 +10,11 @@ export default class ObterTotalConsultasHelper {
     this.repository = repository;
   }
 
-  public async executar (): Promise<number> {
-    return await this.repository.total();
+  public async executar (tipo?: TiposDeTotal): Promise<number> {
+    switch (tipo) {
+      case 'agendadas': return await this.repository.totalAgendadas();
+      case 'atrasadas': return await this.repository.totalAtrasadas();
+      default: return await this.repository.total();
+    }
   }
 }

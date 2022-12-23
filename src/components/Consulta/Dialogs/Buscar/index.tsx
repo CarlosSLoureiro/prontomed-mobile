@@ -47,7 +47,7 @@ const Buscar = ({
   const buscar = (): void => {
     const busca: BuscarConsultasContrato = {
       valor: valor.trim(),
-      finalizados: false
+      finalizadas: false
     };
     setVisivel(false);
     if (busca.valor.length) {

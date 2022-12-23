@@ -9,7 +9,7 @@ export default class ListarConsultasHelper {
     this.repository = repository;
   }
 
-  public async executar (pagina: number, filtros: any): Promise<Array<Consulta>> {
-    return await this.repository.listar(pagina, filtros);
+  public async executar (pagina: number, quantidade: number, filtros: any): Promise<Array<Consulta>> {
+    return await this.repository.listar(pagina, quantidade, filtros);
   }
 }

@@ -25,7 +25,7 @@ const getStyles = () => {
       bottom: 30
     },
     text: {
-      fontSize: 24,
+      fontSize: 20,
       paddingVertical: 20,
       alignSelf: 'center',
       color: isDarkMode ? 'white' : 'black'

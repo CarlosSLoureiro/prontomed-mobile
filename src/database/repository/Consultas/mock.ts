@@ -14,6 +14,14 @@ export default class PacientesRepositoryMock implements ConsultasRepositoryInter
     return await Promise.resolve(consultas.length);
   }
 
+  public async totalAgendadas (): Promise<number> {
+    return await Promise.resolve(consultas.length);
+  }
+
+  public async totalAtrasadas (): Promise<number> {
+    return await Promise.resolve(consultas.length);
+  }
+
   public async agendar (paciente: Paciente, data: Date): Promise<Consulta> {
     const consulta = new Consulta();
 
