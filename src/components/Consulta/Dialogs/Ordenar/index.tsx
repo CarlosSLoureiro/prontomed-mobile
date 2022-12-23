@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Dialog, Divider, RadioButton } from 'react-native-paper';
 
 import { OrdenacaoConsultasContrato, ValoresDeBusca, ValoresDeOrdem } from '@repository/Consultas/types';
+
+import getStyles from './styles';
 
 import { OrdenarContrato } from './types';
 
@@ -9,10 +11,18 @@ const Ordenar = ({
   visivel,
   setVisivel,
   callback,
-  valorAtual
+  valorAtual,
+  valoresDeBusca
 }: OrdenarContrato): JSX.Element => {
   const [ordem, setOrdem] = useState(valorAtual.ordem);
   const [chave, setChave] = useState(valorAtual.chave);
+
+  useEffect(() => {
+    setOrdem(valorAtual.ordem);
+    setChave(valorAtual.chave);
+  }, [valorAtual]);
+
+  const styles = getStyles();
 
   const cancelar = (): void => {
     setVisivel(false);
@@ -30,23 +40,21 @@ const Ordenar = ({
   };
 
   return (
-      <Dialog visible={visivel} onDismiss={cancelar}>
-        <Dialog.Title>Como deseja ordernar?</Dialog.Title>
+      <Dialog style={styles.dialog} visible={visivel} onDismiss={cancelar}>
+        <Dialog.Title style={styles.dialog.title}>Como deseja ordernar?</Dialog.Title>
         <Dialog.Content>
           <RadioButton.Group onValueChange={valor => setOrdem(valor as ValoresDeOrdem)} value={ordem}>
-            <RadioButton.Item label="Em ordem crescente (A-Z)" value="crescente" />
-            <RadioButton.Item label="Em ordem decrescente (Z-A)" value="decrescente" />
+            <RadioButton.Item labelStyle={styles.dialog.labels} color={styles.dialog.labels.checked} label="Em ordem crescente (A-Z)" value="crescente" />
+            <RadioButton.Item labelStyle={styles.dialog.labels} color={styles.dialog.labels.checked} label="Em ordem decrescente (Z-A)" value="decrescente" />
           </RadioButton.Group>
           <Divider/>
-          <RadioButton.Group onValueChange={valor => setChave(valor as ValoresDeBusca)} value={chave}>
-          <RadioButton.Item label="Pela data de agendamento" value="data" />
-            <RadioButton.Item label="Pelo número da consulta" value="id" />
-            <RadioButton.Item label="Pelo nome do paciente" value="nome" />
+          <RadioButton.Group onValueChange={chave => setChave(chave as ValoresDeBusca)} value={chave}>
+            { valoresDeBusca.map((valorDeBusca, index) => <RadioButton.Item key={index} labelStyle={styles.dialog.labels} color={styles.dialog.labels.checked} label={valorDeBusca.titulo} value={valorDeBusca.valor} />) }
           </RadioButton.Group>
         </Dialog.Content>
         <Dialog.Actions>
-          <Button color='#000000' onPress={ordenar}>Ordenar</Button>
-          <Button color='#000000' onPress={cancelar}>Cancelar</Button>
+          <Button labelStyle={styles.dialog.botoes} onPress={cancelar}>Cancelar</Button>
+          <Button labelStyle={styles.dialog.botoes} onPress={ordenar}>Ordenar</Button>
         </Dialog.Actions>
       </Dialog>
   );

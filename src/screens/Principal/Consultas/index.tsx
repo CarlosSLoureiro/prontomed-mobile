@@ -201,7 +201,14 @@ const Consultas = ({
         <Portal>
           <Buscar visivel={buscarVisivel} setVisivel={setBuscarVisivel} callback={buscarConsultas}/>
           <FiltrarDatas visivel={filtrarDatasVisivel} setVisivel={setFiltrarDatasVisivel} callback={filtrarDatasConsultas} valorAtual={filtrosDeBusca?.datas}/>
-          <Ordenar visivel={ordenarVisivel} setVisivel={setOrdenarVisivel} callback={reordenarConsultas} valorAtual={filtrosDeBusca.ordenacao}/>
+          <Ordenar
+            visivel={ordenarVisivel} setVisivel={setOrdenarVisivel} callback={reordenarConsultas}
+            valorAtual={filtrosDeBusca.ordenacao}
+            valoresDeBusca={[
+              { titulo: 'Pela data de agendamento', valor: 'dataAgendada' },
+              { titulo: 'Pelo número da consulta', valor: 'id' }
+            ]}
+          />
           <Opcoes
             visivel={paginaAtiva}
             buscar={() => setBuscarVisivel(true)}
