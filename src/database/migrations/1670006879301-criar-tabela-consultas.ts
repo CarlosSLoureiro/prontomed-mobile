@@ -28,6 +28,10 @@ export default class CriarTabelaConsultas1670006879301 implements MigrationInter
             isNullable: true
           },
           {
+            name: 'finalizada',
+            type: 'boolean'
+          },
+          {
             name: 'dataCriacao',
             type: 'datetime'
           },
