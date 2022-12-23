@@ -1,6 +1,6 @@
-export type ValoresDeBusca = 'dataAgendada' | 'id';
+export type ValoresDeBuscaConsultas = 'dataAgendada' | 'id';
 
-export type ValoresDeOrdem = 'decrescente' | 'crescente';
+export type ValoresDeOrdemConsultas = 'decrescente' | 'crescente';
 
 export interface BuscarConsultasContrato {
   valor: string;
@@ -13,8 +13,8 @@ export interface DatasConsultasContrato {
 }
 
 export interface OrdenacaoConsultasContrato {
-  ordem: ValoresDeOrdem;
-  chave: ValoresDeBusca;
+  ordem: ValoresDeOrdemConsultas;
+  chave: ValoresDeBuscaConsultas;
 }
 
 export interface FiltrosDeBuscarConsultasContrato {

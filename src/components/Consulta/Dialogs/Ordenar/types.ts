@@ -1,8 +1,8 @@
-import { OrdenacaoConsultasContrato, ValoresDeBusca } from '@repository/consultas/types';
+import { OrdenacaoConsultasContrato, ValoresDeBuscaConsultas } from '@repository/consultas/types';
 
-export interface ValoresDeBuscaContrato {
+export interface ValoresDeBuscaConsultasContrato {
   titulo: string;
-  valor: ValoresDeBusca;
+  valor: ValoresDeBuscaConsultas;
 }
 
 export interface OrdenarContrato {
@@ -10,5 +10,5 @@ export interface OrdenarContrato {
   setVisivel: Function;
   callback: (selecionado: OrdenacaoConsultasContrato) => void;
   valorAtual: OrdenacaoConsultasContrato;
-  valoresDeBusca: Array<ValoresDeBuscaContrato>;
+  valoresDeBusca: Array<ValoresDeBuscaConsultasContrato>;
 }

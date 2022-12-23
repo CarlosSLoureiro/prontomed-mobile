@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Button, Dialog, Divider, RadioButton } from 'react-native-paper';
 
-import { OrdenacaoPacientesContrato, ValoresDeBusca, ValoresDeOrdem } from '@repository/Pacientes/types';
+import { OrdenacaoPacientesContrato, ValoresDeBuscaPacientes, ValoresDeOrdemPacientes } from '@repository/Pacientes/types';
 
 import getStyles from './styles';
 
@@ -43,12 +43,12 @@ const Ordenar = ({
       <Dialog style={styles.dialog} visible={visivel} onDismiss={cancelar}>
         <Dialog.Title style={styles.dialog.title}>Como deseja ordenar?</Dialog.Title>
         <Dialog.Content>
-          <RadioButton.Group onValueChange={valor => setOrdem(valor as ValoresDeOrdem)} value={ordem}>
+          <RadioButton.Group onValueChange={valor => setOrdem(valor as ValoresDeOrdemPacientes)} value={ordem}>
             <RadioButton.Item labelStyle={styles.dialog.labels} color={styles.dialog.labels.checked} label="Em ordem crescente (A-Z)" value="crescente" />
             <RadioButton.Item labelStyle={styles.dialog.labels} color={styles.dialog.labels.checked} label="Em ordem decrescente (Z-A)" value="decrescente" />
           </RadioButton.Group>
           <Divider/>
-          <RadioButton.Group onValueChange={chave => setChave(chave as ValoresDeBusca)} value={chave}>
+          <RadioButton.Group onValueChange={chave => setChave(chave as ValoresDeBuscaPacientes)} value={chave}>
             { valoresDeBusca.map((valorDeBusca, index) => <RadioButton.Item key={index} labelStyle={styles.dialog.labels} color={styles.dialog.labels.checked} label={valorDeBusca.titulo} value={valorDeBusca.valor} />) }
           </RadioButton.Group>
         </Dialog.Content>
