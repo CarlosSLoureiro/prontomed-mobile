@@ -20,7 +20,7 @@ describe('helpers > Pacientes > Listar', () => {
     const filtros: FiltrosDeBuscarPacientesContrato = {
       ordenacao: {
         ordem: 'decrescente',
-        chave: 'pacientes.id'
+        chave: 'id'
       }
     };
 
