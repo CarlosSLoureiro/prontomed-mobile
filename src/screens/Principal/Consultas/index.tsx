@@ -167,15 +167,22 @@ const Consultas = ({
   useEffect(() => {
     console.log('Deve buscar consultas ->', filtrosDeBusca);
 
-    void carregarConsultas();
+    void carregarConsultas(true);
     void carregarTotalConsultas();
     void carregarTotalAgendadas();
     void carregarTotalAtrasadas();
   }, [filtrosDeBusca]);
 
-  if (!paginaAtiva) {
-    sobirScrollParaOTopo();
-  }
+  useEffect(() => {
+    if (JSON.stringify(filtrosDeBusca) !== JSON.stringify(filtrosDeBuscaInicial)) {
+      if (paginaAtiva) {
+        setFiltrosDeBusca({ ...filtrosDeBuscaInicial });
+        sobirScrollParaOTopo();
+      } else {
+        setConsultas([]);
+      }
+    }
+  }, [paginaAtiva]);
 
   return (
       <ScrollView scrollEventThrottle={400}
