@@ -18,15 +18,14 @@ const getStyles = () => {
       backgroundColor: '#ffffff',
       text: {
         fontSize: 18,
-        left: 0,
-        paddingHorizontal: 5
+        left: 0
       }
     },
     valor: {
     },
     botaoSwitch: {
       position: 'absolute',
-      right: 10,
+      right: 0,
       top: '50%'
     }
   });
