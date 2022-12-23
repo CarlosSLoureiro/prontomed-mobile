@@ -14,6 +14,20 @@ export default class ConsultasRepository implements ConsultasRepositoryInterface
     this.repository = database.getRepository(Consulta);
   }
 
+  public async listar (pagina: number, filtros: any): Promise<Array<Consulta>> {
+    const rows = 10;
+
+    return await this.repository.find({
+      relations: ['paciente'],
+      take: rows,
+      skip: rows * pagina
+    });
+  }
+
+  public async total (): Promise<number> {
+    return await this.repository.count();
+  }
+
   public async agendar (paciente: Paciente, data: Date): Promise<Consulta> {
     const consulta = this.repository.create();
 

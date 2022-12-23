@@ -6,6 +6,14 @@ import ConsultasRepositoryInterface from './interface';
 const consultas: Array<Consulta> = [];
 
 export default class PacientesRepositoryMock implements ConsultasRepositoryInterface {
+  public async listar (): Promise<Array<Consulta>> {
+    return await Promise.resolve(consultas);
+  }
+
+  public async total (): Promise<number> {
+    return await Promise.resolve(consultas.length);
+  }
+
   public async agendar (paciente: Paciente, data: Date): Promise<Consulta> {
     const consulta = new Consulta();
 
