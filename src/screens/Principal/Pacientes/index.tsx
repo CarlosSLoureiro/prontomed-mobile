@@ -32,7 +32,7 @@ const Pacientes = ({
   paginaAtiva
 }: PacientesContrato): JSX.Element => {
   const styles = getMainStyles();
-  const pacientesPorPagina = 6;
+  const pacientesPorPagina = 10;
 
   const [carregando, setCarregando] = useState(false);
   const [pacientes, setPacientes] = useState<Array<Paciente>>([]);
