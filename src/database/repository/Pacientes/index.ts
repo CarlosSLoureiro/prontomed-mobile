@@ -19,38 +19,41 @@ export default class PacientesRepository implements PacientesRepositoryInterface
 
   public async listar (pagina: number, filtros: FiltrosDeBuscarPacientesContrato): Promise<Array<Paciente>> {
     const rows = 10;
-
-    const queryBuilder = this.repository.createQueryBuilder('pacientes');
-
-    queryBuilder.addSelect(subQuery => {
-      return subQuery
-        .select('COUNT(c.id)', 'totalConsultas')
-        .from('consultas', 'c')
-        .where('c.paciente = pacientes.id');
-    }, 'totalConsultas');
+    let where = {};
+    const order = { [filtros.ordenacao.chave]: filtros.ordenacao.ordem.toLowerCase() === 'decrescente' ? 'DESC' : 'ASC' };
 
     if (filtros?.busca !== undefined) {
       const busca = filtros.busca;
 
       if (busca.nome.length > 0) {
-        queryBuilder.andWhere({ nome: Like(`%${busca.nome}%`) });
+        where = {
+          ...where,
+          nome: Like(`%${busca.nome}%`)
+        };
       }
 
       if (busca.generos.length > 0) {
-        queryBuilder.andWhere({ genero: In(busca.generos) });
+        where = {
+          ...where,
+          genero: In(busca.generos)
+        };
       }
 
       if (busca.tiposSanguineos.length > 0) {
-        queryBuilder.andWhere({ tipoSanguineo: In(busca.tiposSanguineos) });
+        where = {
+          ...where,
+          tipoSanguineo: In(busca.tiposSanguineos)
+        };
       }
     }
 
-    queryBuilder.orderBy(filtros.ordenacao.chave, filtros.ordenacao.ordem.toLowerCase() === 'decrescente' ? 'DESC' : 'ASC');
-    queryBuilder.offset(rows * pagina).limit(rows);
-
-    queryBuilder.leftJoinAndSelect('pacientes.consultas', 'consultas');
-
-    return await queryBuilder.getMany();
+    return await this.repository.find({
+      where,
+      order,
+      relations: ['consultas'],
+      take: rows,
+      skip: rows * pagina
+    });
   }
 
   public async total (): Promise<number> {
