@@ -57,10 +57,14 @@ const Buscar = ({
       finalizadas: incluirFinalizadas
     };
     setVisivel(false);
-    setValoresAtuais({
-      valor: busca.valor
-    });
-    callback(busca);
+    if (busca.valor.length > 0 || busca.finalizadas) {
+      setValoresAtuais({
+        valor: busca.valor
+      });
+      callback(busca);
+    } else {
+      callback();
+    }
   };
 
   return (

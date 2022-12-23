@@ -199,7 +199,10 @@ const Consultas = ({
         contentContainerStyle={styles.conteudo}
       >
         <Portal>
-          <Buscar visivel={buscarVisivel} setVisivel={setBuscarVisivel} callback={buscarConsultas}/>
+          <Buscar
+            visivel={buscarVisivel} setVisivel={setBuscarVisivel} callback={buscarConsultas}
+            valorAtual={filtrosDeBusca?.busca}
+          />
           <FiltrarDatas visivel={filtrarDatasVisivel} setVisivel={setFiltrarDatasVisivel} callback={filtrarDatasConsultas} valorAtual={filtrosDeBusca?.datas}/>
           <Ordenar
             visivel={ordenarVisivel} setVisivel={setOrdenarVisivel} callback={reordenarConsultas}
