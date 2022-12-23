@@ -95,6 +95,9 @@
     "ts-jest": "^29.0.3",
     "typescript": "*"
   },
+  "engines": {
+    "node": ">=19.3"
+  },
   "license": "GNU 3.0",
   "private": true
 }
