@@ -1,5 +1,11 @@
+import { MutableRefObject } from 'react';
+
+import Consulta from '@entity/Consulta';
+
 export interface ConsultaCardContrato {
-  nome: string;
+  reagendarFormularioRef?: MutableRefObject<any>;
+  excluirFormularioRef?: MutableRefObject<any>;
+  consulta: Consulta;
   ultimo?: boolean;
 }
 
@@ -15,7 +21,6 @@ interface MenuItem {
 }
 
 export interface ConsultaMenuContrato {
-  nome: string;
   visivel: boolean;
   fecharMenu: () => void;
   menuAnchor?: MenuArchor;
