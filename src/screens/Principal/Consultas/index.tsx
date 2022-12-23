@@ -213,7 +213,7 @@ const Consultas = ({
             ]}
           />
           <Opcoes
-            visivel={paginaAtiva}
+            visivel={paginaAtiva && !(buscarVisivel || filtrarDatasVisivel || ordenarVisivel)}
             buscar={() => setBuscarVisivel(true)}
             filtrarDatas={() => setFiltrarDatasVisivel(true)}
             ordenar={() => setOrdenarVisivel(true)}
