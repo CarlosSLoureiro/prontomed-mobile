@@ -6,7 +6,7 @@ export interface BuscarPacientesContrato {
   tiposSanguineos: Array<TiposSanguineos>;
 }
 
-export type ValoresDeBusca = 'nome' | 'idade' | 'peso' | 'altura' | 'id' | 'totalConsultas';
+export type ValoresDeBusca = 'nome' | 'idade' | 'peso' | 'altura' | 'id';
 
 export type ValoresDeOrdem = 'decrescente' | 'crescente';
 

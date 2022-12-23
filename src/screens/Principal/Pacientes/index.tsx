@@ -282,8 +282,7 @@ const Pacientes = ({
               { titulo: 'Pela idade do paciente', valor: 'idade' },
               { titulo: 'Pelo peso do paciente', valor: 'peso' },
               { titulo: 'Pela altura do paciente', valor: 'altura' },
-              { titulo: 'Pela número do paciente', valor: 'id' },
-              { titulo: 'Pela número de consultas', valor: 'totalConsultas' }
+              { titulo: 'Pela número do paciente', valor: 'id' }
             ]}
           />
           <Opcoes
