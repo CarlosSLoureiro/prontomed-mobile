@@ -1,4 +1,4 @@
-import { OrdenacaoConsultasContrato, ValoresDeBuscaConsultas } from '@repository/consultas/types';
+import { OrdenacaoConsultasContrato, ValoresDeBuscaConsultas } from '@repository/Consultas/types';
 
 export interface ValoresDeBuscaConsultasContrato {
   titulo: string;
