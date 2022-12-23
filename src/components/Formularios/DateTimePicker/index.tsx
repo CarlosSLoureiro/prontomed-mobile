@@ -38,9 +38,8 @@ const DateTimePicker = ({
   const atualizarData = (params): void => {
     const dataSelecionada = params.date as Date;
     setData(dataSelecionada);
-    fecharData();
+    setDataVisivel(false);
     abrirHora();
-    nextInputRef?.current?.focus();
   };
 
   const atualizarHora = (params): void => {
@@ -49,7 +48,8 @@ const DateTimePicker = ({
     valor = dataAgendada;
     setData(dataAgendada);
     callback(dataAgendada);
-    fecharHora();
+    setHoraVisivel(false);
+    nextInputRef?.current?.focus();
   };
 
   registerTranslation('pt', pt);
