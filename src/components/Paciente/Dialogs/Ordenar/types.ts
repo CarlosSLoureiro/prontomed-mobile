@@ -1,8 +1,8 @@
-import { OrdenacaoPacientesContrato } from '@repository/Pacientes/types';
+import { OrdenacaoPacientesContrato, ValoresDeBusca } from '@repository/Pacientes/types';
 
-export interface ValoresDeBusca {
+export interface ValoresDeBuscaContrato {
   titulo: string;
-  valor: 'pacientes.nome' | 'pacientes.idade' | 'pacientes.peso' | 'pacientes.altura' | 'pacientes.id' | 'totalConsultas';
+  valor: ValoresDeBusca;
 }
 
 export interface OrdenarContrato {
@@ -10,5 +10,5 @@ export interface OrdenarContrato {
   setVisivel: Function;
   callback: (selecionado: OrdenacaoPacientesContrato) => void;
   valorAtual: OrdenacaoPacientesContrato;
-  valoresDeBusca: Array<ValoresDeBusca>;
+  valoresDeBusca: Array<ValoresDeBuscaContrato>;
 }

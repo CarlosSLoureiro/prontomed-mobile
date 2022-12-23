@@ -40,7 +40,7 @@ const Pacientes = ({
   const filtrosDeBuscaInicial: FiltrosDeBuscarPacientesContrato = {
     ordenacao: {
       ordem: 'decrescente',
-      chave: 'pacientes.id'
+      chave: 'id'
     }
   };
   const [filtrosDeBusca, setFiltrosDeBusca] = useState<FiltrosDeBuscarPacientesContrato>(filtrosDeBuscaInicial);
@@ -278,12 +278,11 @@ const Pacientes = ({
             visivel={ordernarVisivel} setVisivel={setOrdernarVisivel} callback={reordenarPacientes}
             valorAtual={filtrosDeBusca.ordenacao}
             valoresDeBusca={[
-              { titulo: 'Pelo nome do paciente', valor: 'pacientes.nome' },
-              { titulo: 'Pela idade do paciente', valor: 'pacientes.idade' },
-              { titulo: 'Pelo peso do paciente', valor: 'pacientes.peso' },
-              { titulo: 'Pela altura do paciente', valor: 'pacientes.altura' },
-              { titulo: 'Pela número do paciente', valor: 'pacientes.id' },
-              { titulo: 'Pela número de consultas', valor: 'totalConsultas' }
+              { titulo: 'Pelo nome do paciente', valor: 'nome' },
+              { titulo: 'Pela idade do paciente', valor: 'idade' },
+              { titulo: 'Pelo peso do paciente', valor: 'peso' },
+              { titulo: 'Pela altura do paciente', valor: 'altura' },
+              { titulo: 'Pela número do paciente', valor: 'id' }
             ]}
           />
           <Opcoes
