@@ -48,7 +48,7 @@ const Pacientes = ({
   const [filtrosDeBusca, setFiltrosDeBusca] = useState<FiltrosDeBuscarPacientesContrato>(filtrosDeBuscaInicial);
   const [buscarVisivel, setBuscarVisivel] = useState(false);
   const [cadastrarVisivel, setCadastrarVisivel] = useState(false);
-  const [ordernarVisivel, setOrdernarVisivel] = useState(false);
+  const [ordenarVisivel, setOrdenarVisivel] = useState(false);
 
   const agendarConsultaRef = useRef<any>();
   const cadastrarEditarPacienteRef = useRef<any>();
@@ -282,7 +282,7 @@ const Pacientes = ({
             callback={excluirPaciente}
           />
           <Ordenar
-            visivel={ordernarVisivel} setVisivel={setOrdernarVisivel} callback={reordenarPacientes}
+            visivel={ordenarVisivel} setVisivel={setOrdenarVisivel} callback={reordenarPacientes}
             valorAtual={filtrosDeBusca.ordenacao}
             valoresDeBusca={[
               { titulo: 'Pelo nome do paciente', valor: 'nome' },
@@ -293,10 +293,10 @@ const Pacientes = ({
             ]}
           />
           <Opcoes
-            visivel={paginaAtiva && !(buscarVisivel || cadastrarVisivel || ordernarVisivel)}
+            visivel={paginaAtiva && !(buscarVisivel || cadastrarVisivel || ordenarVisivel)}
             buscar={() => setBuscarVisivel(true)}
             cadastrar={() => setCadastrarVisivel(true)}
-            ordenar={() => setOrdernarVisivel(true)}
+            ordenar={() => setOrdenarVisivel(true)}
             limpar={{
               visivel: JSON.stringify(filtrosDeBuscaInicial) !== JSON.stringify(filtrosDeBusca),
               callback: () => setFiltrosDeBusca(filtrosDeBuscaInicial)

@@ -41,7 +41,7 @@ const Ordenar = ({
 
   return (
       <Dialog style={styles.dialog} visible={visivel} onDismiss={cancelar}>
-        <Dialog.Title style={styles.dialog.title}>Como deseja ordernar?</Dialog.Title>
+        <Dialog.Title style={styles.dialog.title}>Como deseja ordenar?</Dialog.Title>
         <Dialog.Content>
           <RadioButton.Group onValueChange={valor => setOrdem(valor as ValoresDeOrdem)} value={ordem}>
             <RadioButton.Item labelStyle={styles.dialog.labels} color={styles.dialog.labels.checked} label="Em ordem crescente (A-Z)" value="crescente" />
