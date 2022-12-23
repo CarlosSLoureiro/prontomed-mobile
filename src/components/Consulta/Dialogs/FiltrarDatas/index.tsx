@@ -1,6 +1,6 @@
 import { DatePickerModal, pt, registerTranslation } from 'react-native-paper-dates';
 
-import { DatasContrato } from '@screens/Principal/Consultas/types';
+import { DatasConsultasContrato } from '@repository/Consultas/types';
 
 import { FiltrarDatasContrato } from './types';
 
@@ -11,7 +11,7 @@ const FiltrarDatas = ({
   valorAtual
 }: FiltrarDatasContrato): JSX.Element => {
   const cancelar = (): void => setVisivel(false);
-  const filtrar = (datas: DatasContrato): void => {
+  const filtrar = (datas: DatasConsultasContrato): void => {
     cancelar();
     callback(datas);
   };
@@ -27,7 +27,7 @@ const FiltrarDatas = ({
         startDate={valorAtual?.inicio}
         endDate={valorAtual?.fim}
         onConfirm={(params) => {
-          const datas: DatasContrato = {
+          const datas: DatasConsultasContrato = {
             inicio: params.startDate as Date,
             fim: params.endDate as Date
           };

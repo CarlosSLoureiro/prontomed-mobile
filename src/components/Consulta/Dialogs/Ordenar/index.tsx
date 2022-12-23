@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button, Dialog, Divider, RadioButton } from 'react-native-paper';
 
-import { OrdenacaoContrato } from '@screens/Principal/Consultas/types';
+import { OrdenacaoConsultasContrato, ValoresDeBusca, ValoresDeOrdem } from '@repository/Consultas/types';
 
 import { OrdenarContrato } from './types';
 
@@ -22,7 +22,7 @@ const Ordenar = ({
 
   const ordenar = (): void => {
     setVisivel(false);
-    const ordenacao: OrdenacaoContrato = {
+    const ordenacao: OrdenacaoConsultasContrato = {
       ordem,
       chave
     };
@@ -33,12 +33,12 @@ const Ordenar = ({
       <Dialog visible={visivel} onDismiss={cancelar}>
         <Dialog.Title>Como deseja ordernar?</Dialog.Title>
         <Dialog.Content>
-          <RadioButton.Group onValueChange={valor => setOrdem(valor)} value={ordem}>
+          <RadioButton.Group onValueChange={valor => setOrdem(valor as ValoresDeOrdem)} value={ordem}>
             <RadioButton.Item label="Em ordem crescente (A-Z)" value="crescente" />
             <RadioButton.Item label="Em ordem decrescente (Z-A)" value="decrescente" />
           </RadioButton.Group>
           <Divider/>
-          <RadioButton.Group onValueChange={valor => setChave(valor)} value={chave}>
+          <RadioButton.Group onValueChange={valor => setChave(valor as ValoresDeBusca)} value={chave}>
           <RadioButton.Item label="Pela data de agendamento" value="data" />
             <RadioButton.Item label="Pelo número da consulta" value="id" />
             <RadioButton.Item label="Pelo nome do paciente" value="nome" />

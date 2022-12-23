@@ -1,13 +1,21 @@
 import { useEffect, useRef, useState } from 'react';
 import { ScrollView, Text } from 'react-native';
-import Icon from 'react-native-dynamic-vector-icons';
-import { NotifierComponents } from 'react-native-notifier';
 import { Portal } from 'react-native-paper';
+
+import Consulta from '@entity/Consulta';
+import {
+  BuscarConsultasContrato,
+  DatasConsultasContrato,
+  FiltrosDeBuscarConsultasContrato,
+  OrdenacaoConsultasContrato
+} from '@repository/Consultas/types';
+
+import ListarConsultasHelper from '@helpers/Consultas/Listar';
+import ObterTotalConsultasHelper from '@helpers/Consultas/ObterTotal';
 
 import Notification from '@hooks/useNotification';
 
 import ConsultaCard from '@components/Consulta/Card';
-import { ConsultaCardContrato } from '@components/Consulta/Card/types';
 import Buscar from '@components/Consulta/Dialogs/Buscar';
 import FiltrarDatas from '@components/Consulta/Dialogs/FiltrarDatas';
 import Ordenar from '@components/Consulta/Dialogs/Ordenar';
@@ -15,43 +23,33 @@ import Opcoes from '@components/Consulta/Opcoes';
 
 import getMainStyles from '../styles';
 
-import items from './items';
-
-import {
-  BuscaContrato,
-  ConsultasContrato,
-  DatasContrato,
-  FiltrosDeBuscaContrato,
-  OrdenacaoContrato
-} from './types';
+import { ConsultasContrato } from './types';
 
 const Consultas = ({
   paginaAtiva
 }: ConsultasContrato): JSX.Element => {
   const styles = getMainStyles();
   const [carregando, setCarregando] = useState(false);
-  const [consultas, setConsultas] = useState<Array<ConsultaCardContrato>>(items);
+  const [consultas, setConsultas] = useState<Array<Consulta>>([]);
+  const [consultasPagina, setConsultasPagina] = useState(0);
+  const [totalConsultas, setTotalConsultas] = useState(0);
   const scrollRef = useRef<ScrollView>(null);
   const [buscarVisivel, setBuscarVisivel] = useState(false);
   const [filtrarDatasVisivel, setFiltrarDatasVisivel] = useState(false);
   const [ordenarVisivel, setOrdenarVisivel] = useState(false);
-  const filtrosDeBuscaInicial: FiltrosDeBuscaContrato = {
+  const filtrosDeBuscaInicial: FiltrosDeBuscarConsultasContrato = {
     ordenacao: {
       ordem: 'decrescente',
-      chave: 'data'
+      chave: 'dataAgendada'
     }
   };
-  const [filtrosDeBusca, setFiltrosDeBusca] = useState<FiltrosDeBuscaContrato>(filtrosDeBuscaInicial);
+  const [filtrosDeBusca, setFiltrosDeBusca] = useState<FiltrosDeBuscarConsultasContrato>(filtrosDeBuscaInicial);
 
-  useEffect(() => {
-    // TODO: atualizar resultados
-    console.log('Deve buscar consultas ->', filtrosDeBusca);
-
-    Notification.info({
-      title: 'Deve buscar consultas',
-      description: JSON.stringify(filtrosDeBusca)
-    });
-  }, [filtrosDeBusca]);
+  const carregarTotalConsultas = async (): Promise<void> => {
+    const helper = new ObterTotalConsultasHelper();
+    const total = await helper.executar();
+    setTotalConsultas(total);
+  };
 
   const sobirScrollParaOTopo = () => {
     scrollRef?.current?.scrollTo({
@@ -60,21 +58,21 @@ const Consultas = ({
     });
   };
 
-  const buscarConsultas = (busca?: BuscaContrato): void => {
+  const buscarConsultas = (busca?: BuscarConsultasContrato): void => {
     setFiltrosDeBusca({
       ...filtrosDeBusca,
       ...{ busca }
     });
   };
 
-  const filtrarDatasConsultas = (datas: DatasContrato): void => {
+  const filtrarDatasConsultas = (datas: DatasConsultasContrato): void => {
     setFiltrosDeBusca({
       ...filtrosDeBusca,
       ...{ datas }
     });
   };
 
-  const reordenarConsultas = (ordenacao: OrdenacaoContrato): void => {
+  const reordenarConsultas = (ordenacao: OrdenacaoConsultasContrato): void => {
     setFiltrosDeBusca({
       ...filtrosDeBusca,
       ...{ ordenacao }
@@ -86,37 +84,62 @@ const Consultas = ({
     return (!carregando) && ((layoutMeasurement.height + contentOffset.y) >= contentSize.height);
   };
 
-  interface EntidadeConsulta {
-    nome: string;
-  }
+  const carregarConsultas = async (deveResetar = false): Promise<void> => {
+    const helper = new ListarConsultasHelper();
 
-  const fakeRepositoryObterConsultas = async (): Promise<Array<EntidadeConsulta>> => {
-    const fakeRepository = Promise.resolve([{
-      nome: `carlos loureiro #${consultas.length}`
-    },
-    {
-      nome: `jessie #${consultas.length}`
-    }]);
+    try {
+      const listagemAtual = deveResetar ? [] : consultas;
+      const paginaAtual = deveResetar ? 0 : consultasPagina;
 
-    return await fakeRepository;
-  };
-  const carregarConsultas = async (): Promise<void> => {
-    console.log('deve carregar >>>');
-    if (consultas.length < 15) {
-      const novasConsultas = await fakeRepositoryObterConsultas();
-      setConsultas([...consultas, ...novasConsultas]);
-    } else {
-      Notification.add({
-        title: 'Não há mais consultas',
-        description: 'Tente alterar os filtros de busca',
-        Component: NotifierComponents.Alert,
-        componentProps: {
-          alertType: 'error'
-        },
-        duration: 5000
+      const consultasCarregados = await helper.executar(paginaAtual, filtrosDeBusca);
+
+      if (consultasCarregados.length) {
+        /* funde os resultados */
+        const listagem = [...listagemAtual, ...consultasCarregados.filter(consultaCarregado => {
+          return !listagemAtual.some(consulta => consulta.id === consultaCarregado.id);
+        })];
+
+        setConsultas(listagem);
+        setConsultasPagina(paginaAtual + 1);
+      } else if (!totalConsultas) {
+        Notification.info({
+          title: 'Não há consultas agendadas',
+          duration: 5000
+        });
+      } else if (paginaAtual > 0) {
+        Notification.info({
+          title: 'Não há mais consultas agendadas',
+          description: 'Tente alterar os filtros de busca',
+          duration: 5000
+        });
+      } else {
+        setConsultas([]);
+        Notification.info({
+          title: 'Não há consultas',
+          description: 'Tente alterar os filtros de busca',
+          duration: 5000
+        });
+      }
+    } catch (err) {
+      Notification.error({
+        title: 'Não foi possível carregar a listagem',
+        description: (err as Error).message,
+        duration: 10000
       });
     }
   };
+
+  useEffect(() => {
+    console.log('Deve buscar consultas ->', filtrosDeBusca);
+
+    Notification.info({
+      title: 'Deve buscar consultas',
+      description: JSON.stringify(filtrosDeBusca)
+    });
+
+    void carregarConsultas();
+    void carregarTotalConsultas();
+  }, [filtrosDeBusca]);
 
   if (!paginaAtiva) {
     sobirScrollParaOTopo();
@@ -151,10 +174,9 @@ const Consultas = ({
             }}
           />
         </Portal>
-        <Icon type="FontAwesome" name="calendar-check-o" size={124} style={styles.icon} />
         <Text style={styles.text}>Suas consultas!</Text>
         {
-          consultas.map((consulta, index) => <ConsultaCard key={index} {...consulta} ultimo={consultas.length - 1 === index} />)
+          consultas.map((consulta, index) => <ConsultaCard key={index} consulta={consulta} ultimo={consultas.length - 1 === index} />)
         }
       </ScrollView>
   );
