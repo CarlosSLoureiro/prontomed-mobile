@@ -20,7 +20,7 @@ const SelectInput = ({
 
   return (
         <PaperSelect
-            // inputRef={inputRef} - Aguardando https://github.com/srivastavaanurag79/react-native-paper-select/pull/25
+            inputRef={inputRef}
             containerStyle={style}
             dialogStyle={styles.select.dialog}
             textInputBackgroundColor={styles.select.backgroundColor}

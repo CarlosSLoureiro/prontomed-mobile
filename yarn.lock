@@ -8059,10 +8059,10 @@ react-native-paper-dates@^0.9.2:
     caniuse-lite "^1.0.30001383"
     color "^3.2.1"
 
-react-native-paper-select@^0.3.8:
-  version "0.3.9"
-  resolved "https://registry.yarnpkg.com/react-native-paper-select/-/react-native-paper-select-0.3.9.tgz#74043a3e5e05e19e37a252035c7db3da20f5f824"
-  integrity sha512-/J/KT4J+RrqzObgrC2l6CDlPdAwjeit0d3MsX6dahNDm0YTK4SOfZM5YdkyleVFCRBlGunaCAsyU/AvWRx+BUA==
+react-native-paper-select@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-paper-select/-/react-native-paper-select-0.4.0.tgz#e2c370e3116de289a286c035b37da4515f6f74ea"
+  integrity sha512-P/jTk7+38M7t/CGMJF2pMHW0gigHJEsyMNesQHWbE793Y2M9bZBx0qr27dLnzkmCFW66xPHVZQmj3mQJEKgWng==
 
 react-native-paper@^4.12.5:
   version "4.12.5"
