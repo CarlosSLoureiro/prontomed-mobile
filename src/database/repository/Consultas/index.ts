@@ -1,9 +1,11 @@
-import { Between, DataSource, LessThan, Repository } from 'typeorm';
+import { Between, DataSource, LessThan, MoreThan, MoreThanOrEqual, Repository } from 'typeorm';
 
 import Consulta from '@entity/Consulta';
 import Paciente from '@entity/Paciente';
 
 import ConsultasRepositoryInterface from './interface';
+
+import { FiltrosDeBuscarConsultasContrato } from './types';
 
 import moment from 'moment';
 
@@ -14,9 +16,21 @@ export default class ConsultasRepository implements ConsultasRepositoryInterface
     this.repository = database.getRepository(Consulta);
   }
 
-  public async listar (pagina: number, quantidade: number, filtros: any): Promise<Array<Consulta>> {
+  public async listar (pagina: number, quantidade: number, filtros: FiltrosDeBuscarConsultasContrato): Promise<Array<Consulta>> {
+    let where = {};
+    const order = { [filtros.ordenacao.chave]: filtros.ordenacao.ordem.toLowerCase() === 'decrescente' ? 'DESC' : 'ASC' };
+
+    if (filtros.datas?.inicio !== undefined) {
+      where = {
+        ...where,
+        dataAgendada: filtros.datas?.fim !== undefined ? Between(filtros.datas?.inicio, filtros.datas?.fim) : MoreThanOrEqual(filtros.datas?.inicio)
+      };
+    }
+
     return await this.repository.find({
-      relations: ['paciente'],
+      where,
+      order,
+      relations: ['paciente', 'observacoes'],
       take: quantidade,
       skip: quantidade * pagina
     });
@@ -31,9 +45,12 @@ export default class ConsultasRepository implements ConsultasRepositoryInterface
   }
 
   public async totalAtrasadas (): Promise<number> {
+    const inicioDoDia = new Date();
+    inicioDoDia.setHours(0, 0, 0, 0);
+
     return await this.repository.countBy({
       finalizada: false,
-      dataAgendada: LessThan(new Date())
+      dataAgendada: LessThan(inicioDoDia)
     });
   }
 

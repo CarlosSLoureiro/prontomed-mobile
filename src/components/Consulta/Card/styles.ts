@@ -14,7 +14,11 @@ const getStyles = () => {
       alignSelf: 'center',
       ultimo: {
         marginBottom: 130
-      }
+      },
+      backgroundColorDoDia: '#edf8ff',
+      backgroundColorAgendada: '#ffffff',
+      backgroundColorFinalizada: '#eeffed',
+      backgroundColorAtrasada: '#ffeded'
     },
     icon: {
       flex: 1,

@@ -17,6 +17,26 @@ const ConsultaCard = ({
   const [exibirMenu, setExibirMenu] = useState(false);
   const [menuAnchor, setMenuAnchor] = useState({ x: 0, y: 0 });
 
+  const obterCorDoCard = (): string => {
+    const inicioDoDia = new Date();
+    inicioDoDia.setHours(0, 0, 0, 0);
+
+    const finalDoDia = new Date();
+    finalDoDia.setHours(23, 59, 59, 999);
+
+    const atrasada = !consulta.finalizada && consulta.dataAgendada < inicioDoDia;
+    const doDia = consulta.dataAgendada > inicioDoDia && consulta.dataAgendada < finalDoDia;
+
+    if (consulta.finalizada) {
+      return styles.card.backgroundColorFinalizada;
+    } else if (atrasada) {
+      return styles.card.backgroundColorAtrasada;
+    } else if (doDia) {
+      return styles.card.backgroundColorDoDia;
+    } else {
+      return styles.card.backgroundColorAgendada;
+    }
+  };
   const styles = getStyles();
 
   const abrirMenu = (): void => setExibirMenu(true);
@@ -32,12 +52,13 @@ const ConsultaCard = ({
     setMenuAnchor(anchor);
     abrirMenu();
   };
+
   return (
     <>
         <Card
           iconDisable
           style={ultimo ? { ...styles.card, ...styles.card.ultimo } : styles.card}
-          backgroundColor="#edf8ff"
+          backgroundColor={obterCorDoCard()}
           title={moment(consulta.dataAgendada).format('DD/MM/YYYY [as] HH[h]mm')}
           topRightText={`nº ${consulta.id}`}
           bottomRightComponent={<View style={styles.icon}>
