@@ -154,7 +154,7 @@ const Consultas = ({
 
       if (todasAsBuscas) {
         return `Você possui ${totalConsultas} ${consultasRegistradas}`;
-      } else if (totalConsultasAtrasadas > 1) {
+      } else if (totalConsultasAtrasadas > 0) {
         return `Você possui ${totalConsultasAgendadas} ${consultasAgendadasStr} e ${totalConsultasAtrasadas} ${atrasadasStr}`;
       } else {
         return `Você possui ${totalConsultasAgendadas} ${consultasAgendadasStr}`;
