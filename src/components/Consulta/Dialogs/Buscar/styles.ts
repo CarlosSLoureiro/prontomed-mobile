@@ -13,7 +13,21 @@ const getStyles = () => {
         color: '#000000'
       }
     },
+    incluirFinalizadas: {
+      paddingVertical: 15,
+      backgroundColor: '#ffffff',
+      text: {
+        fontSize: 18,
+        left: 0,
+        paddingHorizontal: 5
+      }
+    },
     valor: {
+    },
+    botaoSwitch: {
+      position: 'absolute',
+      right: 10,
+      top: '50%'
     }
   });
 };

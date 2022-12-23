@@ -63,7 +63,7 @@ const ConsultaCard = ({
           topRightText={`nº ${consulta.id}`}
           bottomRightComponent={<View style={styles.icon}>
             <Icon type="MaterialCommunityIcons" name="message-reply-text-outline" size={styles.icon.size} />
-            <Text style={styles.icon.text}>0</Text>
+            <Text style={styles.icon.text}>{ consulta.observacoes?.length }</Text>
           </View>}
           description={`Paciente ${consulta.paciente !== null ? consulta.paciente.nome : 'excluídor'}`}
           // @ts-expect-error - a biblioteca não inclui parametros no contrato do onPress.
@@ -88,7 +88,7 @@ const ConsultaCard = ({
                 }
               },
               {
-                titulo: 'Observações (2)',
+                titulo: 'Observações',
                 icone: 'message-reply-text',
                 callback: () => {
                   fecharMenu();

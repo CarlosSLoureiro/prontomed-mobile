@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Switch, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Button, Dialog, Divider } from 'react-native-paper';
 
@@ -19,7 +20,16 @@ const Buscar = ({
   callback,
   valorAtual
 }: BuscarConsultaContrato): JSX.Element => {
+  const styles = getStyles();
   const [valoresAtuais, setValoresAtuais] = useState<ValoresAtuaisFormulario>();
+  const [icone, setIcone] = useState<string>('clipboard-list-outline');
+  const [valor, setValor] = useState<string>('');
+  const [incluirFinalizadas, setIncluirFinalizadas] = useState(false);
+
+  const resetarFormulario = (): void => {
+    setIncluirFinalizadas(false);
+    setValor('');
+  };
 
   useEffect(() => {
     if (valorAtual === undefined) {
@@ -27,15 +37,11 @@ const Buscar = ({
       resetarFormulario();
     }
   }, [valorAtual]);
-  const styles = getStyles();
 
-  const resetarFormulario = (): void => {
-    setValor('');
-  };
+  useEffect(() => {
+    setIcone(/^\d+$/.test(valor) || !valor.length ? 'clipboard-list-outline' : 'account');
+  }, [valor]);
 
-  // nome
-  const [valor, setValor] = useState<string>('');
-  // botões
   const cancelar = (): void => {
     setVisivel(false);
     if (valoresAtuais != null) {
@@ -44,20 +50,17 @@ const Buscar = ({
       resetarFormulario();
     }
   };
+
   const buscar = (): void => {
     const busca: BuscarConsultasContrato = {
-      valor: valor.trim(),
-      finalizadas: false
+      valor: valor.trim().length > 0 ? valor.trim() : '',
+      finalizadas: incluirFinalizadas
     };
     setVisivel(false);
-    if (busca.valor.length) {
-      setValoresAtuais({
-        valor: busca.valor
-      });
-      callback(busca);
-    } else {
-      callback();
-    }
+    setValoresAtuais({
+      valor: busca.valor
+    });
+    callback(busca);
   };
 
   return (
@@ -66,12 +69,16 @@ const Buscar = ({
           <Dialog.Title>Como deseja buscar?</Dialog.Title>
           <Dialog.Content>
             <TextInput
-              nome="Nome do paciente"
-              icon="account"
+              nome="nº da consulta, nome do paciente"
+              icon={icone}
               style={styles.valor}
               valor={valor}
               callback={valor => setValor(valor ?? '')}
             />
+            <View style={styles.incluirFinalizadas}>
+              <Text style={styles.incluirFinalizadas.text}>Incluir consultas finalizadas</Text>
+              <Switch style={styles.botaoSwitch} value={incluirFinalizadas} onValueChange={setIncluirFinalizadas} />
+            </View>
             <Divider/>
           </Dialog.Content>
           <Dialog.Actions>
