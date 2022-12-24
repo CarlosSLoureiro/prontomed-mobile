@@ -22,7 +22,7 @@ import Buscar from '@components/Consulta/Dialogs/Buscar';
 import Excluir from '@components/Consulta/Dialogs/Excluir';
 import FiltrarDatas from '@components/Consulta/Dialogs/FiltrarDatas';
 import Ordenar from '@components/Consulta/Dialogs/Ordenar';
-import Opcoes from '@components/Consulta/Opcoes';
+import MenuOpcoes from '@components/MenuOpcoes';
 
 import getMainStyles from '../styles';
 
@@ -281,7 +281,7 @@ const Consultas = ({
               { titulo: 'Pelo número da consulta', valor: 'id' }
             ]}
           />
-          <Opcoes
+          <MenuOpcoes
             visivel={paginaAtiva && !(buscarVisivel || filtrarDatasVisivel || ordenarVisivel)}
             botoes={[
               {

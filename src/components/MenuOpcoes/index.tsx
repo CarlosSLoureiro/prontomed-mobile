@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { FAB } from 'react-native-paper';
 
-import { MenuBotao, OcpoesBotaoContrato } from './types';
+import { MenuBotao, MenuOpcoesContrato } from './types';
 
-const OcpoesBotao = ({
+const MenuOpcoes = ({
   visivel,
   botoes
-}: OcpoesBotaoContrato): JSX.Element => {
+}: MenuOpcoesContrato): JSX.Element => {
   const [aberto, setAberto] = useState(false);
 
   const [menuBotoes, setMenuBotoes] = useState<MenuBotao>([]);
@@ -45,4 +45,4 @@ const OcpoesBotao = ({
   );
 };
 
-export default OcpoesBotao;
+export default MenuOpcoes;

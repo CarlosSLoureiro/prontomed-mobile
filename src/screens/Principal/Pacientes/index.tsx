@@ -15,6 +15,7 @@ import ObterTotalPacientesHelper from '@helpers/Pacientes/ObterTotal';
 
 import Notification from '@hooks/useNotification';
 
+import MenuOpcoes from '@components/MenuOpcoes';
 import PacienteCard from '@components/Paciente/Card';
 import AgendarConsulta from '@components/Paciente/Dialogs/AgendarConsulta';
 import Buscar from '@components/Paciente/Dialogs/Buscar';
@@ -22,7 +23,6 @@ import { BuscarPacienteCallbackContrato } from '@components/Paciente/Dialogs/Bus
 import CadastrarEditar from '@components/Paciente/Dialogs/CadastrarEditar';
 import Excluir from '@components/Paciente/Dialogs/Excluir';
 import Ordenar from '@components/Paciente/Dialogs/Ordenar';
-import Opcoes from '@components/Paciente/Opcoes';
 
 import getMainStyles from '../styles';
 
@@ -295,15 +295,34 @@ const Pacientes = ({
               { titulo: 'Pela número do paciente', valor: 'id' }
             ]}
           />
-          <Opcoes
+          <MenuOpcoes
             visivel={paginaAtiva && !(buscarVisivel || cadastrarVisivel || ordenarVisivel)}
-            buscar={() => setBuscarVisivel(true)}
-            cadastrar={() => setCadastrarVisivel(true)}
-            ordenar={() => setOrdenarVisivel(true)}
-            limpar={{
-              visivel: JSON.stringify(filtrosDeBuscaInicial) !== JSON.stringify(filtrosDeBusca),
-              callback: () => setFiltrosDeBusca(filtrosDeBuscaInicial)
-            }}
+            botoes={[
+              {
+                visivel: JSON.stringify(filtrosDeBuscaInicial) !== JSON.stringify(filtrosDeBusca),
+                icon: 'restart',
+                nome: 'Limpar filtros',
+                callback: () => setFiltrosDeBusca(filtrosDeBuscaInicial)
+              },
+              {
+                visivel: true,
+                icon: 'magnify',
+                nome: 'Buscar',
+                callback: () => setBuscarVisivel(true)
+              },
+              {
+                visivel: true,
+                icon: 'account-plus',
+                nome: 'Cadastrar',
+                callback: () => setCadastrarVisivel(true)
+              },
+              {
+                visivel: true,
+                icon: 'order-alphabetical-ascending',
+                nome: 'Ordenar',
+                callback: () => setOrdenarVisivel(true)
+              }
+            ]}
           />
         </Portal>
         <Text style={styles.text}>{ obterStatus() }</Text>

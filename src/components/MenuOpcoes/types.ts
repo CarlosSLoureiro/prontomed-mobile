@@ -13,7 +13,7 @@ export type MenuBotao = Array<{
   onPress: () => void;
 }>;
 
-export interface OcpoesBotaoContrato {
+export interface MenuOpcoesContrato {
   visivel: boolean;
   botoes: Array<BotaoContrato>;
 }
