@@ -1,4 +1,5 @@
 import Icon from 'react-native-dynamic-vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import PaginaBase from '../Base';
 import Rodape from '../Rodape';
@@ -10,6 +11,14 @@ const Pagina = ({
   navigation
 }: PaginaContrato): JSX.Element => {
   const corDeFundo = '#0A9400';
+
+  const finalizarApresentacao = (): void => {
+    navigation?.replace('Início');
+
+    void (async () => {
+      await AsyncStorage.setItem('ProntoMed:APRESENTAÇÃO', (true).toString());
+    })();
+  };
 
   return (
     <>
@@ -25,9 +34,7 @@ const Pagina = ({
           alterarPagina(2);
         }}
         tituloBotaoDireito="Começar!"
-        acaoBotaoDireito={() => {
-          navigation?.replace('Início');
-        }}
+        acaoBotaoDireito={finalizarApresentacao}
       />
     </>
   );
