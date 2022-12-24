@@ -187,7 +187,7 @@ const Pacientes = ({
       })]);
 
       Notification.success({
-        title: `Consulta nº ${consulta.id} agendada com sucesso`,
+        title: `Consulta Nº ${consulta.id} agendada com sucesso`,
         duration: 10000
       });
       return consulta;
@@ -273,7 +273,8 @@ const Pacientes = ({
           />
           <CadastrarEditar
             formularioRef={cadastrarEditarPacienteRef}
-            visivel={cadastrarVisivel} setVisivel={setCadastrarVisivel}
+            visivel={cadastrarVisivel}
+            setVisivel={setCadastrarVisivel}
             cadastrarCallback={cadastrarPaciente}
             editarCallback={editarPaciente}
           />
@@ -282,7 +283,9 @@ const Pacientes = ({
             callback={excluirPaciente}
           />
           <Ordenar
-            visivel={ordenarVisivel} setVisivel={setOrdenarVisivel} callback={reordenarPacientes}
+            visivel={ordenarVisivel}
+            setVisivel={setOrdenarVisivel}
+            callback={reordenarPacientes}
             valorAtual={filtrosDeBusca.ordenacao}
             valoresDeBusca={[
               { titulo: 'Pelo nome do paciente', valor: 'nome' },

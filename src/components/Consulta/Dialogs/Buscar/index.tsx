@@ -73,7 +73,7 @@ const Buscar = ({
           <Dialog.Title>Como deseja buscar?</Dialog.Title>
           <Dialog.Content>
             <TextInput
-              nome="nº da consulta, nome do paciente"
+              nome="Nº da consulta, nome do paciente"
               icon={icone}
               style={styles.valor}
               valor={valor}
