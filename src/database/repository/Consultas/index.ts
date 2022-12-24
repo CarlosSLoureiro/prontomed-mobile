@@ -22,16 +22,19 @@ export default class ConsultasRepository implements ConsultasRepositoryInterface
 
   public async listar (pagina: number, quantidade: number, filtros: FiltrosDeBuscarConsultasContrato): Promise<Array<Consulta>> {
     let where = {};
+
+    where = {
+      ...where,
+      finalizada: false
+    };
+
     const order = { [filtros.ordenacao.chave]: filtros.ordenacao.ordem.toLowerCase() === 'decrescente' ? 'DESC' : 'ASC' };
 
     if (filtros.busca !== undefined) {
       const busca = filtros.busca;
 
-      if (!busca.finalizadas) {
-        where = {
-          ...where,
-          finalizada: false
-        };
+      if (busca.finalizadas) {
+        where = {};
       }
 
       if (busca.valor.length > 0) {
