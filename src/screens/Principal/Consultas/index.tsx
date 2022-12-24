@@ -10,6 +10,8 @@ import {
   OrdenacaoConsultasContrato
 } from '@repository/Consultas/types';
 
+import ExcluirConsultasHelper from '@helpers/Consultas/Excluir';
+import FinalizarConsultasHelper from '@helpers/Consultas/Finalizar';
 import ListarConsultasHelper from '@helpers/Consultas/Listar';
 import ObterTotalConsultasHelper from '@helpers/Consultas/ObterTotal';
 
@@ -17,6 +19,7 @@ import Notification from '@hooks/useNotification';
 
 import ConsultaCard from '@components/Consulta/Card';
 import Buscar from '@components/Consulta/Dialogs/Buscar';
+import Excluir from '@components/Consulta/Dialogs/Excluir';
 import FiltrarDatas from '@components/Consulta/Dialogs/FiltrarDatas';
 import Ordenar from '@components/Consulta/Dialogs/Ordenar';
 import Opcoes from '@components/Consulta/Opcoes';
@@ -41,6 +44,9 @@ const Consultas = ({
   const [buscarVisivel, setBuscarVisivel] = useState(false);
   const [filtrarDatasVisivel, setFiltrarDatasVisivel] = useState(false);
   const [ordenarVisivel, setOrdenarVisivel] = useState(false);
+
+  const excluirConsultaRef = useRef<any>();
+
   const filtrosDeBuscaInicial: FiltrosDeBuscarConsultasContrato = {
     ordenacao: {
       ordem: 'decrescente',
@@ -112,6 +118,56 @@ const Consultas = ({
     }
   };
 
+  const finalizarConsulta = async (consulta: Consulta): Promise<void> => {
+    const helper = new FinalizarConsultasHelper();
+
+    try {
+      const consultaEditada = await helper.executar(consulta);
+
+      if (filtrosDeBusca.busca?.finalizadas === false) {
+        setConsultas([...consultas.filter(consulta => (consulta.id !== consultaEditada.id))]);
+      }
+
+      Notification.success({
+        title: `Consulta Nº ${consultaEditada.id} finalizada com sucesso`,
+        duration: 5000
+      });
+
+      carregarTotaisConsultas();
+    } catch (err) {
+      Notification.error({
+        title: 'Não foi possível finalizar a consulta',
+        description: (err as Error).message,
+        duration: 10000
+      });
+    }
+  };
+
+  const excluirConsulta = async (consulta: Consulta): Promise<Consulta | undefined> => {
+    const helper = new ExcluirConsultasHelper();
+
+    try {
+      const consultaExcluida = await helper.executar(consulta);
+
+      setConsultas([...consultas.filter(consultas => (consultas.id !== consultaExcluida.id))]);
+
+      Notification.success({
+        title: 'Consulta excluída com sucesso',
+        duration: 5000
+      });
+
+      carregarTotaisConsultas();
+
+      return consultaExcluida;
+    } catch (err) {
+      Notification.error({
+        title: 'Não foi possível excluir a consulta',
+        description: (err as Error).message,
+        duration: 10000
+      });
+    }
+  };
+
   const sobirScrollParaOTopo = (): void => {
     scrollRef?.current?.scrollTo({
       y: 0,
@@ -164,11 +220,15 @@ const Consultas = ({
     }
   };
 
-  useEffect(() => {
-    void carregarConsultas(true);
+  const carregarTotaisConsultas = () => {
     void carregarTotalConsultas();
     void carregarTotalAgendadas();
     void carregarTotalAtrasadas();
+  };
+
+  useEffect(() => {
+    void carregarConsultas(true);
+    carregarTotaisConsultas();
   }, [filtrosDeBusca]);
 
   useEffect(() => {
@@ -194,12 +254,25 @@ const Consultas = ({
       >
         <Portal>
           <Buscar
-            visivel={buscarVisivel} setVisivel={setBuscarVisivel} callback={buscarConsultas}
+            visivel={buscarVisivel}
+            setVisivel={setBuscarVisivel}
+            callback={buscarConsultas}
             valorAtual={filtrosDeBusca?.busca}
           />
-          <FiltrarDatas visivel={filtrarDatasVisivel} setVisivel={setFiltrarDatasVisivel} callback={filtrarDatasConsultas} valorAtual={filtrosDeBusca?.datas}/>
+          <FiltrarDatas
+            visivel={filtrarDatasVisivel}
+            setVisivel={setFiltrarDatasVisivel}
+            callback={filtrarDatasConsultas}
+            valorAtual={filtrosDeBusca?.datas}
+          />
+          <Excluir
+            formularioRef={excluirConsultaRef}
+            callback={excluirConsulta}
+          />
           <Ordenar
-            visivel={ordenarVisivel} setVisivel={setOrdenarVisivel} callback={reordenarConsultas}
+            visivel={ordenarVisivel}
+            setVisivel={setOrdenarVisivel}
+            callback={reordenarConsultas}
             valorAtual={filtrosDeBusca.ordenacao}
             valoresDeBusca={[
               { titulo: 'Pela data de agendamento', valor: 'dataAgendada' },
@@ -219,7 +292,13 @@ const Consultas = ({
         </Portal>
         <Text style={styles.text}>{ obterStatus() }</Text>
         {
-          consultas.map((consulta, index) => <ConsultaCard key={index} consulta={consulta} ultimo={consultas.length - 1 === index} />)
+          consultas.map((consulta, index) => <ConsultaCard
+            key={index}
+            excluirFormularioRef={excluirConsultaRef}
+            finalizarConsulta={finalizarConsulta}
+            consulta={consulta}
+            ultimo={consultas.length - 1 === index}
+          />)
         }
       </ScrollView>
   );

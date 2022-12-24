@@ -11,7 +11,9 @@ import { ConsultaCardContrato } from './types';
 import moment from 'moment';
 
 const ConsultaCard = ({
+  excluirFormularioRef,
   consulta,
+  finalizarConsulta,
   ultimo = false
 }: ConsultaCardContrato): JSX.Element => {
   const [exibirMenu, setExibirMenu] = useState(false);
@@ -60,12 +62,12 @@ const ConsultaCard = ({
           style={ultimo ? { ...styles.card, ...styles.card.ultimo } : styles.card}
           backgroundColor={obterCorDoCard()}
           title={moment(consulta.dataAgendada).format('DD/MM/YYYY [as] HH[h]mm')}
-          topRightText={`nº ${consulta.id}`}
+          topRightText={`Nº ${consulta.id}`}
           bottomRightComponent={<View style={styles.icon}>
             <Icon type="MaterialCommunityIcons" name="message-reply-text-outline" size={styles.icon.size} />
             <Text style={styles.icon.text}>{ consulta.observacoes?.length }</Text>
           </View>}
-          description={`Paciente ${consulta.paciente !== null ? consulta.paciente.nome : 'excluídor'}`}
+          description={`Paciente ${consulta.paciente !== null ? consulta.paciente.nome : 'excluído'}`}
           // @ts-expect-error - a biblioteca não inclui parametros no contrato do onPress.
           onPress={abrirMenuContexto}
         />
@@ -77,6 +79,7 @@ const ConsultaCard = ({
                 titulo: 'Finalizar',
                 icone: 'file-check',
                 callback: () => {
+                  void finalizarConsulta(consulta);
                   fecharMenu();
                 }
               },
@@ -98,6 +101,7 @@ const ConsultaCard = ({
                 titulo: 'Excluir',
                 icone: 'file-remove',
                 callback: () => {
+                  excluirFormularioRef?.current.abrirDialog(consulta);
                   fecharMenu();
                 }
               }

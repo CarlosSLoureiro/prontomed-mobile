@@ -2,9 +2,11 @@ import { MutableRefObject } from 'react';
 
 import Consulta from '@entity/Consulta';
 
+import { ExcluirConsultaRefContrato } from '../Dialogs/Excluir/types';
+
 export interface ConsultaCardContrato {
-  reagendarFormularioRef?: MutableRefObject<any>;
-  excluirFormularioRef?: MutableRefObject<any>;
+  excluirFormularioRef?: MutableRefObject<ExcluirConsultaRefContrato>;
+  finalizarConsulta: (consulta: Consulta) => Promise<void>;
   consulta: Consulta;
   ultimo?: boolean;
 }
