@@ -1,4 +1,4 @@
-import { Between, DataSource, LessThan, MoreThan, MoreThanOrEqual, Repository } from 'typeorm';
+import { Between, DataSource, LessThan, Like, MoreThanOrEqual, Repository } from 'typeorm';
 
 import Consulta from '@entity/Consulta';
 import Paciente from '@entity/Paciente';
@@ -16,9 +16,40 @@ export default class ConsultasRepository implements ConsultasRepositoryInterface
     this.repository = database.getRepository(Consulta);
   }
 
+  private valorNumerico (valor: string): boolean {
+    return /^\d+$/.test(valor);
+  }
+
   public async listar (pagina: number, quantidade: number, filtros: FiltrosDeBuscarConsultasContrato): Promise<Array<Consulta>> {
     let where = {};
     const order = { [filtros.ordenacao.chave]: filtros.ordenacao.ordem.toLowerCase() === 'decrescente' ? 'DESC' : 'ASC' };
+
+    if (filtros.busca !== undefined) {
+      const busca = filtros.busca;
+
+      if (!busca.finalizadas) {
+        where = {
+          ...where,
+          finalizada: false
+        };
+      }
+
+      if (busca.valor.length > 0) {
+        if (!this.valorNumerico(busca.valor)) {
+          where = {
+            ...where,
+            paciente: {
+              nome: Like(`%${busca.valor}%`)
+            }
+          };
+        } else {
+          where = {
+            ...where,
+            id: busca.valor
+          };
+        }
+      }
+    }
 
     if (filtros.datas?.inicio !== undefined) {
       where = {

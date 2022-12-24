@@ -67,39 +67,6 @@ const Consultas = ({
     setTotalConsultasAtrasadas(total);
   };
 
-  const sobirScrollParaOTopo = () => {
-    scrollRef?.current?.scrollTo({
-      y: 0,
-      animated: true
-    });
-  };
-
-  const buscarConsultas = (busca?: BuscarConsultasContrato): void => {
-    setFiltrosDeBusca({
-      ...filtrosDeBusca,
-      ...{ busca }
-    });
-  };
-
-  const filtrarDatasConsultas = (datas: DatasConsultasContrato): void => {
-    setFiltrosDeBusca({
-      ...filtrosDeBusca,
-      ...{ datas }
-    });
-  };
-
-  const reordenarConsultas = (ordenacao: OrdenacaoConsultasContrato): void => {
-    setFiltrosDeBusca({
-      ...filtrosDeBusca,
-      ...{ ordenacao }
-    });
-  };
-
-  const deveCarregarMais = ({ layoutMeasurement, contentOffset, contentSize }: any): boolean => {
-    // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-    return (!carregando) && ((layoutMeasurement.height + contentOffset.y) >= contentSize.height);
-  };
-
   const carregarConsultas = async (deveResetar = false): Promise<void> => {
     const helper = new ListarConsultasHelper();
 
@@ -145,6 +112,39 @@ const Consultas = ({
     }
   };
 
+  const sobirScrollParaOTopo = (): void => {
+    scrollRef?.current?.scrollTo({
+      y: 0,
+      animated: true
+    });
+  };
+
+  const buscarConsultas = (busca?: BuscarConsultasContrato): void => {
+    setFiltrosDeBusca({
+      ...filtrosDeBusca,
+      ...{ busca }
+    });
+  };
+
+  const filtrarDatasConsultas = (datas: DatasConsultasContrato): void => {
+    setFiltrosDeBusca({
+      ...filtrosDeBusca,
+      ...{ datas }
+    });
+  };
+
+  const reordenarConsultas = (ordenacao: OrdenacaoConsultasContrato): void => {
+    setFiltrosDeBusca({
+      ...filtrosDeBusca,
+      ...{ ordenacao }
+    });
+  };
+
+  const deveCarregarMais = ({ layoutMeasurement, contentOffset, contentSize }: any): boolean => {
+    // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+    return (!carregando) && ((layoutMeasurement.height + contentOffset.y) >= contentSize.height);
+  };
+
   const obterStatus = (): string => {
     const todasAsBuscas = filtrosDeBusca.busca?.finalizadas ?? false;
     if (totalConsultas > 0) {
@@ -165,8 +165,6 @@ const Consultas = ({
   };
 
   useEffect(() => {
-    console.log('Deve buscar consultas ->', filtrosDeBusca);
-
     void carregarConsultas(true);
     void carregarTotalConsultas();
     void carregarTotalAgendadas();
@@ -174,13 +172,9 @@ const Consultas = ({
   }, [filtrosDeBusca]);
 
   useEffect(() => {
-    if (JSON.stringify(filtrosDeBusca) !== JSON.stringify(filtrosDeBuscaInicial)) {
-      if (paginaAtiva) {
-        setFiltrosDeBusca({ ...filtrosDeBuscaInicial });
-        sobirScrollParaOTopo();
-      } else {
-        setConsultas([]);
-      }
+    if (paginaAtiva) {
+      setFiltrosDeBusca({ ...filtrosDeBuscaInicial });
+      sobirScrollParaOTopo();
     }
   }, [paginaAtiva]);
 
