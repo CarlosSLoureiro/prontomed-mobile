@@ -20,7 +20,7 @@ export default class Consulta {
     evento!: string;
 
   @Column()
-    finalizada!: boolean;
+    finalizada: boolean;
 
   @CreateDateColumn()
     dataCriacao: Date;
