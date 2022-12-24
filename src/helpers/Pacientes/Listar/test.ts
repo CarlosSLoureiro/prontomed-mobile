@@ -24,7 +24,7 @@ describe('helpers > Pacientes > Listar', () => {
       }
     };
 
-    await expect(helper.executar(0, filtros)).resolves.toBeInstanceOf(Array<Paciente>);
+    await expect(helper.executar(0, 6, filtros)).resolves.toBeInstanceOf(Array<Paciente>);
     expect(listarSpy).toHaveBeenCalledTimes(1);
   });
 });

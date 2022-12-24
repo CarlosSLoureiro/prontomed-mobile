@@ -1,21 +1,44 @@
 import { useState } from 'react';
-import { TouchableOpacity } from 'react-native';
-import { Card, Paragraph } from 'react-native-paper';
-
-import Notification from '@hooks/useNotification';
+import { Text, View } from 'react-native';
+import Icon from 'react-native-dynamic-vector-icons';
+import { Card } from '@paraboly/react-native-card';
 
 import MenuContexto from './menu';
 import getStyles from './styles';
 
 import { ConsultaCardContrato } from './types';
 
+import moment from 'moment';
+
 const ConsultaCard = ({
-  nome,
+  excluirFormularioRef,
+  consulta,
+  finalizarConsulta,
   ultimo = false
 }: ConsultaCardContrato): JSX.Element => {
   const [exibirMenu, setExibirMenu] = useState(false);
   const [menuAnchor, setMenuAnchor] = useState({ x: 0, y: 0 });
 
+  const obterCorDoCard = (): string => {
+    const inicioDoDia = new Date();
+    inicioDoDia.setHours(0, 0, 0, 0);
+
+    const finalDoDia = new Date();
+    finalDoDia.setHours(23, 59, 59, 999);
+
+    const atrasada = !consulta.finalizada && consulta.dataAgendada < inicioDoDia;
+    const doDia = consulta.dataAgendada > inicioDoDia && consulta.dataAgendada < finalDoDia;
+
+    if (consulta.finalizada) {
+      return styles.card.backgroundColorFinalizada;
+    } else if (atrasada) {
+      return styles.card.backgroundColorAtrasada;
+    } else if (doDia) {
+      return styles.card.backgroundColorDoDia;
+    } else {
+      return styles.card.backgroundColorAgendada;
+    }
+  };
   const styles = getStyles();
 
   const abrirMenu = (): void => setExibirMenu(true);
@@ -33,59 +56,58 @@ const ConsultaCard = ({
   };
 
   return (
-        <>
-            <TouchableOpacity onPress={abrirMenuContexto}>
-                <Card style={ultimo ? { ...styles.card, ...styles.card.ultimo } : styles.card}>
-                    <Card.Title
-                        leftStyle={styles.cardId}
-                        left={() => <Paragraph style={styles.cardId.paragraph}>1234</Paragraph>}
-                        titleNumberOfLines={0}
-                        title={
-                            <>
-                                <Paragraph style={styles.data}>Segunda, 8 de Dezembro de 2022 às 15:00</Paragraph>
-                                {'\n'}
-                                <Paragraph style={styles.nome}>{nome}</Paragraph>
-                            </>
-                        }
-                        subtitleStyle={styles.subtitle}
-                        subtitle="Masculino, 23 anos, 75Kg, 1.3M"
-                    />
-                </Card>
-            </TouchableOpacity>
-            <MenuContexto
-                visivel={exibirMenu}
-                {...{ nome, fecharMenu, menuAnchor }}
-                items={[
-                  {
-                    titulo: 'Remarcar',
-                    icone: 'calendar-clock',
-                    callback: () => {
-                      console.log(`remarcar: ${nome}`);
-                      fecharMenu();
-                    }
-                  },
-                  {
-                    titulo: 'Observações (2)',
-                    icone: 'message-reply-text',
-                    callback: () => {
-                      console.log(`Observações: ${nome}`);
-                      Notification.info({
-                        title: `Observações de ${nome}...`
-                      });
-                      fecharMenu();
-                    }
-                  },
-                  {
-                    titulo: 'Excluir',
-                    icone: 'file-remove',
-                    callback: () => {
-                      console.log(`Excluir: ${nome}`);
-                      fecharMenu();
-                    }
-                  }
-                ]}
-            />
-        </>
+    <>
+        <Card
+          iconDisable
+          style={ultimo ? { ...styles.card, ...styles.card.ultimo } : styles.card}
+          backgroundColor={obterCorDoCard()}
+          title={moment(consulta.dataAgendada).format('DD/MM/YYYY [as] HH[h]mm')}
+          topRightText={`Nº ${consulta.id}`}
+          bottomRightComponent={<View style={styles.icon}>
+            <Icon type="MaterialCommunityIcons" name="message-reply-text-outline" size={styles.icon.size} />
+            <Text style={styles.icon.text}>{ consulta.observacoes?.length }</Text>
+          </View>}
+          description={`Paciente ${consulta.paciente !== null ? consulta.paciente.nome : 'excluído'}`}
+          // @ts-expect-error - a biblioteca não inclui parametros no contrato do onPress.
+          onPress={abrirMenuContexto}
+        />
+        <MenuContexto
+            visivel={exibirMenu}
+            {...{ fecharMenu, menuAnchor }}
+            items={[
+              {
+                titulo: 'Finalizar',
+                icone: 'file-check',
+                callback: () => {
+                  void finalizarConsulta(consulta);
+                  fecharMenu();
+                }
+              },
+              {
+                titulo: 'Remarcar',
+                icone: 'calendar-clock',
+                callback: () => {
+                  fecharMenu();
+                }
+              },
+              {
+                titulo: 'Observações',
+                icone: 'message-reply-text',
+                callback: () => {
+                  fecharMenu();
+                }
+              },
+              {
+                titulo: 'Excluir',
+                icone: 'file-remove',
+                callback: () => {
+                  excluirFormularioRef?.current.abrirDialog(consulta);
+                  fecharMenu();
+                }
+              }
+            ]}
+        />
+    </>
   );
 };
 

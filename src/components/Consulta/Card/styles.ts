@@ -1,5 +1,7 @@
 import { StyleSheet } from 'react-native';
 
+import { Generos } from '@entity/Paciente/enums';
+
 import ThemeScheme from '@hooks/useThemeScheme';
 
 const getStyles = () => {
@@ -7,41 +9,30 @@ const getStyles = () => {
 
   return StyleSheet.create({
     card: {
-      borderWidth: 1,
-      borderColor: '#555',
-      backgroundColor: '#a7e0fa',
-      borderRadius: 20,
-      marginHorizontal: 5,
-      marginVertical: 6,
+      marginHorizontal: 4,
+      marginVertical: 8,
+      alignSelf: 'center',
       ultimo: {
         marginBottom: 130
-      }
+      },
+      backgroundColorDoDia: '#edf8ff',
+      backgroundColorAgendada: '#ffffff',
+      backgroundColorFinalizada: '#eeffed',
+      backgroundColorAtrasada: '#ffeded'
     },
-    cardId: {
-      position: 'relative',
+    icon: {
+      flex: 1,
+      flexDirection: 'row',
       alignItems: 'center',
-      padding: 0,
-      margin: 0,
-      width: 40,
-      height: 40,
+      position: 'absolute',
       right: 0,
-      opacity: 0.6,
-      backgroundColor: '#000',
-      borderRadius: 50,
-      paragraph: {
-        color: '#fff'
+      bottom: 0,
+      marginRight: 0,
+      size: 24,
+      text: {
+        fontSize: 24,
+        paddingLeft: 5
       }
-    },
-    data: {
-      textAlign: 'center'
-    },
-    nome: {
-      textAlign: 'center',
-      lineHeight: 25,
-      fontSize: 22
-    },
-    subtitle: {
-      textAlign: 'center'
     }
   });
 };

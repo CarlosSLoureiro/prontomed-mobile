@@ -3,9 +3,25 @@ import Paciente from '@entity/Paciente';
 
 import ConsultasRepositoryInterface from './interface';
 
-const consultas: Array<Consulta> = [];
+let consultas: Array<Consulta> = [];
 
 export default class PacientesRepositoryMock implements ConsultasRepositoryInterface {
+  public async listar (): Promise<Array<Consulta>> {
+    return await Promise.resolve(consultas);
+  }
+
+  public async total (): Promise<number> {
+    return await Promise.resolve(consultas.length);
+  }
+
+  public async totalAgendadas (): Promise<number> {
+    return await Promise.resolve(consultas.length);
+  }
+
+  public async totalAtrasadas (): Promise<number> {
+    return await Promise.resolve(consultas.length);
+  }
+
   public async agendar (paciente: Paciente, data: Date): Promise<Consulta> {
     const consulta = new Consulta();
 
@@ -23,5 +39,10 @@ export default class PacientesRepositoryMock implements ConsultasRepositoryInter
 
   public async editar (consulta: Partial<Consulta>): Promise<Consulta> {
     return await Promise.resolve(consulta as Consulta);
+  }
+
+  public async excluir (consulta: Consulta): Promise<Consulta> {
+    consultas = consultas.filter(c => (c.id !== consulta.id));
+    return await Promise.resolve(consulta);
   }
 }

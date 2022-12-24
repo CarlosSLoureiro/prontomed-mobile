@@ -1,5 +1,13 @@
+import { MutableRefObject } from 'react';
+
+import Consulta from '@entity/Consulta';
+
+import { ExcluirConsultaRefContrato } from '../Dialogs/Excluir/types';
+
 export interface ConsultaCardContrato {
-  nome: string;
+  excluirFormularioRef?: MutableRefObject<ExcluirConsultaRefContrato>;
+  finalizarConsulta: (consulta: Consulta) => Promise<void>;
+  consulta: Consulta;
   ultimo?: boolean;
 }
 
@@ -15,7 +23,6 @@ interface MenuItem {
 }
 
 export interface ConsultaMenuContrato {
-  nome: string;
   visivel: boolean;
   fecharMenu: () => void;
   menuAnchor?: MenuArchor;

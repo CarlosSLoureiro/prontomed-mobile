@@ -17,8 +17,7 @@ export default class PacientesRepository implements PacientesRepositoryInterface
     return await this.repository.findOne(opcoes) ?? undefined;
   }
 
-  public async listar (pagina: number, filtros: FiltrosDeBuscarPacientesContrato): Promise<Array<Paciente>> {
-    const rows = 10;
+  public async listar (pagina: number, quantidade: number, filtros: FiltrosDeBuscarPacientesContrato): Promise<Array<Paciente>> {
     let where = {};
     const order = { [filtros.ordenacao.chave]: filtros.ordenacao.ordem.toLowerCase() === 'decrescente' ? 'DESC' : 'ASC' };
 
@@ -51,8 +50,8 @@ export default class PacientesRepository implements PacientesRepositoryInterface
       where,
       order,
       relations: ['consultas'],
-      take: rows,
-      skip: rows * pagina
+      take: quantidade,
+      skip: quantidade * pagina
     });
   }
 

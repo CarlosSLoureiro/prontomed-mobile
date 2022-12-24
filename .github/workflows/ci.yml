@@ -12,14 +12,19 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Setup yarn
-        uses: borales/actions-yarn@v3.0.0
-      - name: Install Dependencies 
-        run: |
-          sudo yarn
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 19
+      - name: Install Dependencies
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install
       - name: Check syntax 
-        run: |
-          sudo yarn lint
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: lint
       - name: Tests with jest
-        run: |
-          sudo yarn test
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: test

@@ -3,7 +3,6 @@ import { Menu } from 'react-native-paper';
 import { ConsultaMenuContrato } from './types';
 
 const MenuContexto = ({
-  nome,
   visivel,
   fecharMenu,
   menuAnchor,

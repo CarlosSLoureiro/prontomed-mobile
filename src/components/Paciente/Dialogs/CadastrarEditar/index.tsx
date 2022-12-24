@@ -6,10 +6,10 @@ import { Button, Dialog, Divider } from 'react-native-paper';
 import Paciente from '@entity/Paciente';
 import { Generos, TiposSanguineos } from '@entity/Paciente/enums';
 
-import { ItemListagemDeGenerosContrato, ItemListagemDeTiposSanguineosContrato } from '@components/Consulta/Dialogs/Buscar/types';
 import DatePicker from '@components/Formularios/DatePicker';
 import SelectInput from '@components/Formularios/SelectInput';
 import TextInput from '@components/Formularios/TextInput';
+import { ItemListagemDeGenerosContrato, ItemListagemDeTiposSanguineosContrato } from '@components/Paciente/Dialogs/Buscar/types';
 
 import getStyles from './styles';
 

@@ -27,7 +27,7 @@ const Excluir = ({
     };
   }
 
-  const obterMaasculinoFeminino = (palavra: string): string => {
+  const obterMasculinoFeminino = (palavra: string): string => {
     palavra = palavra.toLowerCase();
 
     if (paciente?.genero === Generos.FEMININO) {
@@ -44,11 +44,11 @@ const Excluir = ({
   const obterTextoModal = (totalConsultas: number): string => {
     if (paciente !== undefined) {
       if (totalConsultas > 1) {
-        return `${obterMaasculinoFeminino('O').toUpperCase()} paciente ${paciente.nome} possui ${totalConsultas} consultas. As consultas serão mantidas e ${obterMaasculinoFeminino('o')} paciente ${obterMaasculinoFeminino('excluído')}`;
+        return `${obterMasculinoFeminino('O').toUpperCase()} paciente ${paciente.nome} possui ${totalConsultas} consultas. As consultas serão mantidas e ${obterMasculinoFeminino('o')} paciente ${obterMasculinoFeminino('excluído')}`;
       } else if (totalConsultas === 1) {
-        return `${obterMaasculinoFeminino('O').toUpperCase()} paciente ${paciente.nome} possui 1 consulta. A consulta será mantida e ${obterMaasculinoFeminino('o')} paciente ${obterMaasculinoFeminino('excluído')}`;
+        return `${obterMasculinoFeminino('O').toUpperCase()} paciente ${paciente.nome} possui 1 consulta. A consulta será mantida e ${obterMasculinoFeminino('o')} paciente ${obterMasculinoFeminino('excluído')}`;
       } else {
-        return `${obterMaasculinoFeminino('O').toUpperCase()} paciente ${paciente.nome} será ${obterMaasculinoFeminino('excluído')}.`;
+        return `${obterMasculinoFeminino('O').toUpperCase()} paciente ${paciente.nome} será ${obterMasculinoFeminino('excluído')}.`;
       }
     } else {
       return 'Paciente indefinido';

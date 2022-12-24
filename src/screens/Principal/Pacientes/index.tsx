@@ -32,6 +32,8 @@ const Pacientes = ({
   paginaAtiva
 }: PacientesContrato): JSX.Element => {
   const styles = getMainStyles();
+  const pacientesPorPagina = 10;
+
   const [carregando, setCarregando] = useState(false);
   const [pacientes, setPacientes] = useState<Array<Paciente>>([]);
   const [pacientesPagina, setPacientesPagina] = useState(0);
@@ -46,7 +48,7 @@ const Pacientes = ({
   const [filtrosDeBusca, setFiltrosDeBusca] = useState<FiltrosDeBuscarPacientesContrato>(filtrosDeBuscaInicial);
   const [buscarVisivel, setBuscarVisivel] = useState(false);
   const [cadastrarVisivel, setCadastrarVisivel] = useState(false);
-  const [ordernarVisivel, setOrdernarVisivel] = useState(false);
+  const [ordenarVisivel, setOrdenarVisivel] = useState(false);
 
   const agendarConsultaRef = useRef<any>();
   const cadastrarEditarPacienteRef = useRef<any>();
@@ -65,7 +67,7 @@ const Pacientes = ({
       const listagemAtual = deveResetar ? [] : pacientes;
       const paginaAtual = deveResetar ? 0 : pacientesPagina;
 
-      const pacientesCarregados = await helper.executar(paginaAtual, filtrosDeBusca);
+      const pacientesCarregados = await helper.executar(paginaAtual, pacientesPorPagina, filtrosDeBusca);
 
       if (pacientesCarregados.length) {
         /* funde os resultados */
@@ -75,18 +77,13 @@ const Pacientes = ({
 
         setPacientes(listagem);
         setPacientesPagina(paginaAtual + 1);
-      } else if (!totalPacientes) {
-        Notification.info({
-          title: 'Não há pacientes cadastrados',
-          duration: 5000
-        });
       } else if (paginaAtual > 0) {
         Notification.info({
           title: 'Não há mais pacientes',
           description: 'Tente alterar os filtros de busca',
           duration: 5000
         });
-      } else {
+      } else if (totalPacientes) {
         setPacientes([]);
         Notification.info({
           title: 'Não há pacientes',
@@ -190,7 +187,7 @@ const Pacientes = ({
       })]);
 
       Notification.success({
-        title: `Consulta nº ${consulta.id} agendada com sucesso`,
+        title: `Consulta Nº ${consulta.id} agendada com sucesso`,
         duration: 10000
       });
       return consulta;
@@ -229,15 +226,25 @@ const Pacientes = ({
     });
   };
 
+  const obterStatus = (): string => {
+    if (totalPacientes > 0) {
+      return `Você possui ${totalPacientes} paciente${totalPacientes > 1 ? 's' : ''}`;
+    } else {
+      return 'Você não possui pacientes';
+    }
+  };
+
   useEffect(() => {
     sobirScrollParaOTopo();
     void carregarTotalPacientes();
     void carregarPacientes(true);
   }, [filtrosDeBusca]);
 
-  if (!paginaAtiva) {
-    sobirScrollParaOTopo();
-  }
+  useEffect(() => {
+    if (paginaAtiva) {
+      sobirScrollParaOTopo();
+    }
+  }, [paginaAtiva]);
 
   return (
       <ScrollView scrollEventThrottle={400}
@@ -266,7 +273,8 @@ const Pacientes = ({
           />
           <CadastrarEditar
             formularioRef={cadastrarEditarPacienteRef}
-            visivel={cadastrarVisivel} setVisivel={setCadastrarVisivel}
+            visivel={cadastrarVisivel}
+            setVisivel={setCadastrarVisivel}
             cadastrarCallback={cadastrarPaciente}
             editarCallback={editarPaciente}
           />
@@ -275,7 +283,9 @@ const Pacientes = ({
             callback={excluirPaciente}
           />
           <Ordenar
-            visivel={ordernarVisivel} setVisivel={setOrdernarVisivel} callback={reordenarPacientes}
+            visivel={ordenarVisivel}
+            setVisivel={setOrdenarVisivel}
+            callback={reordenarPacientes}
             valorAtual={filtrosDeBusca.ordenacao}
             valoresDeBusca={[
               { titulo: 'Pelo nome do paciente', valor: 'nome' },
@@ -286,17 +296,17 @@ const Pacientes = ({
             ]}
           />
           <Opcoes
-            visivel={paginaAtiva && !(buscarVisivel || cadastrarVisivel || ordernarVisivel)}
+            visivel={paginaAtiva && !(buscarVisivel || cadastrarVisivel || ordenarVisivel)}
             buscar={() => setBuscarVisivel(true)}
             cadastrar={() => setCadastrarVisivel(true)}
-            ordenar={() => setOrdernarVisivel(true)}
+            ordenar={() => setOrdenarVisivel(true)}
             limpar={{
               visivel: JSON.stringify(filtrosDeBuscaInicial) !== JSON.stringify(filtrosDeBusca),
               callback: () => setFiltrosDeBusca(filtrosDeBuscaInicial)
             }}
           />
         </Portal>
-        <Text style={styles.text}>Você possui {totalPacientes} pacientes!</Text>
+        <Text style={styles.text}>{ obterStatus() }</Text>
         {
           pacientes.map((paciente, index) => <PacienteCard
             key={index}

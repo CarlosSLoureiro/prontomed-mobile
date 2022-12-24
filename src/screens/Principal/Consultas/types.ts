@@ -1,27 +1,7 @@
-import { Generos, TiposSanguineos } from '@entity/Paciente/enums';
+import Consulta from '@entity/Consulta';
 
 export interface ConsultasContrato {
   paginaAtiva: boolean;
 }
 
-export interface DatasContrato {
-  inicio: Date;
-  fim: Date;
-}
-
-export interface OrdenacaoContrato {
-  ordem: string;
-  chave: string;
-}
-
-export interface BuscaContrato {
-  nome: string;
-  generos: Array<Generos>;
-  tipos_sanguineos: Array<TiposSanguineos>;
-}
-
-export interface FiltrosDeBuscaContrato {
-  busca?: BuscaContrato;
-  datas?: DatasContrato;
-  ordenacao: OrdenacaoContrato;
-}
+export type excluirCallback = (consulta: Consulta) => Promise<Consulta | undefined>;

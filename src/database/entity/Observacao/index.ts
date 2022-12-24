@@ -15,8 +15,5 @@ export default class Observacao {
     mensagem: string;
 
   @CreateDateColumn()
-    dataCriacao: Date;
-
-  @CreateDateColumn()
-    dataAtualizacao: Date;
+    data: Date;
 }

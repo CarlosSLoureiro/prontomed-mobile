@@ -1,116 +1,65 @@
-import { useState } from 'react';
-import { Button, Dialog, Divider, TextInput } from 'react-native-paper';
-import { PaperSelect } from 'react-native-paper-select';
+import { useEffect, useState } from 'react';
+import { Switch, Text, View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import { Button, Dialog, Divider } from 'react-native-paper';
 
-import { Generos, TiposSanguineos } from '@entity/Paciente/enums';
+import { BuscarConsultasContrato } from '@repository/Consultas/types';
 
-import { BuscaContrato } from '@screens/Principal/Consultas/types';
+import TextInput from '@components/Formularios/TextInput';
+
+import getStyles from './styles';
 
 import {
-  BuscarContrato,
-  ItemListagemDeGenerosContrato,
-  ItemListagemDeTiposSanguineosContrato,
-  ListagemDeGenerosContrato,
-  ListagemDeTiposSanguineosContrato,
+  BuscarConsultaContrato,
   ValoresAtuaisFormulario
 } from './types';
 
 const Buscar = ({
   visivel,
   setVisivel,
-  callback
-}: BuscarContrato): JSX.Element => {
-  const [valorAtual,
-    setValoresAtuais] = useState<ValoresAtuaisFormulario>();
+  callback,
+  valorAtual
+}: BuscarConsultaContrato): JSX.Element => {
+  const styles = getStyles();
+  const [valoresAtuais, setValoresAtuais] = useState<ValoresAtuaisFormulario>();
+  const [icone, setIcone] = useState<string>('clipboard-list-outline');
+  const [valor, setValor] = useState<string>('');
+  const [incluirFinalizadas, setIncluirFinalizadas] = useState(false);
 
-  // nome
-  const [nome, setNome] = useState<string>('');
-
-  // gêneros
-  const todosOsGenerosSelecionados = 'Todos os gêneros';
-  const listagemDeGeneros: Array<ItemListagemDeGenerosContrato> = Object.values(Generos).map((genero, index) => ({
-    _id: index.toString(),
-    value: genero
-  }));
-  const [generosFormulario, setGenerosFormulario] = useState<ListagemDeGenerosContrato>({
-    valor: todosOsGenerosSelecionados,
-    listagem: listagemDeGeneros,
-    selecionados: listagemDeGeneros
-  });
-  const selecionarValoresPadraoGeneros = (): void => {
-    setGenerosFormulario({
-      ...generosFormulario,
-      valor: todosOsGenerosSelecionados,
-      selecionados: listagemDeGeneros
-    });
+  const resetarFormulario = (): void => {
+    setIncluirFinalizadas(false);
+    setValor('');
   };
-  const selecionarGenero = (value: any): void => {
-    if (value.selectedList.length > 0) {
-      setGenerosFormulario({
-        ...generosFormulario,
-        valor: (value.selectedList.length === listagemDeGeneros.length) ? todosOsGenerosSelecionados : value.text,
-        selecionados: value.selectedList
-      });
-    } else {
-      selecionarValoresPadraoGeneros();
+
+  useEffect(() => {
+    if (valorAtual === undefined) {
+      setValoresAtuais(undefined);
+      resetarFormulario();
     }
-  };
+  }, [valorAtual]);
 
-  // tipos sanguíneos
-  const todosOsTiposSanguineosSelecionados = 'Todos os tipos sanguíneos';
-  const listagemDeTiposSanguineos: Array<ItemListagemDeTiposSanguineosContrato> = Object.values(TiposSanguineos).map((tipoSanguineo, index) => ({
-    _id: index.toString(),
-    value: tipoSanguineo
-  }));
-  const [tiposSanguineosFormulario, setTiposSanguineosFormulario] = useState<ListagemDeTiposSanguineosContrato>({
-    valor: todosOsTiposSanguineosSelecionados,
-    listagem: listagemDeTiposSanguineos,
-    selecionados: listagemDeTiposSanguineos
-  });
-  const selecionarValoresPadraoTiposSanguineos = (): void => {
-    setTiposSanguineosFormulario({
-      ...tiposSanguineosFormulario,
-      valor: todosOsTiposSanguineosSelecionados,
-      selecionados: listagemDeTiposSanguineos
-    });
-  };
-  const selecionarTipoSanguineo = (value: any): void => {
-    if (value.selectedList.length > 0) {
-      setTiposSanguineosFormulario({
-        ...tiposSanguineosFormulario,
-        valor: (value.selectedList.length === listagemDeTiposSanguineos.length) ? todosOsTiposSanguineosSelecionados : value.text,
-        selecionados: value.selectedList
-      });
-    } else {
-      selecionarValoresPadraoTiposSanguineos();
-    }
-  };
+  useEffect(() => {
+    setIcone(/^\d+$/.test(valor) || !valor.length ? 'clipboard-list-outline' : 'account');
+  }, [valor]);
 
-  // botões
   const cancelar = (): void => {
     setVisivel(false);
-    if (valorAtual != null) {
-      setNome(valorAtual.nome);
-      setGenerosFormulario(valorAtual.generos);
-      setTiposSanguineosFormulario(valorAtual.tipos_sanguineos);
+    if (valoresAtuais != null) {
+      setValor(valoresAtuais.valor);
     } else {
-      setNome('');
-      selecionarValoresPadraoTiposSanguineos();
-      selecionarValoresPadraoGeneros();
+      resetarFormulario();
     }
   };
+
   const buscar = (): void => {
-    const busca: BuscaContrato = {
-      nome,
-      generos: generosFormulario.valor !== todosOsGenerosSelecionados ? generosFormulario.selecionados.map(generos => generos.value) : [],
-      tipos_sanguineos: tiposSanguineosFormulario.valor !== todosOsTiposSanguineosSelecionados ? tiposSanguineosFormulario.selecionados.map(tipoSanguineo => tipoSanguineo.value) : []
+    const busca: BuscarConsultasContrato = {
+      valor: valor.trim().length > 0 ? valor.trim() : '',
+      finalizadas: incluirFinalizadas
     };
     setVisivel(false);
-    if (busca.nome.length || (busca.generos.length > 0) || (busca.tipos_sanguineos.length > 0)) {
+    if (busca.valor.length > 0 || busca.finalizadas) {
       setValoresAtuais({
-        nome: busca.nome,
-        generos: generosFormulario,
-        tipos_sanguineos: tiposSanguineosFormulario
+        valor: busca.valor
       });
       callback(busca);
     } else {
@@ -119,48 +68,29 @@ const Buscar = ({
   };
 
   return (
-      <Dialog visible={visivel} onDismiss={cancelar}>
+      <Dialog visible={visivel} onDismiss={cancelar} style={styles.dialog}>
+        <ScrollView style={styles.dialog} keyboardShouldPersistTaps="handled" enabled={false}>
           <Dialog.Title>Como deseja buscar?</Dialog.Title>
           <Dialog.Content>
             <TextInput
-              onChangeText={(nome) => setNome(nome.trim())}
-              value={nome}
-              mode="outlined"
-              label="Nome do paciente"
-              left={<TextInput.Icon icon="account" />}
+              nome="Nº da consulta, nome do paciente"
+              icon={icone}
+              style={styles.valor}
+              valor={valor}
+              callback={valor => setValor(valor ?? '')}
             />
-            <PaperSelect
-              hideSearchBox={true}
-              label="Gênero do paciente"
-              modalCloseButtonText="Cancelar"
-              modalDoneButtonText="Selecionar"
-              value={generosFormulario.valor}
-              onSelection={selecionarGenero}
-              arrayList={[...generosFormulario.listagem]}
-              selectedArrayList={[...generosFormulario.selecionados]}
-              multiEnable={true}
-              errorText=""
-            />
-            <PaperSelect
-              hideSearchBox={false}
-              searchPlaceholder="Buscar"
-              label="Tipo sanguíneo do paciente"
-              modalCloseButtonText="Cancelar"
-              modalDoneButtonText="Selecionar"
-              value={tiposSanguineosFormulario.valor}
-              onSelection={selecionarTipoSanguineo}
-              arrayList={[...tiposSanguineosFormulario.listagem]}
-              selectedArrayList={[...tiposSanguineosFormulario.selecionados]}
-              multiEnable={true}
-              errorText=""
-            />
+            <View style={styles.incluirFinalizadas}>
+              <Text style={styles.incluirFinalizadas.text}>Incluir consultas finalizadas</Text>
+              <Switch style={styles.botaoSwitch} value={incluirFinalizadas} onValueChange={setIncluirFinalizadas} />
+            </View>
             <Divider/>
           </Dialog.Content>
           <Dialog.Actions>
-            <Button color='#000000' onPress={buscar}>Buscar</Button>
-            <Button color='#000000' onPress={cancelar}>Cancelar</Button>
+            <Button labelStyle={styles.dialog.botoes} onPress={cancelar}>Cancelar</Button>
+            <Button labelStyle={styles.dialog.botoes} onPress={buscar}>Buscar</Button>
           </Dialog.Actions>
-        </Dialog>
+        </ScrollView>
+      </Dialog>
   );
 };
 

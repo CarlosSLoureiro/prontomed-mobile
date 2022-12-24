@@ -1,8 +1,8 @@
-import { DatasContrato } from '@screens/Principal/Consultas/types';
+import { DatasConsultasContrato } from '@repository/Consultas/types';
 
 export interface FiltrarDatasContrato {
   visivel: boolean;
   setVisivel: Function;
-  callback: (datas: DatasContrato) => void;
-  valorAtual: DatasContrato | undefined;
+  callback: (datas: DatasConsultasContrato) => void;
+  valorAtual: DatasConsultasContrato | undefined;
 }
