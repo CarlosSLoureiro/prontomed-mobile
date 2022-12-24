@@ -9,10 +9,7 @@ import TextInput from '@components/Formularios/TextInput';
 
 import getStyles from './styles';
 
-import {
-  BuscarConsultaContrato,
-  ValoresAtuaisFormulario
-} from './types';
+import { BuscarConsultaContrato } from './types';
 
 const Buscar = ({
   visivel,
@@ -21,7 +18,7 @@ const Buscar = ({
   valorAtual
 }: BuscarConsultaContrato): JSX.Element => {
   const styles = getStyles();
-  const [valoresAtuais, setValoresAtuais] = useState<ValoresAtuaisFormulario>();
+  const [valoresAtuais, setValoresAtuais] = useState<BuscarConsultasContrato>();
   const [icone, setIcone] = useState<string>('clipboard-list-outline');
   const [valor, setValor] = useState<string>('');
   const [incluirFinalizadas, setIncluirFinalizadas] = useState(false);
@@ -59,7 +56,8 @@ const Buscar = ({
     setVisivel(false);
     if (busca.valor.length > 0 || busca.finalizadas) {
       setValoresAtuais({
-        valor: busca.valor
+        valor: busca.valor,
+        finalizadas: valorAtual?.finalizadas ?? false
       });
       callback(busca);
     } else {

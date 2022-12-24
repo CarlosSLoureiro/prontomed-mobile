@@ -35,6 +35,7 @@ const Consultas = ({
   const consultasPorPagina = 10;
 
   const [carregando, setCarregando] = useState(false);
+  const [consultasDoDia, setConsultasDoDia] = useState(false);
   const [consultas, setConsultas] = useState<Array<Consulta>>([]);
   const [consultasPagina, setConsultasPagina] = useState(0);
   const [totalConsultas, setTotalConsultas] = useState(0);
@@ -234,6 +235,7 @@ const Consultas = ({
   useEffect(() => {
     if (paginaAtiva) {
       setFiltrosDeBusca({ ...filtrosDeBuscaInicial });
+      setConsultasDoDia(false);
       sobirScrollParaOTopo();
     }
   }, [paginaAtiva]);
@@ -281,13 +283,57 @@ const Consultas = ({
           />
           <Opcoes
             visivel={paginaAtiva && !(buscarVisivel || filtrarDatasVisivel || ordenarVisivel)}
-            buscar={() => setBuscarVisivel(true)}
-            filtrarDatas={() => setFiltrarDatasVisivel(true)}
-            ordenar={() => setOrdenarVisivel(true)}
-            limpar={{
-              visivel: JSON.stringify(filtrosDeBuscaInicial) !== JSON.stringify(filtrosDeBusca),
-              callback: () => setFiltrosDeBusca(filtrosDeBuscaInicial)
-            }}
+            botoes={[
+              {
+                visivel: JSON.stringify(filtrosDeBuscaInicial) !== JSON.stringify(filtrosDeBusca),
+                icon: 'restart',
+                nome: 'Limpar filtros',
+                callback: () => {
+                  setConsultasDoDia(false);
+                  setFiltrosDeBusca(filtrosDeBuscaInicial);
+                }
+              },
+              {
+                visivel: true,
+                icon: 'magnify',
+                nome: 'Buscar',
+                callback: () => setBuscarVisivel(true)
+              },
+              {
+                visivel: !consultasDoDia && filtrosDeBusca?.datas === undefined,
+                icon: 'calendar-clock',
+                nome: 'Consultas do dia',
+                callback: (): void => {
+                  const inicioDoDia = new Date();
+                  inicioDoDia.setHours(0, 0, 0, 0);
+
+                  const fimDoDia = new Date();
+                  fimDoDia.setHours(23, 59, 59, 99);
+
+                  setConsultasDoDia(true);
+
+                  setFiltrosDeBusca({
+                    ...filtrosDeBusca,
+                    datas: {
+                      inicio: inicioDoDia,
+                      fim: fimDoDia
+                    }
+                  });
+                }
+              },
+              {
+                visivel: !consultasDoDia,
+                icon: 'calendar-range-outline',
+                nome: 'Filtrar datas',
+                callback: () => setFiltrarDatasVisivel(true)
+              },
+              {
+                visivel: true,
+                icon: 'order-alphabetical-ascending',
+                nome: 'Ordenar',
+                callback: () => setOrdenarVisivel(true)
+              }
+            ]}
           />
         </Portal>
         <Text style={styles.text}>{ obterStatus() }</Text>

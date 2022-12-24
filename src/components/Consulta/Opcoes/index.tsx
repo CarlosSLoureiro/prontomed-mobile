@@ -1,44 +1,31 @@
 import { useEffect, useState } from 'react';
 import { FAB } from 'react-native-paper';
 
-import { OcpoesBotaoContrato } from './types';
+import { MenuBotao, OcpoesBotaoContrato } from './types';
 
 const OcpoesBotao = ({
   visivel,
-  buscar,
-  filtrarDatas,
-  ordenar,
-  limpar
+  botoes
 }: OcpoesBotaoContrato): JSX.Element => {
   const [aberto, setAberto] = useState(false);
-  const botoesPadrao = [
-    {
-      icon: 'magnify',
-      label: 'Buscar',
-      onPress: buscar
-    },
-    {
-      icon: 'calendar-range-outline',
-      label: 'Filtrar datas',
-      onPress: filtrarDatas
-    },
-    {
-      icon: 'order-alphabetical-ascending',
-      label: 'Ordenar',
-      onPress: ordenar
-    }
-  ];
-  const botaoLimpar = {
-    icon: 'restart',
-    label: 'Limpar filtros',
-    onPress: limpar.callback
-  };
 
-  const [botoes, setBotoes] = useState(botoesPadrao);
+  const [menuBotoes, setMenuBotoes] = useState<MenuBotao>([]);
 
   useEffect(() => {
-    setBotoes(limpar.visivel ? [botaoLimpar].concat(botoesPadrao) : botoesPadrao);
-  }, [limpar.visivel]);
+    const menuBotoesArr: MenuBotao = [];
+
+    botoes.forEach(botao => {
+      if (botao.visivel) {
+        menuBotoesArr.push({
+          icon: botao.icon,
+          label: botao.nome,
+          onPress: botao.callback
+        });
+      }
+
+      setMenuBotoes(menuBotoesArr);
+    });
+  }, [botoes]);
 
   return (
         <FAB.Group
@@ -52,7 +39,7 @@ const OcpoesBotao = ({
               backgroundColor: '#fff'
             }}
             icon={aberto ? 'calendar-account-outline' : 'plus'}
-            actions={botoes}
+            actions={menuBotoes}
             onStateChange={({ open }) => setAberto(open)}
         />
   );
