@@ -15,7 +15,7 @@ import getStyles from './styles';
 const Principal = (): JSX.Element => {
   const navigation = useNavigation<StackNavigationProp<ParamListBase>>();
   const pagerRef = useRef<PagerView>(null);
-  const [paginaSelecionada, setPaginSelecionada] = useState(0);
+  const [paginaSelecionada, setPaginaSelecionada] = useState(0);
 
   const alterarPagina = (pagina: number): void => pagerRef?.current?.setPage(pagina - 1);
 
@@ -35,7 +35,7 @@ const Principal = (): JSX.Element => {
         style={styles.root}
         initialPage={0}
         scrollEnabled={false}
-        onPageSelected={(event: PagerViewOnPageSelectedEvent) => setPaginSelecionada(event.nativeEvent.position)}
+        onPageSelected={(event: PagerViewOnPageSelectedEvent) => setPaginaSelecionada(event.nativeEvent.position)}
         ref={pagerRef}
       >
         <Inicio key="0"/>
