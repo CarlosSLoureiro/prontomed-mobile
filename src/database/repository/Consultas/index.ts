@@ -104,6 +104,7 @@ export default class ConsultasRepository implements ConsultasRepositoryInterface
     return await this.repository.findOne({
       relations: ['paciente'],
       where: {
+        finalizada: false,
         dataAgendada: Between(limiteInferior.toDate(), limiteSuperior.toDate())
       },
       order: {
@@ -115,5 +116,9 @@ export default class ConsultasRepository implements ConsultasRepositoryInterface
   public async editar (consulta: Partial<Consulta>): Promise<Consulta> {
     consulta.dataAtualizacao = new Date();
     return await this.repository.save(consulta);
+  }
+
+  public async excluir (consulta: Consulta): Promise<Consulta> {
+    return await this.repository.remove(consulta);
   }
 }

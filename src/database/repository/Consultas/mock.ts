@@ -3,7 +3,7 @@ import Paciente from '@entity/Paciente';
 
 import ConsultasRepositoryInterface from './interface';
 
-const consultas: Array<Consulta> = [];
+let consultas: Array<Consulta> = [];
 
 export default class PacientesRepositoryMock implements ConsultasRepositoryInterface {
   public async listar (): Promise<Array<Consulta>> {
@@ -39,5 +39,10 @@ export default class PacientesRepositoryMock implements ConsultasRepositoryInter
 
   public async editar (consulta: Partial<Consulta>): Promise<Consulta> {
     return await Promise.resolve(consulta as Consulta);
+  }
+
+  public async excluir (consulta: Consulta): Promise<Consulta> {
+    consultas = consultas.filter(c => (c.id !== consulta.id));
+    return await Promise.resolve(consulta);
   }
 }
