@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react';
-import { KeyboardAvoidingView, View } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import { KeyboardAvoidingView, Platform, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Button, Dialog, Divider } from 'react-native-paper';
 
@@ -24,6 +24,7 @@ const CadastrarEditar = ({
 }: CadastrarPacienteContrato): JSX.Element => {
   const styles = getStyles();
   const [modoEdicao, setModoEdicao] = useState(false);
+  const scrollRef = useRef<ScrollView>(null);
   const [reposicionar, setReposicionar] = useState({
     deve: false,
     valor: 100
@@ -97,7 +98,6 @@ const CadastrarEditar = ({
     }
   };
 
-  // botões
   const cancelar = (): void => {
     setVisivel(false);
     setModoEdicao(false);
@@ -106,6 +106,7 @@ const CadastrarEditar = ({
       setPaciente({});
     }, 500);
   };
+
   const cadastrar = (): void => {
     void (async () => {
       const resultado = await cadastrarCallback(paciente);
@@ -114,6 +115,7 @@ const CadastrarEditar = ({
       }
     })();
   };
+
   const editar = (): void => {
     void (async () => {
       const resultado = await editarCallback(paciente);
@@ -123,10 +125,25 @@ const CadastrarEditar = ({
     })();
   };
 
+  useEffect(() => {
+    if (reposicionar.deve && Platform.OS === 'android') {
+      setTimeout(() => scrollRef?.current?.scrollToEnd({ animated: false }), 250);
+    }
+  }, [reposicionar]);
+
   return (
       <Dialog visible={visivel} onDismiss={cancelar} style={styles.dialog}>
-        <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={reposicionar.valor} enabled={reposicionar.deve}>
-          <ScrollView style={styles.dialog} keyboardShouldPersistTaps="handled" enabled={true}>
+        <KeyboardAvoidingView
+          behavior={(Platform.OS === 'android') ? 'height' : 'position'}
+          keyboardVerticalOffset={reposicionar.valor}
+          enabled={reposicionar.deve}
+        >
+          <ScrollView
+            ref={scrollRef}
+            style={styles.dialog}
+            keyboardShouldPersistTaps="handled"
+            enabled={true}
+          >
             <Dialog.Title>Informações do paciente</Dialog.Title>
             <Dialog.Content>
               <TextInput
