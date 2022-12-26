@@ -212,7 +212,9 @@ const Consultas = ({
 
   const obterStatus = (): string => {
     const todasAsBuscas = filtrosDeBusca.busca?.finalizadas ?? false;
-    if (totalConsultas > 0) {
+    if (consultasDoDia) {
+      return 'Suas consultas agendadas para hoje';
+    } else if (totalConsultas > 0) {
       const consultasRegistradas = totalConsultas > 1 ? 'consultas registradas' : 'consulta registrada';
       const consultasAgendadasStr = totalConsultasAgendadas > 1 ? 'consultas agendadas' : 'consulta agendada';
       const atrasadasStr = totalConsultasAtrasadas > 1 ? 'atrasadas' : 'atrasada';

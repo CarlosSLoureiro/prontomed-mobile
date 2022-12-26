@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Button, Dialog, Divider, Text } from 'react-native-paper';
 
