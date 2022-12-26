@@ -9,11 +9,12 @@ import getStyles from './styles';
 import { ExcluirConsultaContrato } from './types';
 
 const Excluir = ({
+  visivel,
+  setVisivel,
   formularioRef,
   callback
 }: ExcluirConsultaContrato): JSX.Element => {
   const styles = getStyles();
-  const [visivel, setVisivel] = useState(false);
   const [consulta, setConsulta] = useState<Consulta | undefined>();
 
   const abrirDialog = (consulta: Consulta): void => {

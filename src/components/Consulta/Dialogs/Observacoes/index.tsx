@@ -7,14 +7,15 @@ import Consulta from '@entity/Consulta';
 import Mensagem from './mensagem';
 import getStyles from './styles';
 
-import { ExcluirConsultaContrato } from './types';
+import { ExibirObservacoesContrato } from './types';
 
 const Observacoes = ({
+  visivel,
+  setVisivel,
   formularioRef,
   callback
-}: ExcluirConsultaContrato): JSX.Element => {
+}: ExibirObservacoesContrato): JSX.Element => {
   const styles = getStyles();
-  const [visivel, setVisivel] = useState(false);
   const [consulta, setConsulta] = useState<Consulta | undefined>();
 
   const abrirDialog = (consulta: Consulta): void => {

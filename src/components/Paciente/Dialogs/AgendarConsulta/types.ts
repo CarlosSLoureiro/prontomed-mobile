@@ -9,6 +9,8 @@ export interface AgendarConsultaRefContrato {
 }
 
 export interface AgendarConsultaContrato {
+  visivel: boolean;
+  setVisivel: Function;
   formularioRef?: MutableRefObject<AgendarConsultaRefContrato>;
   callback: agendaraConsultaCallback;
 }

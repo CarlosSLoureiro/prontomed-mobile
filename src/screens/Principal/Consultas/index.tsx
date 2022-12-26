@@ -46,6 +46,8 @@ const Consultas = ({
   const [buscarVisivel, setBuscarVisivel] = useState(false);
   const [filtrarDatasVisivel, setFiltrarDatasVisivel] = useState(false);
   const [ordenarVisivel, setOrdenarVisivel] = useState(false);
+  const [excluirVisivel, setExcluirVisivel] = useState(false);
+  const [observacoesVisivel, setObservacoesVisivel] = useState(false);
 
   const excluirConsultaRef = useRef<any>();
   const observacoesConsultaRef = useRef<any>();
@@ -274,10 +276,14 @@ const Consultas = ({
             valorAtual={filtrosDeBusca?.datas}
           />
           <Excluir
+            visivel={excluirVisivel}
+            setVisivel={setExcluirVisivel}
             formularioRef={excluirConsultaRef}
             callback={excluirConsulta}
           />
           <Observacoes
+            visivel={observacoesVisivel}
+            setVisivel={setObservacoesVisivel}
             formularioRef={observacoesConsultaRef}
             callback={observarConsulta}
           />
@@ -292,7 +298,13 @@ const Consultas = ({
             ]}
           />
           <MenuOpcoes
-            visivel={paginaAtiva && !(buscarVisivel || filtrarDatasVisivel || ordenarVisivel)}
+            visivel={paginaAtiva && !(
+              buscarVisivel ||
+              filtrarDatasVisivel ||
+              ordenarVisivel ||
+              excluirVisivel ||
+              observacoesVisivel
+            )}
             botoes={[
               {
                 visivel: JSON.stringify(filtrosDeBuscaInicial) !== JSON.stringify(filtrosDeBusca),

@@ -8,7 +8,9 @@ export interface ExibirObservacoesRefContrato {
 
 export type observarCallback = (consulta: Consulta) => Promise<Consulta | undefined>;
 
-export interface ExcluirConsultaContrato {
+export interface ExibirObservacoesContrato {
+  visivel: boolean;
+  setVisivel: Function;
   formularioRef?: MutableRefObject<ExibirObservacoesRefContrato>;
   callback: observarCallback;
 }
