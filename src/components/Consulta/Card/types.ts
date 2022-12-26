@@ -12,21 +12,3 @@ export interface ConsultaCardContrato {
   consulta: Consulta;
   ultimo?: boolean;
 }
-
-interface MenuArchor {
-  x: number;
-  y: number;
-}
-
-interface MenuItem {
-  titulo: string;
-  icone: string;
-  callback: () => void;
-}
-
-export interface ConsultaMenuContrato {
-  visivel: boolean;
-  fecharMenu: () => void;
-  menuAnchor?: MenuArchor;
-  items: Array<MenuItem>;
-}

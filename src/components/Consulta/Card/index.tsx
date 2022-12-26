@@ -3,7 +3,8 @@ import { Text, View } from 'react-native';
 import Icon from 'react-native-dynamic-vector-icons';
 import { Card } from '@paraboly/react-native-card';
 
-import MenuContexto from './menu';
+import MenuContexto from '@components/MenuContexto';
+
 import getStyles from './styles';
 
 import { ConsultaCardContrato } from './types';

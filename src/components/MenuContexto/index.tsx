@@ -1,13 +1,13 @@
 import { Menu } from 'react-native-paper';
 
-import { PacienteMenuContrato } from './types';
+import { MenuContextoContrato } from './types';
 
 const MenuContexto = ({
   visivel,
   fecharMenu,
   menuAnchor,
   items
-}: PacienteMenuContrato): JSX.Element => {
+}: MenuContextoContrato): JSX.Element => {
   return (
         <Menu
             visible={visivel}
