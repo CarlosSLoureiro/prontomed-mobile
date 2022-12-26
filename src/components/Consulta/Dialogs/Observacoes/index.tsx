@@ -4,7 +4,7 @@ import { Button, Dialog, Divider, Text } from 'react-native-paper';
 
 import Consulta from '@entity/Consulta';
 
-import Mensagem from './mensagem';
+import ObsMensagem from './ObsMensagem';
 import getStyles from './styles';
 
 import { ExibirObservacoesContrato } from './types';
@@ -45,7 +45,7 @@ const Observacoes = ({
                 onContentSizeChange={() => scrollRef?.current?.scrollToEnd({ animated: false })}
               >
                 {
-                  consulta?.observacoes.map((observacao, index) => <Mensagem
+                  consulta?.observacoes.map((observacao, index) => <ObsMensagem
                     key={index}
                     observacao={observacao}
                   />)

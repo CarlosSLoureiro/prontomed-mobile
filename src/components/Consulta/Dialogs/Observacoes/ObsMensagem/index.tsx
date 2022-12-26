@@ -5,13 +5,13 @@ import MenuContexto from '@components/MenuContexto';
 
 import getStyles from './styles';
 
-import { MensagemContrato } from './types';
+import { ObsMensagemContrato } from './types';
 
 import moment from 'moment';
 
-const Mensagem = ({
+const ObgMensagem = ({
   observacao
-}: MensagemContrato): JSX.Element => {
+}: ObsMensagemContrato): JSX.Element => {
   const styles = getStyles();
   const [exibirMenu, setExibirMenu] = useState(false);
   const [menuAnchor, setMenuAnchor] = useState({ x: 0, y: 0 });
@@ -67,4 +67,4 @@ const Mensagem = ({
   );
 };
 
-export default Mensagem;
+export default ObgMensagem;

@@ -1,5 +1,5 @@
 import Observacao from '@entity/Observacao';
 
-export interface MensagemContrato {
+export interface ObsMensagemContrato {
   observacao: Observacao;
 }
