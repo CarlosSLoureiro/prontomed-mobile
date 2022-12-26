@@ -3,6 +3,7 @@ import { ScrollView, Text } from 'react-native';
 import { Portal } from 'react-native-paper';
 
 import Consulta from '@entity/Consulta';
+import Observacao from '@entity/Observacao';
 import {
   BuscarConsultasContrato,
   DatasConsultasContrato,
@@ -173,7 +174,12 @@ const Consultas = ({
     }
   };
 
-  const observarConsulta = async (consulta: Consulta): Promise<Consulta | undefined> => {
+  const observarConsulta = async (consulta: Consulta, observacao: Partial<Observacao>): Promise<Consulta | undefined> => {
+    if (observacao.id !== undefined) {
+      console.log('deve editar observacao', observacao);
+    } else {
+      console.log('deve cadastrar observacao', observacao);
+    }
     return await Promise.resolve(consulta);
   };
 
@@ -231,7 +237,7 @@ const Consultas = ({
     }
   };
 
-  const carregarTotaisConsultas = () => {
+  const carregarTotaisConsultas = (): void => {
     void carregarTotalConsultas();
     void carregarTotalAgendadas();
     void carregarTotalAtrasadas();

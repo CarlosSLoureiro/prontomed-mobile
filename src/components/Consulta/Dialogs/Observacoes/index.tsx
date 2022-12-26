@@ -3,7 +3,9 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { Button, Dialog, Divider, Text } from 'react-native-paper';
 
 import Consulta from '@entity/Consulta';
+import Observacao from '@entity/Observacao';
 
+import CadastrarEditarObservacao from './CadastrarEditar';
 import ObsMensagem from './ObsMensagem';
 import getStyles from './styles';
 
@@ -17,6 +19,8 @@ const Observacoes = ({
 }: ExibirObservacoesContrato): JSX.Element => {
   const styles = getStyles();
   const [consulta, setConsulta] = useState<Consulta | undefined>();
+  const [cadastrarEditarVisivel, setCadastrarEditarVisivel] = useState(false);
+  const editarObservacaoRef = useRef<any>();
   const scrollRef = useRef<ScrollView>(null);
 
   const abrirDialog = (consulta: Consulta): void => {
@@ -34,7 +38,14 @@ const Observacoes = ({
     setVisivel(false);
   };
 
+  const observar = async (observacao: Partial<Observacao>): Promise<Consulta | undefined> => {
+    if (consulta !== undefined) {
+      return await callback(consulta, observacao);
+    }
+  };
+
   return (
+    <>
       <Dialog visible={visivel} onDismiss={fechar} style={styles.dialog}>
         <Dialog.Title>Obs. da consulta Nº { consulta?.id }</Dialog.Title>
         {
@@ -48,6 +59,7 @@ const Observacoes = ({
                   consulta?.observacoes.map((observacao, index) => <ObsMensagem
                     key={index}
                     observacao={observacao}
+                    editarObservacaoRef={editarObservacaoRef}
                   />)
                 }
               </ScrollView>
@@ -61,9 +73,16 @@ const Observacoes = ({
         <Divider/>
         <Dialog.Actions>
           <Button labelStyle={styles.dialog.botoes} onPress={fechar}>Fechar</Button>
-          <Button labelStyle={styles.dialog.botoes} onPress={() => { console.log('nova obs'); }}>Nova observação</Button>
+          <Button labelStyle={styles.dialog.botoes} onPress={() => setCadastrarEditarVisivel(true) }>Nova observação</Button>
         </Dialog.Actions>
-        </Dialog>
+      </Dialog>
+      <CadastrarEditarObservacao
+        visivel={cadastrarEditarVisivel}
+        setVisivel={setCadastrarEditarVisivel}
+        formularioRef={editarObservacaoRef}
+        callback={observar}
+      />
+    </>
   );
 };
 

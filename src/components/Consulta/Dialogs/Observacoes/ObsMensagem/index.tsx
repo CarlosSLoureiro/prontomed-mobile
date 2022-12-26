@@ -10,7 +10,8 @@ import { ObsMensagemContrato } from './types';
 import moment from 'moment';
 
 const ObgMensagem = ({
-  observacao
+  observacao,
+  editarObservacaoRef
 }: ObsMensagemContrato): JSX.Element => {
   const styles = getStyles();
   const [exibirMenu, setExibirMenu] = useState(false);
@@ -51,6 +52,7 @@ const ObgMensagem = ({
             titulo: 'Editar',
             icone: 'file-edit',
             callback: () => {
+              editarObservacaoRef.current?.abrirDialog(observacao);
               fecharMenu();
             }
           },
