@@ -40,8 +40,8 @@ const Observacoes = ({
             ? (
               <ScrollView>
                 {
-                  consulta?.observacoes.map(observacao => <Mensagem
-                    key='observacao'
+                  consulta?.observacoes.map((observacao, index) => <Mensagem
+                    key={index}
                     observacao={observacao}
                   />)
                 }
