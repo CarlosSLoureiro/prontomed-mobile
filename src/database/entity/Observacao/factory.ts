@@ -7,7 +7,7 @@ import Observacao from '.';
 
 const obterConsultaAleatorio = (): Consulta => {
   const consultaFactory = new ConsultaFactory();
-  consultaFactory.id = faker.datatype.number({ min: 75, max: 100 });
+  consultaFactory.id = faker.datatype.number({ min: 1, max: 100 });
 
   return consultaFactory;
 };
