@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Button, Dialog, Divider, Text } from 'react-native-paper';
 
@@ -17,6 +17,7 @@ const Observacoes = ({
 }: ExibirObservacoesContrato): JSX.Element => {
   const styles = getStyles();
   const [consulta, setConsulta] = useState<Consulta | undefined>();
+  const scrollRef = useRef<ScrollView>(null);
 
   const abrirDialog = (consulta: Consulta): void => {
     setVisivel(true);
@@ -39,7 +40,10 @@ const Observacoes = ({
         {
           consulta?.observacoes !== undefined && consulta.observacoes?.length > 0
             ? (
-              <ScrollView>
+              <ScrollView
+                ref={scrollRef}
+                onContentSizeChange={() => scrollRef?.current?.scrollToEnd({ animated: false })}
+              >
                 {
                   consulta?.observacoes.map((observacao, index) => <Mensagem
                     key={index}

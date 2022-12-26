@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-import { DefaultTheme } from 'react-native-paper';
 
 import ThemeScheme from '@hooks/useThemeScheme';
 
@@ -9,6 +8,7 @@ const getStyles = () => {
   return StyleSheet.create({
     dialog: {
       backgroundColor: '#ffffff',
+      maxHeight: '70%',
       botoes: {
         color: '#000000'
       }
