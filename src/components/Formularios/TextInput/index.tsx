@@ -23,7 +23,7 @@ const TextInput = ({
 
   useEffect(() => {
     if (keyboard === 'decimal-pad' && valor.length > 0) {
-      setInput(valor.replaceAll('.', ','));
+      setInput(valor.replace('.', ','));
     }
   }, [valor]);
 
@@ -35,7 +35,7 @@ const TextInput = ({
   };
 
   const formatarDecimal = (texto: string): string => {
-    let str = texto.replaceAll(',', '.').replaceAll('.', '');
+    let str = texto.replace(',', '.').replace('.', '');
 
     const num = parseInt(str) / 100;
     if (!isNaN(num)) {
