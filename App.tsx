@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 
-import { LogBox } from 'react-native';
+import { LogBox, StatusBar } from 'react-native';
 import { NotifierWrapper } from 'react-native-notifier';
 import { Provider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
@@ -23,9 +23,14 @@ const App = (): JSX.Element => {
     <DatabaseProvider>
       <NotifierWrapper>
         <Provider>
+          <StatusBar
+            backgroundColor="white"
+            barStyle='dark-content'
+          />
           <NavigationContainer>
             <Stack.Navigator screenOptions={{
-              headerShown: false
+              headerShown: false,
+              headerTitleAlign: 'center'
             }}>
               <Stack.Screen name="Apresentação" component={Apresentacao} />
               <Stack.Screen name="Início" component={Principal} />
