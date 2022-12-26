@@ -12,6 +12,7 @@ import moment from 'moment';
 
 const ConsultaCard = ({
   excluirFormularioRef,
+  observacoesFormularioRef,
   consulta,
   finalizarConsulta,
   ultimo = false
@@ -94,6 +95,7 @@ const ConsultaCard = ({
                 titulo: 'Observações',
                 icone: 'message-reply-text',
                 callback: () => {
+                  observacoesFormularioRef?.current.abrirDialog(consulta);
                   fecharMenu();
                 }
               },

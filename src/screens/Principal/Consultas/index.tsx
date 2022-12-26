@@ -21,6 +21,7 @@ import ConsultaCard from '@components/Consulta/Card';
 import Buscar from '@components/Consulta/Dialogs/Buscar';
 import Excluir from '@components/Consulta/Dialogs/Excluir';
 import FiltrarDatas from '@components/Consulta/Dialogs/FiltrarDatas';
+import Observacoes from '@components/Consulta/Dialogs/Observacoes';
 import Ordenar from '@components/Consulta/Dialogs/Ordenar';
 import MenuOpcoes from '@components/MenuOpcoes';
 
@@ -47,6 +48,7 @@ const Consultas = ({
   const [ordenarVisivel, setOrdenarVisivel] = useState(false);
 
   const excluirConsultaRef = useRef<any>();
+  const observacoesConsultaRef = useRef<any>();
 
   const filtrosDeBuscaInicial: FiltrosDeBuscarConsultasContrato = {
     ordenacao: {
@@ -169,6 +171,10 @@ const Consultas = ({
     }
   };
 
+  const observarConsulta = async (consulta: Consulta): Promise<Consulta | undefined> => {
+    return await Promise.resolve(consulta);
+  };
+
   const sobirScrollParaOTopo = (): void => {
     scrollRef?.current?.scrollTo({
       y: 0,
@@ -271,6 +277,10 @@ const Consultas = ({
             formularioRef={excluirConsultaRef}
             callback={excluirConsulta}
           />
+          <Observacoes
+            formularioRef={observacoesConsultaRef}
+            callback={observarConsulta}
+          />
           <Ordenar
             visivel={ordenarVisivel}
             setVisivel={setOrdenarVisivel}
@@ -341,6 +351,7 @@ const Consultas = ({
           consultas.map((consulta, index) => <ConsultaCard
             key={index}
             excluirFormularioRef={excluirConsultaRef}
+            observacoesFormularioRef={observacoesConsultaRef}
             finalizarConsulta={finalizarConsulta}
             consulta={consulta}
             ultimo={consultas.length - 1 === index}
