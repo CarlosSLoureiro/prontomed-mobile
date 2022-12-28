@@ -22,7 +22,11 @@ export default class CriarTabelaObservacoes1670200552221 implements MigrationInt
             type: 'text'
           },
           {
-            name: 'data',
+            name: 'dataCriacao',
+            type: 'datetime'
+          },
+          {
+            name: 'dataAtualizacao',
             type: 'datetime'
           }
         ]

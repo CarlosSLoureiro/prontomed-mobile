@@ -21,5 +21,6 @@ export default class ObservacaoFactory extends Observacao {
     'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum'
   ]);
 
-  data = new Date();
+  dataCriacao = new Date();
+  dataAtualizacao = new Date();
 }

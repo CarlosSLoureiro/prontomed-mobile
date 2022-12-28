@@ -41,7 +41,7 @@ const ObgMensagem = ({
               <View style={styles.seta}></View>
               <Text style={styles.texto} >{ observacao.mensagem }</Text>
           </View>
-          <Text style={styles.data}>{ moment(observacao.data).format('DD/MM/YYYY [as] HH[h]mm') }</Text>
+          <Text style={styles.data}>{ moment(observacao.dataCriacao).format('DD/MM/YYYY [as] HH[h]mm') }</Text>
         </View>
       </TouchableOpacity>
       <MenuContexto
