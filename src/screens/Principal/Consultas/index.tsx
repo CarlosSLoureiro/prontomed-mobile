@@ -217,7 +217,9 @@ const Consultas = ({
 
       setConsultas([...consultas.map(consultas => {
         if (consultas.id === consulta.id) {
-          consultas.observacoes?.map(observacao => ((observacao.id === observacaoEditada.id) ? observacaoEditada : observacao));
+          consultas.observacoes = consultas.observacoes?.map(
+            observacao => ((observacao.id === observacaoEditada.id) ? observacaoEditada : observacao)
+          );
         }
         return consultas;
       })]);
