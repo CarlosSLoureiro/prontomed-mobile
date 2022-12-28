@@ -38,7 +38,7 @@ const Observacoes = ({
     setVisivel(false);
   };
 
-  const observar = async (observacao: Partial<Observacao>): Promise<Consulta | undefined> => {
+  const observar = async (observacao: Partial<Observacao>): Promise<Observacao | undefined> => {
     if (consulta !== undefined) {
       return await callback(consulta, observacao);
     }

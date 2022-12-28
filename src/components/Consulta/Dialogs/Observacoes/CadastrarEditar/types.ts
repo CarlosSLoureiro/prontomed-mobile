@@ -11,5 +11,5 @@ export interface CadastrarObservacaoContrato {
   visivel: boolean;
   setVisivel: Function;
   formularioRef?: MutableRefObject<EditarObservacaoRefContrato>;
-  callback: (observacao: Partial<Observacao>) => Promise<Consulta | undefined>;
+  callback: (observacao: Partial<Observacao>) => Promise<Observacao | undefined>;
 }

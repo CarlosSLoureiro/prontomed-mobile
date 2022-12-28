@@ -7,7 +7,7 @@ export interface ExibirObservacoesRefContrato {
   abrirDialog: (consulta: Consulta) => void;
 }
 
-export type observarCallback = (consulta: Consulta, observacao: Partial<Observacao>) => Promise<Consulta | undefined>;
+export type observarCallback = (consulta: Consulta, observacao: Partial<Observacao>) => Promise<Observacao | undefined>;
 
 export interface ExibirObservacoesContrato {
   visivel: boolean;

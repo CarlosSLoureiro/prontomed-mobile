@@ -12,17 +12,16 @@ export default class ObservacoesRepository implements ObservacoesRepositoryInter
     this.repository = database.getRepository(Observacao);
   }
 
-  public async cadastrar (consulta: Consulta, mensagem: string): Promise<Observacao> {
-    const observacao = this.repository.create();
+  public async cadastrar (consulta: Consulta, observacao: Partial<Observacao>): Promise<Observacao> {
+    observacao = this.repository.create(observacao);
 
     observacao.consulta = consulta;
-    observacao.mensagem = mensagem;
     observacao.dataAtualizacao = observacao.dataCriacao = new Date();
 
     return await this.repository.save(observacao);
   }
 
-  public async editar (observacao: Observacao): Promise<Observacao> {
+  public async editar (observacao: Partial<Observacao>): Promise<Observacao> {
     observacao.dataAtualizacao = new Date();
     return await this.repository.save(observacao);
   }
