@@ -15,6 +15,8 @@ import ExcluirConsultasHelper from '@helpers/Consultas/Excluir';
 import FinalizarConsultasHelper from '@helpers/Consultas/Finalizar';
 import ListarConsultasHelper from '@helpers/Consultas/Listar';
 import ObterTotalConsultasHelper from '@helpers/Consultas/ObterTotal';
+import CadastrarObservacaoHelper from '@helpers/Observacoes/Cadastrar';
+import EditarObservacaoHelper from '@helpers/Observacoes/Editar';
 
 import Notification from '@hooks/useNotification';
 
@@ -174,13 +176,65 @@ const Consultas = ({
     }
   };
 
-  const observarConsulta = async (consulta: Consulta, observacao: Partial<Observacao>): Promise<Consulta | undefined> => {
-    if (observacao.id !== undefined) {
-      console.log('deve editar observacao', observacao);
-    } else {
-      console.log('deve cadastrar observacao', observacao);
+  const observarConsulta = async (consulta: Consulta, observacao: Partial<Observacao>): Promise<Observacao | undefined> => {
+    const callback = observacao.id !== undefined ? editarObservacao : cadastrarObservacao;
+    return await callback(consulta, observacao);
+  };
+
+  const cadastrarObservacao = async (consulta: Consulta, obs: Partial<Observacao>): Promise<Observacao | undefined> => {
+    const helper = new CadastrarObservacaoHelper();
+
+    try {
+      const observacao = await helper.executar(consulta, obs);
+
+      setConsultas([...consultas.map(consultas => {
+        if (consultas.id === consulta.id) {
+          consultas.observacoes?.push(observacao);
+        }
+        return consultas;
+      })]);
+
+      Notification.success({
+        title: 'Observação cadastrada com sucesso',
+        duration: 5000
+      });
+
+      return observacao;
+    } catch (err) {
+      Notification.error({
+        title: 'Não foi possível cadastrar a observação na consulta',
+        description: (err as Error).message,
+        duration: 10000
+      });
     }
-    return await Promise.resolve(consulta);
+  };
+
+  const editarObservacao = async (consulta: Consulta, obs: Partial<Observacao>): Promise<Observacao | undefined> => {
+    const helper = new EditarObservacaoHelper();
+
+    try {
+      const observacaoEditada = await helper.executar(obs);
+
+      setConsultas([...consultas.map(consultas => {
+        if (consultas.id === consulta.id) {
+          consultas.observacoes?.map(observacao => ((observacao.id === observacaoEditada.id) ? observacaoEditada : observacao));
+        }
+        return consultas;
+      })]);
+
+      Notification.success({
+        title: 'Observação editada com sucesso',
+        duration: 5000
+      });
+
+      return observacaoEditada;
+    } catch (err) {
+      Notification.error({
+        title: 'Não foi possível editar a observação da consulta',
+        description: (err as Error).message,
+        duration: 10000
+      });
+    }
   };
 
   const sobirScrollParaOTopo = (): void => {
