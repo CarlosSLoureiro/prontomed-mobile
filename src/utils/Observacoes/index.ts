@@ -11,7 +11,7 @@ class ObservacoesUtils implements ObservacoesUtilsInterface {
     return this._instancia || (this._instancia = new this());
   }
 
-  public cadastrar = async (mensagem: string, consultas: Array<Consulta>): Promise<void> => {
+  public async cadastrar (mensagem: string, consultas: Array<Consulta>): Promise<void> {
     try {
       const helper = new CadastrarObservacaoHelper();
 
@@ -23,7 +23,7 @@ class ObservacoesUtils implements ObservacoesUtilsInterface {
       }
     } catch (e) {
     }
-  };
+  }
 }
 
 export default ObservacoesUtils.Instancia;
