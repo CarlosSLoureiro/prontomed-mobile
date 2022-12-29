@@ -252,14 +252,14 @@ const Consultas = ({
       })]);
 
       Notification.success({
-        title: 'Observação editada com sucesso',
+        title: 'Observação salva com sucesso',
         duration: 5000
       });
 
       return observacaoEditada;
     } catch (err) {
       Notification.error({
-        title: 'Não foi possível editar a observação da consulta',
+        title: 'Não foi possível salva a observação da consulta',
         description: (err as Error).message,
         duration: 10000
       });
