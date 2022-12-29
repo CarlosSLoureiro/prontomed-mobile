@@ -137,10 +137,6 @@ const Consultas = ({
     try {
       const consultaEditada = await helper.executar(consulta);
 
-      if (!(filtrosDeBusca.busca?.finalizadas === true)) {
-        setConsultas([...consultas.filter(consulta => (consulta.id !== consultaEditada.id))]);
-      }
-
       Notification.success({
         title: `Consulta Nº ${consultaEditada.id} finalizada com sucesso`,
         duration: 5000
