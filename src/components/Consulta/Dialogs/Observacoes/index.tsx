@@ -63,7 +63,7 @@ const Observacoes = ({
             ? (
               <ScrollView
                 ref={scrollRef}
-                onContentSizeChange={() => scrollRef?.current?.scrollToEnd({ animated: false })}
+                onContentSizeChange={() => scrollRef?.current?.scrollToEnd({ animated: true })}
               >
                 {
                   consulta?.observacoes.map((observacao, index) => <ObsMensagem
