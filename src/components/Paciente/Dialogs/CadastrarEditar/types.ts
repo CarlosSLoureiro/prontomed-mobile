@@ -9,9 +9,9 @@ export interface EditarPacienteContrato {
 }
 
 export interface CadastrarPacienteContrato {
-  formularioRef?: MutableRefObject<EditarPacienteContrato>;
   visivel: boolean;
   setVisivel: Function;
+  formularioRef?: MutableRefObject<EditarPacienteContrato>;
   cadastrarCallback: cadastrarEditarCallback;
   editarCallback: cadastrarEditarCallback;
 }

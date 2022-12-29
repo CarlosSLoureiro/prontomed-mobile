@@ -4,7 +4,8 @@ import { Card } from '@paraboly/react-native-card';
 
 import Notification from '@hooks/useNotification';
 
-import MenuContexto from './menu';
+import MenuContexto from '@components/MenuContexto';
+
 import getStyles from './styles';
 
 import { PacienteCardContrato } from './types';

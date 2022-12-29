@@ -10,12 +10,13 @@ import getStyles from './styles';
 import { AgendarConsultaContrato } from './types';
 
 const AgendarConsulta = ({
+  visivel,
+  setVisivel,
   formularioRef,
   callback
 }: AgendarConsultaContrato): JSX.Element => {
   const styles = getStyles();
   const [data, setData] = useState<Date | undefined>();
-  const [visivel, setVisivel] = useState(false);
   const [paciente, setPaciente] = useState<Paciente | undefined>();
 
   const abrirDialog = (paciente: Paciente, dataConsulta?: Date): void => {

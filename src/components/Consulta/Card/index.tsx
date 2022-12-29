@@ -3,7 +3,8 @@ import { Text, View } from 'react-native';
 import Icon from 'react-native-dynamic-vector-icons';
 import { Card } from '@paraboly/react-native-card';
 
-import MenuContexto from './menu';
+import MenuContexto from '@components/MenuContexto';
+
 import getStyles from './styles';
 
 import { ConsultaCardContrato } from './types';
@@ -12,6 +13,7 @@ import moment from 'moment';
 
 const ConsultaCard = ({
   excluirFormularioRef,
+  observacoesFormularioRef,
   consulta,
   finalizarConsulta,
   ultimo = false
@@ -94,6 +96,7 @@ const ConsultaCard = ({
                 titulo: 'Observações',
                 icone: 'message-reply-text',
                 callback: () => {
+                  observacoesFormularioRef?.current.abrirDialog(consulta);
                   fecharMenu();
                 }
               },

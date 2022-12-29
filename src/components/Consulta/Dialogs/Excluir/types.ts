@@ -9,6 +9,8 @@ export interface ExcluirConsultaRefContrato {
 }
 
 export interface ExcluirConsultaContrato {
+  visivel: boolean;
+  setVisivel: Function;
   formularioRef?: MutableRefObject<ExcluirConsultaRefContrato>;
   callback: excluirCallback;
 }

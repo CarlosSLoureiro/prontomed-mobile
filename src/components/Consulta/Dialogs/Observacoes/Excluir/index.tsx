@@ -1,25 +1,24 @@
 import { useState } from 'react';
 import { Button, Dialog, Divider, Text } from 'react-native-paper';
 
-import Consulta from '@entity/Consulta';
-import { Generos } from '@entity/Paciente/enums';
+import Observacao from '@entity/Observacao';
 
 import getStyles from './styles';
 
-import { ExcluirConsultaContrato } from './types';
+import { ExcluirObservacaoContrato } from './types';
 
 const Excluir = ({
   visivel,
   setVisivel,
   formularioRef,
   callback
-}: ExcluirConsultaContrato): JSX.Element => {
+}: ExcluirObservacaoContrato): JSX.Element => {
   const styles = getStyles();
-  const [consulta, setConsulta] = useState<Consulta | undefined>();
+  const [observacao, setObservacao] = useState<Observacao | undefined>();
 
-  const abrirDialog = (consulta: Consulta): void => {
+  const abrirDialog = (obs: Observacao): void => {
     setVisivel(true);
-    setConsulta(consulta);
+    setObservacao(obs);
   };
 
   if (formularioRef !== undefined) {
@@ -31,32 +30,21 @@ const Excluir = ({
   const cancelar = (): void => {
     setVisivel(false);
   };
+
   const excluir = (): void => {
     void (async () => {
-      const resultado = (consulta !== undefined) ? await callback(consulta) : undefined;
+      const resultado = (observacao !== undefined) ? await callback(observacao) : undefined;
       if (resultado !== undefined) {
         cancelar();
       }
     })();
   };
 
-  const obterTexto = (): string => {
-    if (consulta === undefined) {
-      return 'Consulta indefinida';
-    } else if (consulta.paciente !== null) {
-      return `A consulta Nº ${consulta.id} com ${consulta.paciente.genero === Generos.FEMININO ? 'a' : 'o'} paciente ${consulta.paciente.nome} será excluída`;
-    } else {
-      return `A consulta Nº ${consulta.id} será excluída`;
-    }
-  };
-
   return (
       <Dialog visible={visivel} onDismiss={cancelar} style={styles.dialog}>
         <Dialog.Title>Tem certeza?</Dialog.Title>
         <Dialog.Content>
-          <Text style={styles.text}>
-            { obterTexto() }
-          </Text>
+          <Text style={styles.text}>A observação &ldquo;<Text style={styles.msg}>{ observacao?.mensagem }</Text>&rdquo; selecionada será excluída</Text>
           <Divider/>
         </Dialog.Content>
         <Dialog.Actions>

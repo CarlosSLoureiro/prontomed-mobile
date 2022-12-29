@@ -16,9 +16,9 @@ import getStyles from './styles';
 import { CadastrarPacienteContrato } from './types';
 
 const CadastrarEditar = ({
-  formularioRef,
   visivel,
   setVisivel,
+  formularioRef,
   cadastrarCallback,
   editarCallback
 }: CadastrarPacienteContrato): JSX.Element => {

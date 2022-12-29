@@ -3,6 +3,7 @@ import { ScrollView, Text } from 'react-native';
 import { Portal } from 'react-native-paper';
 
 import Consulta from '@entity/Consulta';
+import Observacao from '@entity/Observacao';
 import {
   BuscarConsultasContrato,
   DatasConsultasContrato,
@@ -14,6 +15,9 @@ import ExcluirConsultasHelper from '@helpers/Consultas/Excluir';
 import FinalizarConsultasHelper from '@helpers/Consultas/Finalizar';
 import ListarConsultasHelper from '@helpers/Consultas/Listar';
 import ObterTotalConsultasHelper from '@helpers/Consultas/ObterTotal';
+import CadastrarObservacaoHelper from '@helpers/Observacoes/Cadastrar';
+import EditarObservacaoHelper from '@helpers/Observacoes/Editar';
+import ExcluirObservacaoHelper from '@helpers/Observacoes/Excluir';
 
 import Notification from '@hooks/useNotification';
 
@@ -21,6 +25,7 @@ import ConsultaCard from '@components/Consulta/Card';
 import Buscar from '@components/Consulta/Dialogs/Buscar';
 import Excluir from '@components/Consulta/Dialogs/Excluir';
 import FiltrarDatas from '@components/Consulta/Dialogs/FiltrarDatas';
+import Observacoes from '@components/Consulta/Dialogs/Observacoes';
 import Ordenar from '@components/Consulta/Dialogs/Ordenar';
 import MenuOpcoes from '@components/MenuOpcoes';
 
@@ -45,8 +50,11 @@ const Consultas = ({
   const [buscarVisivel, setBuscarVisivel] = useState(false);
   const [filtrarDatasVisivel, setFiltrarDatasVisivel] = useState(false);
   const [ordenarVisivel, setOrdenarVisivel] = useState(false);
+  const [excluirVisivel, setExcluirVisivel] = useState(false);
+  const [observacoesVisivel, setObservacoesVisivel] = useState(false);
 
   const excluirConsultaRef = useRef<any>();
+  const observacoesConsultaRef = useRef<any>();
 
   const filtrosDeBuscaInicial: FiltrosDeBuscarConsultasContrato = {
     ordenacao: {
@@ -169,6 +177,99 @@ const Consultas = ({
     }
   };
 
+  const observarConsulta = async (consulta: Consulta, observacao: Partial<Observacao>): Promise<Observacao | undefined> => {
+    const callback = observacao.id !== undefined ? editarObservacao : cadastrarObservacao;
+    return await callback(consulta, observacao);
+  };
+
+  const cadastrarObservacao = async (consulta: Consulta, obs: Partial<Observacao>): Promise<Observacao | undefined> => {
+    const helper = new CadastrarObservacaoHelper();
+
+    try {
+      const observacao = await helper.executar(consulta, obs);
+
+      setConsultas([...consultas.map(consultas => {
+        if (consultas.id === consulta.id) {
+          consultas.observacoes?.push(observacao);
+        }
+        return consultas;
+      })]);
+
+      Notification.success({
+        title: 'Observação cadastrada com sucesso',
+        duration: 5000
+      });
+
+      return observacao;
+    } catch (err) {
+      Notification.error({
+        title: 'Não foi possível cadastrar a observação na consulta',
+        description: (err as Error).message,
+        duration: 10000
+      });
+    }
+  };
+
+  const editarObservacao = async (consulta: Consulta, obs: Partial<Observacao>): Promise<Observacao | undefined> => {
+    const helper = new EditarObservacaoHelper();
+
+    try {
+      const observacaoEditada = await helper.executar(obs);
+
+      setConsultas([...consultas.map(consultas => {
+        if (consultas.id === consulta.id) {
+          consultas.observacoes = consultas.observacoes?.map(
+            observacao => ((observacao.id === observacaoEditada.id) ? observacaoEditada : observacao)
+          );
+        }
+        return consultas;
+      })]);
+
+      Notification.success({
+        title: 'Observação editada com sucesso',
+        duration: 5000
+      });
+
+      return observacaoEditada;
+    } catch (err) {
+      Notification.error({
+        title: 'Não foi possível editar a observação da consulta',
+        description: (err as Error).message,
+        duration: 10000
+      });
+    }
+  };
+
+  const excluirObservacao = async (consulta: Consulta, obs: Observacao): Promise<Observacao | undefined> => {
+    const helper = new ExcluirObservacaoHelper();
+
+    try {
+      const observacaoExcluida = await helper.executar(obs);
+
+      setConsultas([...consultas.map(consultas => {
+        if (consultas.id === consulta.id) {
+          consultas.observacoes = consultas.observacoes?.filter(
+            observacao => ((observacao.id !== observacaoExcluida.id))
+          );
+        }
+        return consultas;
+      })]);
+
+      Notification.success({
+        title: 'Observação excluída com sucesso',
+        duration: 5000
+      });
+
+      return observacaoExcluida;
+    } catch (err) {
+      Notification.error({
+        title: 'Não foi possível excluir a observação da consulta',
+        description: (err as Error).message,
+        duration: 10000
+      });
+    }
+  };
+
   const sobirScrollParaOTopo = (): void => {
     scrollRef?.current?.scrollTo({
       y: 0,
@@ -204,7 +305,9 @@ const Consultas = ({
 
   const obterStatus = (): string => {
     const todasAsBuscas = filtrosDeBusca.busca?.finalizadas ?? false;
-    if (totalConsultas > 0) {
+    if (consultasDoDia) {
+      return 'Suas consultas agendadas para hoje';
+    } else if (totalConsultas > 0) {
       const consultasRegistradas = totalConsultas > 1 ? 'consultas registradas' : 'consulta registrada';
       const consultasAgendadasStr = totalConsultasAgendadas > 1 ? 'consultas agendadas' : 'consulta agendada';
       const atrasadasStr = totalConsultasAtrasadas > 1 ? 'atrasadas' : 'atrasada';
@@ -221,7 +324,7 @@ const Consultas = ({
     }
   };
 
-  const carregarTotaisConsultas = () => {
+  const carregarTotaisConsultas = (): void => {
     void carregarTotalConsultas();
     void carregarTotalAgendadas();
     void carregarTotalAtrasadas();
@@ -268,8 +371,17 @@ const Consultas = ({
             valorAtual={filtrosDeBusca?.datas}
           />
           <Excluir
+            visivel={excluirVisivel}
+            setVisivel={setExcluirVisivel}
             formularioRef={excluirConsultaRef}
             callback={excluirConsulta}
+          />
+          <Observacoes
+            visivel={observacoesVisivel}
+            setVisivel={setObservacoesVisivel}
+            formularioRef={observacoesConsultaRef}
+            callbackObservar={observarConsulta}
+            callbackExcluir={excluirObservacao}
           />
           <Ordenar
             visivel={ordenarVisivel}
@@ -282,7 +394,13 @@ const Consultas = ({
             ]}
           />
           <MenuOpcoes
-            visivel={paginaAtiva && !(buscarVisivel || filtrarDatasVisivel || ordenarVisivel)}
+            visivel={paginaAtiva && !(
+              buscarVisivel ||
+              filtrarDatasVisivel ||
+              ordenarVisivel ||
+              excluirVisivel ||
+              observacoesVisivel
+            )}
             botoes={[
               {
                 visivel: JSON.stringify(filtrosDeBuscaInicial) !== JSON.stringify(filtrosDeBusca),
@@ -341,6 +459,7 @@ const Consultas = ({
           consultas.map((consulta, index) => <ConsultaCard
             key={index}
             excluirFormularioRef={excluirConsultaRef}
+            observacoesFormularioRef={observacoesConsultaRef}
             finalizarConsulta={finalizarConsulta}
             consulta={consulta}
             ultimo={consultas.length - 1 === index}

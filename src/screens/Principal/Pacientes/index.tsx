@@ -49,6 +49,8 @@ const Pacientes = ({
   const [buscarVisivel, setBuscarVisivel] = useState(false);
   const [cadastrarVisivel, setCadastrarVisivel] = useState(false);
   const [ordenarVisivel, setOrdenarVisivel] = useState(false);
+  const [agendarVisivel, setAgendarVisivel] = useState(false);
+  const [excluirVisivel, setExcluirVisivel] = useState(false);
 
   const agendarConsultaRef = useRef<any>();
   const cadastrarEditarPacienteRef = useRef<any>();
@@ -268,17 +270,21 @@ const Pacientes = ({
             valorAtual={filtrosDeBusca.busca}
           />
           <AgendarConsulta
+            visivel={agendarVisivel}
+            setVisivel={setAgendarVisivel}
             formularioRef={agendarConsultaRef}
             callback={agendarConsulta}
           />
           <CadastrarEditar
-            formularioRef={cadastrarEditarPacienteRef}
             visivel={cadastrarVisivel}
             setVisivel={setCadastrarVisivel}
+            formularioRef={cadastrarEditarPacienteRef}
             cadastrarCallback={cadastrarPaciente}
             editarCallback={editarPaciente}
           />
           <Excluir
+            visivel={excluirVisivel}
+            setVisivel={setExcluirVisivel}
             formularioRef={excluirPacienteRef}
             callback={excluirPaciente}
           />
@@ -296,7 +302,13 @@ const Pacientes = ({
             ]}
           />
           <MenuOpcoes
-            visivel={paginaAtiva && !(buscarVisivel || cadastrarVisivel || ordenarVisivel)}
+            visivel={paginaAtiva && !(
+              buscarVisivel ||
+              cadastrarVisivel ||
+              ordenarVisivel ||
+              agendarVisivel ||
+              excluirVisivel
+            )}
             botoes={[
               {
                 visivel: JSON.stringify(filtrosDeBuscaInicial) !== JSON.stringify(filtrosDeBusca),
