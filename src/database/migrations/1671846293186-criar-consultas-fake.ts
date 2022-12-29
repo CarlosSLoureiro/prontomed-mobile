@@ -14,6 +14,14 @@ export default class CriarConsultasFake1671846293186 implements MigrationInterfa
         queryRunner.manager.create<Consulta>(Consulta, new ConsultaFactory())
       );
 
+      const observacaoInicial = new ObservacaoFactory();
+      observacaoInicial.consulta = consulta;
+      observacaoInicial.mensagem = 'Consulta cadastrada';
+
+      await queryRunner.manager.save(
+        queryRunner.manager.create<Observacao>(Observacao, observacaoInicial)
+      );
+
       const observacoes = Math.floor(Math.random() * 5);
 
       for (let i = 0; i < observacoes; i++) {
@@ -22,6 +30,16 @@ export default class CriarConsultasFake1671846293186 implements MigrationInterfa
 
         await queryRunner.manager.save(
           queryRunner.manager.create<Observacao>(Observacao, observacao)
+        );
+      }
+
+      if (consulta.finalizada) {
+        const observacaoFinal = new ObservacaoFactory();
+        observacaoFinal.consulta = consulta;
+        observacaoFinal.mensagem = 'Consulta finalizada';
+
+        await queryRunner.manager.save(
+          queryRunner.manager.create<Observacao>(Observacao, observacaoFinal)
         );
       }
     }
