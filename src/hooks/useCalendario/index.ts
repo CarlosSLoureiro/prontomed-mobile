@@ -31,6 +31,26 @@ class Calendario implements CalendarioContrato {
     }
   }
 
+  private async obterCalendarioID (): Promise<string | null> {
+    const id = await AsyncStorage.getItem(this.variavel);
+
+    let calendarioId: string | null = null;
+
+    if (id !== null) {
+      calendarioId = await this.obterCelendario(id);
+    }
+
+    if (calendarioId === null) {
+      calendarioId = await this.criarCalendario();
+
+      if (calendarioId !== null) {
+        await AsyncStorage.setItem(this.variavel, calendarioId);
+      }
+    }
+
+    return calendarioId;
+  }
+
   private async criarCalendario (): Promise<string | null> {
     const calendarioId = await Calendar.createCalendarAsync({
       title: 'ProntoMed',
@@ -44,24 +64,25 @@ class Calendario implements CalendarioContrato {
     return calendarioId ?? null;
   }
 
+  public async removerConsulta (params: Partial<Calendar.Event>): Promise<void> {
+    const calendarioId = await this.obterCalendarioID();
+
+    if (calendarioId === null || params.id === undefined) {
+      Notification.error({
+        title: 'Não foi possível remover a consulta!',
+        description: 'Você precisa permitir que o ProntoMed possa acessar seu calendário',
+        duration: 5000
+      });
+      return undefined;
+    }
+
+    await Calendar.deleteEventAsync(params.id, {});
+  }
+
   public async agendarConsulta (params: Partial<Calendar.Event>): Promise<string | undefined> {
-    const id = await AsyncStorage.getItem(this.variavel);
+    const calendarioId = await this.obterCalendarioID();
 
-    let calendario: string | null = null;
-
-    if (id !== null) {
-      calendario = await this.obterCelendario(id);
-    }
-
-    if (calendario === null) {
-      calendario = await this.criarCalendario();
-
-      if (calendario !== null) {
-        await AsyncStorage.setItem(this.variavel, calendario);
-      }
-    }
-
-    if (calendario === null) {
+    if (calendarioId === null) {
       Notification.error({
         title: 'Não foi possível agendar a consulta!',
         description: 'Você precisa permitir que o ProntoMed possa acessar seu calendário',
@@ -70,7 +91,7 @@ class Calendario implements CalendarioContrato {
       return undefined;
     }
 
-    return await Calendar.createEventAsync(calendario, params);
+    return await Calendar.createEventAsync(calendarioId, params);
   }
 }
 
