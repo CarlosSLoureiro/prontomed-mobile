@@ -8,4 +8,4 @@ export type excluirCallback = (consulta: Consulta) => Promise<Consulta | undefin
 
 export type finalizarReabrirCallback = (consulta: Consulta) => Promise<Consulta | undefined>;
 
-export type reagendarCallback = (consulta: Partial<Consulta>) => Promise<Consulta | undefined>;
+export type reagendarCallback = (consulta: Consulta) => Promise<Consulta | undefined>;

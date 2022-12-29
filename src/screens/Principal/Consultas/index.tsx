@@ -16,6 +16,7 @@ import FinalizarConsultasHelper from '@helpers/Consultas/Finalizar';
 import ListarConsultasHelper from '@helpers/Consultas/Listar';
 import ObterTotalConsultasHelper from '@helpers/Consultas/ObterTotal';
 import ReabrirConsultasHelper from '@helpers/Consultas/Reabrir';
+import ReagendarConsultasHelper from '@helpers/Consultas/Reagendar';
 import CadastrarObservacaoHelper from '@helpers/Observacoes/Cadastrar';
 import EditarObservacaoHelper from '@helpers/Observacoes/Editar';
 import ExcluirObservacaoHelper from '@helpers/Observacoes/Excluir';
@@ -175,6 +176,31 @@ const Consultas = ({
     } catch (err) {
       Notification.error({
         title: 'Não foi possível reabrir a consulta',
+        description: (err as Error).message,
+        duration: 10000
+      });
+    }
+  };
+
+  const reagendarConsulta = async (consulta: Consulta): Promise<Consulta | undefined> => {
+    const helper = new ReagendarConsultasHelper();
+
+    try {
+      const consultaReagendada = await helper.executar(consulta);
+
+      setConsultas([...consultas.map(consultas => (consultas.id === consultaReagendada.id) ? consultaReagendada : consultas)]);
+
+      Notification.success({
+        title: 'Consulta reagendada com sucesso',
+        duration: 5000
+      });
+
+      carregarTotaisConsultas();
+
+      return consultaReagendada;
+    } catch (err) {
+      Notification.error({
+        title: 'Não foi possível reagendar a consulta',
         description: (err as Error).message,
         duration: 10000
       });
@@ -403,7 +429,7 @@ const Consultas = ({
             visivel={reagendarVisivel}
             setVisivel={setReagendarVisivel}
             formularioRef={reagendarConsultaRef}
-            callback={console.log}
+            callback={reagendarConsulta}
           />
           <Excluir
             visivel={excluirVisivel}
