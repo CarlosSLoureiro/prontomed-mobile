@@ -4,6 +4,7 @@ import PacientesRepositoryInterface from '@repository/Pacientes/interface';
 import PacientesRepositoryMock from '@repository/Pacientes/mock';
 
 import EditarPacientesHelper from '@helpers/Pacientes/Editar';
+import { tamanhoMinimoNome } from '@validators/Paciente/utils';
 
 const factory = new PacienteFactory();
 
@@ -31,7 +32,7 @@ describe('helpers > Pacientes > Editar', () => {
         nome
       };
 
-      await expect(helper.executar(dados)).rejects.toThrow(`O nome do paciente deve ter ao menos ${helper.tamanhoMinimoNome} caracteres`);
+      await expect(helper.executar(dados)).rejects.toThrow(`O nome do paciente deve ter ao menos ${tamanhoMinimoNome} caracteres`);
       expect(editarSpy).toHaveBeenCalledTimes(0);
     }));
   });
