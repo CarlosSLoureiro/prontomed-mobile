@@ -7,7 +7,6 @@ import ObservacoesUtils from '@utils/Observacoes';
 
 export default class FinalizarConsultasHelper {
   private readonly repository: ConsultasRepositoryInterface;
-  public readonly tamanhoMinimoNome = 3;
 
   constructor (repository: ConsultasRepositoryInterface = (global.repositories as Repositories).consultasRepository) {
     this.repository = repository;

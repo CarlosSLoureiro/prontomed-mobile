@@ -6,7 +6,6 @@ import validar from '@validators/Paciente';
 
 export default class EditarPacientesHelper {
   private readonly repository: PacientesRepositoryInterface;
-  public readonly tamanhoMinimoNome = 3;
 
   constructor (repository: PacientesRepositoryInterface = (global.repositories as Repositories).pacientesRepository) {
     this.repository = repository;
