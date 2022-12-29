@@ -1,5 +1,5 @@
 import * as Calendar from 'expo-calendar';
 
-export default interface CalendarioContrato {
+export default interface CalendarioInterface {
   agendarConsulta: (params: Partial<Calendar.Event>) => Promise<string | undefined>;
 }
