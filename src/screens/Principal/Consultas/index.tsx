@@ -29,6 +29,7 @@ import FiltrarDatas from '@components/Consulta/Dialogs/FiltrarDatas';
 import FinalizarReabrir from '@components/Consulta/Dialogs/FinalizarReabrir';
 import Observacoes from '@components/Consulta/Dialogs/Observacoes';
 import Ordenar from '@components/Consulta/Dialogs/Ordenar';
+import Legenda from '@components/Consulta/Legenda';
 import MenuOpcoes from '@components/MenuOpcoes';
 
 import getMainStyles from '../styles';
@@ -487,6 +488,7 @@ const Consultas = ({
           />
         </Portal>
         <Text style={styles.text}>{ obterStatus() }</Text>
+        <Legenda/>
         {
           consultas.map((consulta, index) => <ConsultaCard
             key={index}
