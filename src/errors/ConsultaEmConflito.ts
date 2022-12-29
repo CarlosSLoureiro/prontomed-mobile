@@ -1,0 +1,7 @@
+export default class ConsultaEmConflitoError extends Error {
+  constructor (msg: string) {
+    super(msg);
+
+    Object.setPrototypeOf(this, ConsultaEmConflitoError.prototype);
+  }
+}
