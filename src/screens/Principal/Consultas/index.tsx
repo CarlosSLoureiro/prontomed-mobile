@@ -16,9 +16,11 @@ import FinalizarConsultasHelper from '@helpers/Consultas/Finalizar';
 import ListarConsultasHelper from '@helpers/Consultas/Listar';
 import ObterTotalConsultasHelper from '@helpers/Consultas/ObterTotal';
 import ReabrirConsultasHelper from '@helpers/Consultas/Reabrir';
+import ReagendarConsultasHelper from '@helpers/Consultas/Reagendar';
 import CadastrarObservacaoHelper from '@helpers/Observacoes/Cadastrar';
 import EditarObservacaoHelper from '@helpers/Observacoes/Editar';
 import ExcluirObservacaoHelper from '@helpers/Observacoes/Excluir';
+import ConsultaEmConflitoError from '@errors/ConsultaEmConflito';
 
 import Notification from '@hooks/useNotification';
 
@@ -29,6 +31,8 @@ import FiltrarDatas from '@components/Consulta/Dialogs/FiltrarDatas';
 import FinalizarReabrir from '@components/Consulta/Dialogs/FinalizarReabrir';
 import Observacoes from '@components/Consulta/Dialogs/Observacoes';
 import Ordenar from '@components/Consulta/Dialogs/Ordenar';
+import ReagendarConsulta from '@components/Consulta/Dialogs/Reagendar';
+import ReagendarEmConflito from '@components/Consulta/Dialogs/ReagendarEmConflito';
 import Legenda from '@components/Consulta/Legenda';
 import MenuOpcoes from '@components/MenuOpcoes';
 
@@ -53,10 +57,16 @@ const Consultas = ({
   const [buscarVisivel, setBuscarVisivel] = useState(false);
   const [filtrarDatasVisivel, setFiltrarDatasVisivel] = useState(false);
   const [ordenarVisivel, setOrdenarVisivel] = useState(false);
+  const [reagendarVisivel, setReagendarVisivel] = useState(false);
   const [excluirVisivel, setExcluirVisivel] = useState(false);
   const [finalizarReabrirVisivel, setFinalizarReabrirVisivel] = useState(false);
   const [observacoesVisivel, setObservacoesVisivel] = useState(false);
 
+  const [msgConsultaEmConflito, setMsgConsultaEmConflito] = useState('');
+  const [consultaEmConflito, setConsultaEmConflito] = useState<Consulta>();
+  const [reagendarEmConflitoVisivel, setReagendarEmConflitoVisivel] = useState(false);
+
+  const reagendarConsultaRef = useRef<any>();
   const excluirConsultaRef = useRef<any>();
   const finalizarReabrirConsultaRef = useRef<any>();
   const observacoesConsultaRef = useRef<any>();
@@ -175,6 +185,45 @@ const Consultas = ({
         description: (err as Error).message,
         duration: 10000
       });
+    }
+  };
+
+  const reagendarConsulta = async (consulta: Consulta, ignorarConflito = false): Promise<Consulta | undefined> => {
+    const helper = new ReagendarConsultasHelper();
+
+    try {
+      const consultaReagendada = await helper.executar(consulta, ignorarConflito);
+
+      setConsultas([...consultas.map(consultas => (consultas.id === consultaReagendada.id) ? consultaReagendada : consultas)]);
+
+      Notification.success({
+        title: 'Consulta reagendada com sucesso',
+        duration: 5000
+      });
+
+      carregarTotaisConsultas();
+
+      if (ignorarConflito) {
+        setReagendarVisivel(false);
+      }
+
+      void carregarConsultas(true);
+
+      return consultaReagendada;
+    } catch (err) {
+      const msg = (err as Error).message;
+
+      if (err instanceof ConsultaEmConflitoError) {
+        setConsultaEmConflito(consulta);
+        setMsgConsultaEmConflito(msg);
+        setReagendarEmConflitoVisivel(true);
+      } else {
+        Notification.error({
+          title: 'Não foi possível reagendar a consulta',
+          description: msg,
+          duration: 10000
+        });
+      }
     }
   };
 
@@ -396,6 +445,19 @@ const Consultas = ({
             callback={filtrarDatasConsultas}
             valorAtual={filtrosDeBusca?.datas}
           />
+          <ReagendarConsulta
+            visivel={reagendarVisivel}
+            setVisivel={setReagendarVisivel}
+            formularioRef={reagendarConsultaRef}
+            callback={reagendarConsulta}
+          />
+          <ReagendarEmConflito
+            visivel={reagendarEmConflitoVisivel}
+            setVisivel={setReagendarEmConflitoVisivel}
+            mensagem={msgConsultaEmConflito}
+            consulta={consultaEmConflito}
+            callback={reagendarConsulta}
+          />
           <Excluir
             visivel={excluirVisivel}
             setVisivel={setExcluirVisivel}
@@ -431,6 +493,7 @@ const Consultas = ({
               buscarVisivel ||
               filtrarDatasVisivel ||
               ordenarVisivel ||
+              reagendarVisivel ||
               excluirVisivel ||
               observacoesVisivel
             )}
@@ -492,6 +555,7 @@ const Consultas = ({
         {
           consultas.map((consulta, index) => <ConsultaCard
             key={index}
+            reagendarFormularioRef={reagendarConsultaRef}
             excluirFormularioRef={excluirConsultaRef}
             observacoesFormularioRef={observacoesConsultaRef}
             finalizarReabrirFormularioRef={finalizarReabrirConsultaRef}

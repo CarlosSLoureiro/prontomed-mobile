@@ -1,4 +1,4 @@
-import { Between, DataSource, LessThan, Like, MoreThanOrEqual, Repository } from 'typeorm';
+import { Between, DataSource, LessThan, Like, MoreThanOrEqual, Not, Repository } from 'typeorm';
 
 import Consulta from '@entity/Consulta';
 import Paciente from '@entity/Paciente';
@@ -99,17 +99,29 @@ export default class ConsultasRepository implements ConsultasRepositoryInterface
     return await this.repository.save(consulta);
   }
 
-  public async obterPossivelConsultaEmConflito (data: Date): Promise<Consulta | undefined> {
+  public async obterPossivelConsultaEmConflito (data: Date, ignorarIds: Array<number> = []): Promise<Consulta | undefined> {
     const tempoMedioDaConsulta = 29;
     const limiteInferior = moment(data).subtract(tempoMedioDaConsulta, 'm');
     const limiteSuperior = moment(data).add(tempoMedioDaConsulta, 'm');
 
+    let where = {};
+
+    where = {
+      ...where,
+      finalizada: false,
+      dataAgendada: Between(limiteInferior.toDate(), limiteSuperior.toDate())
+    };
+
+    if (ignorarIds.length > 0) {
+      where = {
+        ...where,
+        id: Not(ignorarIds)
+      };
+    }
+
     return await this.repository.findOne({
       relations: ['paciente'],
-      where: {
-        finalizada: false,
-        dataAgendada: Between(limiteInferior.toDate(), limiteSuperior.toDate())
-      },
+      where,
       order: {
         dataAgendada: 'DESC'
       }

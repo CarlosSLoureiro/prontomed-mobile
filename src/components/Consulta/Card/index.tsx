@@ -12,6 +12,7 @@ import { ConsultaCardContrato } from './types';
 import moment from 'moment';
 
 const ConsultaCard = ({
+  reagendarFormularioRef,
   excluirFormularioRef,
   observacoesFormularioRef,
   finalizarReabrirFormularioRef,
@@ -86,9 +87,10 @@ const ConsultaCard = ({
                 }
               },
               {
-                titulo: 'Remarcar',
+                titulo: 'Reagendar',
                 icone: 'calendar-clock',
                 callback: () => {
+                  reagendarFormularioRef?.current.abrirDialog(consulta);
                   fecharMenu();
                 }
               },

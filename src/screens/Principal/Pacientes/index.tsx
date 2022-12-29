@@ -28,7 +28,7 @@ import Ordenar from '@components/Paciente/Dialogs/Ordenar';
 
 import getMainStyles from '../styles';
 
-import { agendaraConsultaCallback, cadastrarEditarCallback, excluirCallback, PacientesContrato } from './types';
+import { agendarConsultaCallback, cadastrarEditarCallback, excluirCallback, PacientesContrato } from './types';
 
 const Pacientes = ({
   paginaAtiva
@@ -179,7 +179,7 @@ const Pacientes = ({
     }
   };
 
-  const agendarConsulta: agendaraConsultaCallback = async (paciente: Paciente, data: Date, ignorarConflito = false): Promise<Consulta | undefined> => {
+  const agendarConsulta: agendarConsultaCallback = async (paciente: Paciente, data: Date, ignorarConflito = false): Promise<Consulta | undefined> => {
     const helper = new AgendarConsultasHelper();
 
     try {
