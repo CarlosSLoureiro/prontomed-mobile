@@ -7,7 +7,7 @@ export default interface ConsultasRepositoryInterface {
   totalAgendadas: () => Promise<number>;
   totalAtrasadas: () => Promise<number>;
   agendar: (paciente: Paciente, data: Date) => Promise<Consulta>;
-  obterPossivelConsultaEmConflito: (data: Date) => Promise<Consulta | undefined>;
+  obterPossivelConsultaEmConflito: (data: Date, ignorarIds?: Array<number>) => Promise<Consulta | undefined>;
   editar: (consulta: Partial<Consulta>) => Promise<Consulta>;
   excluir: (consulta: Consulta) => Promise<Consulta>;
 }
