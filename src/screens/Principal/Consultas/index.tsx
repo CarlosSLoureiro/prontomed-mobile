@@ -20,6 +20,7 @@ import ReagendarConsultasHelper from '@helpers/Consultas/Reagendar';
 import CadastrarObservacaoHelper from '@helpers/Observacoes/Cadastrar';
 import EditarObservacaoHelper from '@helpers/Observacoes/Editar';
 import ExcluirObservacaoHelper from '@helpers/Observacoes/Excluir';
+import ConsultaEmConflitoError from '@errors/ConsultaEmConflito';
 
 import Notification from '@hooks/useNotification';
 
@@ -31,6 +32,7 @@ import FinalizarReabrir from '@components/Consulta/Dialogs/FinalizarReabrir';
 import Observacoes from '@components/Consulta/Dialogs/Observacoes';
 import Ordenar from '@components/Consulta/Dialogs/Ordenar';
 import ReagendarConsulta from '@components/Consulta/Dialogs/Reagendar';
+import ReagendarEmConflito from '@components/Consulta/Dialogs/ReagendarEmConflito';
 import Legenda from '@components/Consulta/Legenda';
 import MenuOpcoes from '@components/MenuOpcoes';
 
@@ -59,6 +61,10 @@ const Consultas = ({
   const [excluirVisivel, setExcluirVisivel] = useState(false);
   const [finalizarReabrirVisivel, setFinalizarReabrirVisivel] = useState(false);
   const [observacoesVisivel, setObservacoesVisivel] = useState(false);
+
+  const [msgConsultaEmConflito, setMsgConsultaEmConflito] = useState('');
+  const [consultaEmConflito, setConsultaEmConflito] = useState<Consulta>();
+  const [reagendarEmConflitoVisivel, setReagendarEmConflitoVisivel] = useState(false);
 
   const reagendarConsultaRef = useRef<any>();
   const excluirConsultaRef = useRef<any>();
@@ -182,11 +188,11 @@ const Consultas = ({
     }
   };
 
-  const reagendarConsulta = async (consulta: Consulta): Promise<Consulta | undefined> => {
+  const reagendarConsulta = async (consulta: Consulta, ignorarConflito = false): Promise<Consulta | undefined> => {
     const helper = new ReagendarConsultasHelper();
 
     try {
-      const consultaReagendada = await helper.executar(consulta);
+      const consultaReagendada = await helper.executar(consulta, ignorarConflito);
 
       setConsultas([...consultas.map(consultas => (consultas.id === consultaReagendada.id) ? consultaReagendada : consultas)]);
 
@@ -197,13 +203,27 @@ const Consultas = ({
 
       carregarTotaisConsultas();
 
+      if (ignorarConflito) {
+        setReagendarVisivel(false);
+      }
+
+      void carregarConsultas(true);
+
       return consultaReagendada;
     } catch (err) {
-      Notification.error({
-        title: 'Não foi possível reagendar a consulta',
-        description: (err as Error).message,
-        duration: 10000
-      });
+      const msg = (err as Error).message;
+
+      if (err instanceof ConsultaEmConflitoError) {
+        setConsultaEmConflito(consulta);
+        setMsgConsultaEmConflito(msg);
+        setReagendarEmConflitoVisivel(true);
+      } else {
+        Notification.error({
+          title: 'Não foi possível reagendar a consulta',
+          description: msg,
+          duration: 10000
+        });
+      }
     }
   };
 
@@ -429,6 +449,13 @@ const Consultas = ({
             visivel={reagendarVisivel}
             setVisivel={setReagendarVisivel}
             formularioRef={reagendarConsultaRef}
+            callback={reagendarConsulta}
+          />
+          <ReagendarEmConflito
+            visivel={reagendarEmConflitoVisivel}
+            setVisivel={setReagendarEmConflitoVisivel}
+            mensagem={msgConsultaEmConflito}
+            consulta={consultaEmConflito}
             callback={reagendarConsulta}
           />
           <Excluir
