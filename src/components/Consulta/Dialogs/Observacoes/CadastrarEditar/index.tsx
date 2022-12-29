@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Platform } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Keyboard, Platform } from 'react-native';
 import { Button, Dialog, Divider } from 'react-native-paper';
 
 import Observacao from '@entity/Observacao';
@@ -18,6 +18,28 @@ const CadastrarEditarObservacao = ({
 }: CadastrarObservacaoContrato): JSX.Element => {
   const styles = getStyles();
   const [observacao, setObservacao] = useState<Partial<Observacao>>({});
+
+  const [posicaoDialog, setPosicaoDialog] = useState('70%');
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => setPosicaoDialog('70%')
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => setPosicaoDialog('0%')
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
+
+  useEffect(() => {
+    setPosicaoDialog('70%');
+  }, [visivel]);
 
   const abrirDialog = (obs: Observacao): void => {
     setVisivel(true);
@@ -47,7 +69,7 @@ const CadastrarEditarObservacao = ({
   };
 
   return (
-      <Dialog visible={visivel} onDismiss={cancelar} style={{ ...styles.dialog, marginBottom: Platform.OS === 'ios' ? '70%' : 0 }}>
+      <Dialog visible={visivel} onDismiss={cancelar} style={{ ...styles.dialog, marginBottom: Platform.OS === 'ios' ? posicaoDialog : 0 }}>
         <Dialog.Title>Agendar consulta</Dialog.Title>
         <Dialog.Content>
             <TextArea
