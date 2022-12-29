@@ -2,7 +2,8 @@ import { Repositories } from '@database';
 import Consulta from '@entity/Consulta';
 import ConsultasRepositoryInterface from '@repository/Consultas/interface';
 
-import CadastrarObservacaoHelper from '@helpers/Observacoes/Cadastrar';
+import CalendarioUtils from '@utils/Calendario';
+import ObservacoesUtils from '@utils/Observacoes';
 
 export default class FinalizarConsultasHelper {
   private readonly repository: ConsultasRepositoryInterface;
@@ -12,23 +13,15 @@ export default class FinalizarConsultasHelper {
     this.repository = repository;
   }
 
-  private async cadastrarObservacao (consulta: Consulta): Promise<void> {
-    try {
-      const helper = new CadastrarObservacaoHelper();
-      const observacao = await helper.executar(consulta, {
-        mensagem: 'Consulta finalizada'
-      });
-      consulta?.observacoes?.push(observacao);
-    } catch (e) {
-    }
-  }
-
   public async executar (consulta: Partial<Consulta>): Promise<Consulta> {
+    const evento = await CalendarioUtils.removerConsulta(consulta as Consulta);
+
     consulta.finalizada = true;
+    consulta.evento = evento;
 
     const consultaEditada = await this.repository.editar(consulta);
 
-    await this.cadastrarObservacao(consultaEditada);
+    await ObservacoesUtils.cadastrar('Consulta finalizada', [consultaEditada]);
 
     return consultaEditada;
   }
