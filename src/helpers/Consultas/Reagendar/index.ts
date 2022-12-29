@@ -28,6 +28,7 @@ export default class ReagendarConsultasHelper {
     const evento = await CalendarioUtils.agendarConsulta(consulta);
 
     consulta.evento = evento;
+    consulta.dataAtualizacao = new Date();
 
     const consultaEditada = await this.repository.editar(consulta);
 

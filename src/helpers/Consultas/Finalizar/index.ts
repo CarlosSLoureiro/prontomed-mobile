@@ -17,6 +17,7 @@ export default class FinalizarConsultasHelper {
 
     consulta.finalizada = true;
     consulta.evento = evento;
+    consulta.dataAtualizacao = new Date();
 
     const consultaEditada = await this.repository.editar(consulta);
 
