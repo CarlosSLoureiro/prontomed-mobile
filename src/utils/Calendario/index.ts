@@ -37,7 +37,9 @@ class CalendarioUtils implements CalendarioUtilsInterface {
 
   public async agendarConsulta (consulta: Consulta): Promise<string | undefined> {
     const permissao = await this.temPermissao();
-    if (permissao) {
+    const agora = new Date();
+    const podeAgendar = (consulta.dataAgendada > agora);
+    if (permissao && podeAgendar) {
       const evento = await Calendario.agendarConsulta({
         title: `Consulta com ${consulta.paciente.nome}`,
         startDate: consulta.dataAgendada,
