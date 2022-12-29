@@ -21,10 +21,10 @@ class CalendarioUtils implements CalendarioUtilsInterface {
     return await AsyncStorage.getItem(`ProntoMed:${Ajustes.CALENDARIO}`) === 'true';
   }
 
-  public async removerConsulta (consulta: Consulta): Promise<string | null> {
+  public async removerConsulta (consulta: Consulta, forcado = false): Promise<string | null> {
     const permissao = await this.temPermissao();
     const agora = new Date();
-    const podeRemover = (consulta.dataAgendada > agora);
+    const podeRemover = (consulta.dataAgendada > agora || forcado);
     if (permissao && podeRemover && consulta.evento !== null) {
       await Calendario.removerConsulta({
         id: consulta.evento
