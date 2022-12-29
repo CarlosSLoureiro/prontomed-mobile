@@ -34,7 +34,6 @@ const ReagendarConsulta = ({
   }
 
   const cancelar = (): void => {
-    setData(undefined);
     setVisivel(false);
   };
 
@@ -58,6 +57,12 @@ const ReagendarConsulta = ({
       });
     }
   }, [data]);
+
+  useEffect(() => {
+    if (!visivel) {
+      setData(undefined);
+    }
+  }, [visivel]);
 
   return (
       <Dialog visible={visivel} onDismiss={cancelar} style={styles.dialog}>
