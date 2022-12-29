@@ -59,12 +59,15 @@ const CadastrarEditarObservacao = ({
 
   const salvar = (): void => {
     if (observacao !== undefined) {
-      void (async () => {
-        const resultado = (observacao !== undefined) ? await callback(observacao) : undefined;
-        if (resultado !== undefined) {
-          cancelar();
-        }
-      })();
+      const msg = observacao.mensagem ?? '';
+      if (msg?.length > 0) {
+        void (async () => {
+          const resultado = await callback(observacao);
+          if (resultado !== undefined) {
+            cancelar();
+          }
+        })();
+      }
     }
   };
 
