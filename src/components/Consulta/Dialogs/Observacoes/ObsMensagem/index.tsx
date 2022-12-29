@@ -9,7 +9,7 @@ import { ObsMensagemContrato } from './types';
 
 import moment from 'moment';
 
-const ObgMensagem = ({
+const ObsMensagem = ({
   observacao,
   editarObservacaoRef
 }: ObsMensagemContrato): JSX.Element => {
@@ -69,4 +69,4 @@ const ObgMensagem = ({
   );
 };
 
-export default ObgMensagem;
+export default ObsMensagem;
