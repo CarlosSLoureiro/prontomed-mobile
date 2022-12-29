@@ -4,6 +4,8 @@ import Paciente from '@entity/Paciente';
 import { Generos } from '@entity/Paciente/enums';
 import ConsultasRepositoryInterface from '@repository/Consultas/interface';
 
+import ConsultaEmConflitoError from '@errors/ConsultaEmConflito';
+
 import CalendarioUtils from '@utils/Calendario';
 import ObservacoesUtils from '@utils/Observacoes';
 
@@ -16,11 +18,12 @@ export default class AgendarConsultasHelper {
     this.repository = repository;
   }
 
-  public async executar (paciente: Paciente, data: Date): Promise<Consulta> {
+  public async executar (paciente: Paciente, data: Date, ignorarConflito = false): Promise<Consulta> {
     const possivelConsultaEmConflito = await this.repository.obterPossivelConsultaEmConflito(data);
 
-    if (possivelConsultaEmConflito !== undefined) {
-      throw new Error(`Você já possui uma consulta agendada para o dia ${moment(possivelConsultaEmConflito.dataAgendada).format('DD/MM/YYYY [as] HH[h]mm')} com ${possivelConsultaEmConflito.paciente.genero === Generos.FEMININO ? 'a' : 'o'} paciente ${possivelConsultaEmConflito.paciente.nome}`);
+    if (possivelConsultaEmConflito !== undefined && !ignorarConflito) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      throw new ConsultaEmConflitoError(`Você já possui uma consulta agendada para o dia ${moment(possivelConsultaEmConflito.dataAgendada).format('DD/MM/YYYY [as] HH[h]mm')} com ${possivelConsultaEmConflito.paciente.genero === Generos.FEMININO ? 'a' : 'o'} paciente ${possivelConsultaEmConflito.paciente.nome}`);
     }
 
     const consulta = await this.repository.agendar(paciente, data);
