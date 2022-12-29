@@ -9,4 +9,4 @@ export type cadastrarEditarCallback = (dados: Partial<Paciente>) => Promise<Paci
 
 export type excluirCallback = (paciente: Paciente) => Promise<Paciente | undefined>;
 
-export type agendaraConsultaCallback = (paciente: Paciente, data: Date) => Promise<Consulta | undefined>;
+export type agendaraConsultaCallback = (paciente: Paciente, data: Date, ignorarConflito?: boolean) => Promise<Consulta | undefined>;

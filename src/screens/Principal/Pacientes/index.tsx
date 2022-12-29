@@ -12,12 +12,14 @@ import EditarPacientesHelper from '@helpers/Pacientes/Editar';
 import ExcluirPacientesHelper from '@helpers/Pacientes/Excluir';
 import ListarPacientesHelper from '@helpers/Pacientes/Listar';
 import ObterTotalPacientesHelper from '@helpers/Pacientes/ObterTotal';
+import ConsultaEmConflitoError from '@errors/ConsultaEmConflito';
 
 import Notification from '@hooks/useNotification';
 
 import MenuOpcoes from '@components/MenuOpcoes';
 import PacienteCard from '@components/Paciente/Card';
 import AgendarConsulta from '@components/Paciente/Dialogs/AgendarConsulta';
+import AgendarConsultaEmConflito from '@components/Paciente/Dialogs/AgendarConsultaEmConflito';
 import Buscar from '@components/Paciente/Dialogs/Buscar';
 import { BuscarPacienteCallbackContrato } from '@components/Paciente/Dialogs/Buscar/types';
 import CadastrarEditar from '@components/Paciente/Dialogs/CadastrarEditar';
@@ -51,6 +53,10 @@ const Pacientes = ({
   const [ordenarVisivel, setOrdenarVisivel] = useState(false);
   const [agendarVisivel, setAgendarVisivel] = useState(false);
   const [excluirVisivel, setExcluirVisivel] = useState(false);
+
+  const [agendarEmConflitoVisivel, setAgendarEmConflitoVisivel] = useState(false);
+  const [msgConsultaEmConflito, setMsgConsultaEmConflito] = useState('');
+  const [consultaEmConflito, setConsultaEmConflito] = useState<Partial<Consulta>>({});
 
   const agendarConsultaRef = useRef<any>();
   const cadastrarEditarPacienteRef = useRef<any>();
@@ -173,11 +179,11 @@ const Pacientes = ({
     }
   };
 
-  const agendarConsulta: agendaraConsultaCallback = async (paciente: Paciente, data: Date): Promise<Consulta | undefined> => {
+  const agendarConsulta: agendaraConsultaCallback = async (paciente: Paciente, data: Date, ignorarConflito = false): Promise<Consulta | undefined> => {
     const helper = new AgendarConsultasHelper();
 
     try {
-      const consulta = await helper.executar(paciente, data);
+      const consulta = await helper.executar(paciente, data, ignorarConflito);
 
       setPacientes([...pacientes.map(p => {
         if (p.id === paciente.id) {
@@ -192,13 +198,29 @@ const Pacientes = ({
         title: `Consulta Nº ${consulta.id} agendada com sucesso`,
         duration: 10000
       });
+
+      if (ignorarConflito) {
+        setAgendarVisivel(false);
+      }
+
       return consulta;
     } catch (err) {
-      Notification.error({
-        title: 'Não foi possível agendar a consulta',
-        description: (err as Error).message,
-        duration: 10000
-      });
+      const msg = (err as Error).message;
+
+      if (err instanceof ConsultaEmConflitoError) {
+        setConsultaEmConflito({
+          paciente,
+          dataAgendada: data
+        });
+        setMsgConsultaEmConflito(msg);
+        setAgendarEmConflitoVisivel(true);
+      } else {
+        Notification.error({
+          title: 'Não foi possível agendar a consulta',
+          description: msg,
+          duration: 10000
+        });
+      }
     }
   };
 
@@ -273,6 +295,13 @@ const Pacientes = ({
             visivel={agendarVisivel}
             setVisivel={setAgendarVisivel}
             formularioRef={agendarConsultaRef}
+            callback={agendarConsulta}
+          />
+          <AgendarConsultaEmConflito
+            visivel={agendarEmConflitoVisivel}
+            setVisivel={setAgendarEmConflitoVisivel}
+            mensagem={msgConsultaEmConflito}
+            consulta={consultaEmConflito}
             callback={agendarConsulta}
           />
           <CadastrarEditar
