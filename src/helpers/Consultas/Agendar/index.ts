@@ -6,6 +6,8 @@ import Paciente from '@entity/Paciente';
 import { Generos } from '@entity/Paciente/enums';
 import ConsultasRepositoryInterface from '@repository/Consultas/interface';
 
+import CadastrarObservacaoHelper from '@helpers/Observacoes/Cadastrar';
+
 import Calendario from '@hooks/useCalendario';
 
 import { Ajustes } from '@screens/Principal/Ajustes/enums';
@@ -38,6 +40,17 @@ export default class AgendarConsultasHelper {
     }
   }
 
+  private async cadastrarObservacao (consulta: Consulta): Promise<void> {
+    try {
+      const helper = new CadastrarObservacaoHelper();
+      const observacao = await helper.executar(consulta, {
+        mensagem: 'Consulta cadastrada'
+      });
+      consulta?.observacoes?.push(observacao);
+    } catch (e) {
+    }
+  }
+
   public async executar (paciente: Paciente, data: Date): Promise<Consulta> {
     const possivelConsultaEmConflito = await this.repository.obterPossivelConsultaEmConflito(data);
 
@@ -48,6 +61,7 @@ export default class AgendarConsultasHelper {
     const consulta = await this.repository.agendar(paciente, data);
 
     await this.agendarNoCalendarioExterno(consulta);
+    await this.cadastrarObservacao(consulta);
 
     return consulta;
   }
