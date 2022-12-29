@@ -34,6 +34,7 @@ const ReagendarConsulta = ({
   }
 
   const cancelar = (): void => {
+    setData(undefined);
     setVisivel(false);
   };
 
