@@ -2,6 +2,8 @@ import { Repositories } from '@database';
 import Paciente from '@entity/Paciente';
 import PacientesRepositoryInterface from '@repository/Pacientes/interface';
 
+import ObservacoesUtils from '@utils/Observacoes';
+
 export default class ExcluirPacientesHelper {
   private readonly repository: PacientesRepositoryInterface;
 
@@ -10,6 +12,10 @@ export default class ExcluirPacientesHelper {
   }
 
   public async executar (paciente: Paciente): Promise<Paciente> {
-    return await this.repository.excluir(paciente);
+    const pacienteExcluido = await this.repository.excluir(paciente);
+
+    await ObservacoesUtils.cadastrar('O paciente foi excluído', paciente?.consultas ?? []);
+
+    return pacienteExcluido;
   }
 }

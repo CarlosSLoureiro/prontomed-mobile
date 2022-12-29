@@ -1,14 +1,11 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import { Repositories } from '@database';
 import Consulta from '@entity/Consulta';
 import Paciente from '@entity/Paciente';
 import { Generos } from '@entity/Paciente/enums';
 import ConsultasRepositoryInterface from '@repository/Consultas/interface';
 
-import Calendario from '@hooks/useCalendario';
-
-import { Ajustes } from '@screens/Principal/Ajustes/enums';
+import CalendarioUtils from '@utils/Calendario';
+import ObservacoesUtils from '@utils/Observacoes';
 
 import moment from 'moment';
 
@@ -17,25 +14,6 @@ export default class AgendarConsultasHelper {
 
   constructor (repository: ConsultasRepositoryInterface = (global.repositories as Repositories).consultasRepository) {
     this.repository = repository;
-  }
-
-  private async agendarNoCalendarioExterno (consulta: Consulta): Promise<void> {
-    const podeAgendar = await AsyncStorage.getItem(`ProntoMed:${Ajustes.CALENDARIO}`) === 'true';
-    if (podeAgendar) {
-      const evento = await Calendario.agendarConsulta({
-        title: `Consulta com ${consulta.paciente.nome}`,
-        startDate: consulta.dataAgendada,
-        endDate: moment(consulta.dataAgendada).add(30, 'm').toDate(),
-        alarms: [{ relativeOffset: -5 }]
-      });
-
-      if (evento !== undefined) {
-        await this.repository.editar({
-          ...consulta,
-          evento
-        });
-      }
-    }
   }
 
   public async executar (paciente: Paciente, data: Date): Promise<Consulta> {
@@ -47,7 +25,15 @@ export default class AgendarConsultasHelper {
 
     const consulta = await this.repository.agendar(paciente, data);
 
-    await this.agendarNoCalendarioExterno(consulta);
+    const evento = await CalendarioUtils.agendarConsulta(consulta);
+
+    if (evento !== undefined) {
+      consulta.evento = evento;
+
+      await this.repository.editar(consulta);
+    }
+
+    await ObservacoesUtils.cadastrar('Consulta cadastrada', [consulta]);
 
     return consulta;
   }

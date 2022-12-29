@@ -15,6 +15,7 @@ import ExcluirConsultasHelper from '@helpers/Consultas/Excluir';
 import FinalizarConsultasHelper from '@helpers/Consultas/Finalizar';
 import ListarConsultasHelper from '@helpers/Consultas/Listar';
 import ObterTotalConsultasHelper from '@helpers/Consultas/ObterTotal';
+import ReabrirConsultasHelper from '@helpers/Consultas/Reabrir';
 import CadastrarObservacaoHelper from '@helpers/Observacoes/Cadastrar';
 import EditarObservacaoHelper from '@helpers/Observacoes/Editar';
 import ExcluirObservacaoHelper from '@helpers/Observacoes/Excluir';
@@ -25,8 +26,10 @@ import ConsultaCard from '@components/Consulta/Card';
 import Buscar from '@components/Consulta/Dialogs/Buscar';
 import Excluir from '@components/Consulta/Dialogs/Excluir';
 import FiltrarDatas from '@components/Consulta/Dialogs/FiltrarDatas';
+import FinalizarReabrir from '@components/Consulta/Dialogs/FinalizarReabrir';
 import Observacoes from '@components/Consulta/Dialogs/Observacoes';
 import Ordenar from '@components/Consulta/Dialogs/Ordenar';
+import Legenda from '@components/Consulta/Legenda';
 import MenuOpcoes from '@components/MenuOpcoes';
 
 import getMainStyles from '../styles';
@@ -51,9 +54,11 @@ const Consultas = ({
   const [filtrarDatasVisivel, setFiltrarDatasVisivel] = useState(false);
   const [ordenarVisivel, setOrdenarVisivel] = useState(false);
   const [excluirVisivel, setExcluirVisivel] = useState(false);
+  const [finalizarReabrirVisivel, setFinalizarReabrirVisivel] = useState(false);
   const [observacoesVisivel, setObservacoesVisivel] = useState(false);
 
   const excluirConsultaRef = useRef<any>();
+  const finalizarReabrirConsultaRef = useRef<any>();
   const observacoesConsultaRef = useRef<any>();
 
   const filtrosDeBuscaInicial: FiltrosDeBuscarConsultasContrato = {
@@ -127,15 +132,11 @@ const Consultas = ({
     }
   };
 
-  const finalizarConsulta = async (consulta: Consulta): Promise<void> => {
+  const finalizarConsulta = async (consulta: Consulta): Promise<Consulta | undefined> => {
     const helper = new FinalizarConsultasHelper();
 
     try {
       const consultaEditada = await helper.executar(consulta);
-
-      if (filtrosDeBusca.busca?.finalizadas === false) {
-        setConsultas([...consultas.filter(consulta => (consulta.id !== consultaEditada.id))]);
-      }
 
       Notification.success({
         title: `Consulta Nº ${consultaEditada.id} finalizada com sucesso`,
@@ -143,9 +144,34 @@ const Consultas = ({
       });
 
       carregarTotaisConsultas();
+
+      return consultaEditada;
     } catch (err) {
       Notification.error({
         title: 'Não foi possível finalizar a consulta',
+        description: (err as Error).message,
+        duration: 10000
+      });
+    }
+  };
+
+  const reabrirConsulta = async (consulta: Consulta): Promise<Consulta | undefined> => {
+    const helper = new ReabrirConsultasHelper();
+
+    try {
+      const consultaEditada = await helper.executar(consulta);
+
+      Notification.success({
+        title: `Consulta Nº ${consultaEditada.id} reaberta com sucesso`,
+        duration: 5000
+      });
+
+      carregarTotaisConsultas();
+
+      return consultaEditada;
+    } catch (err) {
+      Notification.error({
+        title: 'Não foi possível reabrir a consulta',
         description: (err as Error).message,
         duration: 10000
       });
@@ -226,14 +252,14 @@ const Consultas = ({
       })]);
 
       Notification.success({
-        title: 'Observação editada com sucesso',
+        title: 'Observação salva com sucesso',
         duration: 5000
       });
 
       return observacaoEditada;
     } catch (err) {
       Notification.error({
-        title: 'Não foi possível editar a observação da consulta',
+        title: 'Não foi possível salva a observação da consulta',
         description: (err as Error).message,
         duration: 10000
       });
@@ -337,7 +363,7 @@ const Consultas = ({
 
   useEffect(() => {
     if (paginaAtiva) {
-      setFiltrosDeBusca({ ...filtrosDeBuscaInicial });
+      setFiltrosDeBusca({ ...filtrosDeBusca });
       setConsultasDoDia(false);
       sobirScrollParaOTopo();
     }
@@ -375,6 +401,13 @@ const Consultas = ({
             setVisivel={setExcluirVisivel}
             formularioRef={excluirConsultaRef}
             callback={excluirConsulta}
+          />
+          <FinalizarReabrir
+            visivel={finalizarReabrirVisivel}
+            setVisivel={setFinalizarReabrirVisivel}
+            formularioRef={finalizarReabrirConsultaRef}
+            callbackFinalizar={finalizarConsulta}
+            callbackReabrir={reabrirConsulta}
           />
           <Observacoes
             visivel={observacoesVisivel}
@@ -455,12 +488,13 @@ const Consultas = ({
           />
         </Portal>
         <Text style={styles.text}>{ obterStatus() }</Text>
+        <Legenda/>
         {
           consultas.map((consulta, index) => <ConsultaCard
             key={index}
             excluirFormularioRef={excluirConsultaRef}
             observacoesFormularioRef={observacoesConsultaRef}
-            finalizarConsulta={finalizarConsulta}
+            finalizarReabrirFormularioRef={finalizarReabrirConsultaRef}
             consulta={consulta}
             ultimo={consultas.length - 1 === index}
           />)

@@ -5,7 +5,7 @@ import ConsultasRepositoryInterface from '@repository/Consultas/interface';
 import CalendarioUtils from '@utils/Calendario';
 import ObservacoesUtils from '@utils/Observacoes';
 
-export default class FinalizarConsultasHelper {
+export default class ReabrirConsultasHelper {
   private readonly repository: ConsultasRepositoryInterface;
   public readonly tamanhoMinimoNome = 3;
 
@@ -14,14 +14,14 @@ export default class FinalizarConsultasHelper {
   }
 
   public async executar (consulta: Partial<Consulta>): Promise<Consulta> {
-    const evento = await CalendarioUtils.removerConsulta(consulta as Consulta);
+    const evento = await CalendarioUtils.agendarConsulta(consulta as Consulta);
 
-    consulta.finalizada = true;
+    consulta.finalizada = false;
     consulta.evento = evento;
 
     const consultaEditada = await this.repository.editar(consulta);
 
-    await ObservacoesUtils.cadastrar('Consulta finalizada', [consultaEditada]);
+    await ObservacoesUtils.cadastrar('Consulta reaberta', [consultaEditada]);
 
     return consultaEditada;
   }

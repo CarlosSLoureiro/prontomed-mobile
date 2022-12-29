@@ -17,7 +17,7 @@ export default class Consulta {
     dataAgendada: Date;
 
   @Column()
-    evento!: string;
+    evento!: string | null;
 
   @Column()
     finalizada: boolean;

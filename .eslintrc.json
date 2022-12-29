@@ -31,7 +31,7 @@
             }
         },
         {
-            "files": ["**/hooks/**"],
+            "files": ["**/hooks/**", "**/utils/**"],
             "rules": {
                 "@typescript-eslint/strict-boolean-expressions": "off"
             }
@@ -72,7 +72,7 @@
                 ["^typeorm"],
                 ["^@database", "^@entity/?\\w", "^@repository/?\\w"],
                 ["^@helpers/?\\w", "^@validators/?\\w"],
-                ["^@hooks/?\\w"],
+                ["^@utils/?\\w", "^@hooks/?\\w"],
                 ["^@screens/?\\w","^@components/?\\w"],
                 ["^\\u0000"],
                 ["^\\.\\.(?!/?$)", "^\\.\\./?$"],

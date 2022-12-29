@@ -16,6 +16,7 @@ module.exports = function (api) {
             '@helpers': './src/helpers',
             '@validators': './src/validators',
             '@components': './src/components',
+            '@utils': './src/utils',
             '@hooks': './src/hooks',
             '@screens': './src/screens'
           }

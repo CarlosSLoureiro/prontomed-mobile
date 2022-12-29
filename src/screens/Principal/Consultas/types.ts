@@ -5,3 +5,5 @@ export interface ConsultasContrato {
 }
 
 export type excluirCallback = (consulta: Consulta) => Promise<Consulta | undefined>;
+
+export type finalizarReabrirCallback = (consulta: Consulta) => Promise<Consulta | undefined>;
