@@ -14,8 +14,8 @@ import moment from 'moment';
 const ConsultaCard = ({
   excluirFormularioRef,
   observacoesFormularioRef,
+  finalizarReabrirFormularioRef,
   consulta,
-  finalizarConsulta,
   ultimo = false
 }: ConsultaCardContrato): JSX.Element => {
   const [exibirMenu, setExibirMenu] = useState(false);
@@ -78,10 +78,10 @@ const ConsultaCard = ({
             {...{ fecharMenu, menuAnchor }}
             items={[
               {
-                titulo: 'Finalizar',
+                titulo: consulta.finalizada ? 'Reabrir' : 'Finalizar',
                 icone: 'file-check',
                 callback: () => {
-                  void finalizarConsulta(consulta);
+                  finalizarReabrirFormularioRef?.current.abrirDialog(consulta, !consulta.finalizada);
                   fecharMenu();
                 }
               },
