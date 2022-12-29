@@ -29,7 +29,6 @@ const Item = ({
   const alterarValor = (): void => {
     void (async () => {
       const novoValor = !valor;
-      console.log(`salvar valor ${variavel}=${novoValor.toString()}`);
       await AsyncStorage.setItem(`ProntoMed:${variavel}`, novoValor.toString());
       setValor(novoValor);
     })();
