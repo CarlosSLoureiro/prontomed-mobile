@@ -6,6 +6,7 @@ import Consulta from '@entity/Consulta';
 import Observacao from '@entity/Observacao';
 
 import CadastrarEditarObservacao from './CadastrarEditar';
+import Excluir from './Excluir';
 import ObsMensagem from './ObsMensagem';
 import getStyles from './styles';
 
@@ -15,12 +16,15 @@ const Observacoes = ({
   visivel,
   setVisivel,
   formularioRef,
-  callback
+  callbackObservar,
+  callbackExcluir
 }: ExibirObservacoesContrato): JSX.Element => {
   const styles = getStyles();
   const [consulta, setConsulta] = useState<Consulta | undefined>();
   const [cadastrarEditarVisivel, setCadastrarEditarVisivel] = useState(false);
+  const [excluirVisivel, setExcluirVisivel] = useState(false);
   const editarObservacaoRef = useRef<any>();
+  const excluirObservacaoRef = useRef<any>();
   const scrollRef = useRef<ScrollView>(null);
 
   const abrirDialog = (consulta: Consulta): void => {
@@ -40,7 +44,13 @@ const Observacoes = ({
 
   const observar = async (observacao: Partial<Observacao>): Promise<Observacao | undefined> => {
     if (consulta !== undefined) {
-      return await callback(consulta, observacao);
+      return await callbackObservar(consulta, observacao);
+    }
+  };
+
+  const excluir = async (observacao: Observacao): Promise<Observacao | undefined> => {
+    if (consulta !== undefined && observacao !== undefined) {
+      return await callbackExcluir(consulta, observacao);
     }
   };
 
@@ -60,6 +70,7 @@ const Observacoes = ({
                     key={index}
                     observacao={observacao}
                     editarObservacaoRef={editarObservacaoRef}
+                    excluirObservacaoRef={excluirObservacaoRef}
                   />)
                 }
               </ScrollView>
@@ -81,6 +92,12 @@ const Observacoes = ({
         setVisivel={setCadastrarEditarVisivel}
         formularioRef={editarObservacaoRef}
         callback={observar}
+      />
+      <Excluir
+        visivel={excluirVisivel}
+        setVisivel={setExcluirVisivel}
+        formularioRef={excluirObservacaoRef}
+        callback={excluir}
       />
     </>
   );

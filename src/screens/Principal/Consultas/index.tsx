@@ -17,6 +17,7 @@ import ListarConsultasHelper from '@helpers/Consultas/Listar';
 import ObterTotalConsultasHelper from '@helpers/Consultas/ObterTotal';
 import CadastrarObservacaoHelper from '@helpers/Observacoes/Cadastrar';
 import EditarObservacaoHelper from '@helpers/Observacoes/Editar';
+import ExcluirObservacaoHelper from '@helpers/Observacoes/Excluir';
 
 import Notification from '@hooks/useNotification';
 
@@ -239,6 +240,36 @@ const Consultas = ({
     }
   };
 
+  const excluirObservacao = async (consulta: Consulta, obs: Observacao): Promise<Observacao | undefined> => {
+    const helper = new ExcluirObservacaoHelper();
+
+    try {
+      const observacaoExcluida = await helper.executar(obs);
+
+      setConsultas([...consultas.map(consultas => {
+        if (consultas.id === consulta.id) {
+          consultas.observacoes = consultas.observacoes?.filter(
+            observacao => ((observacao.id !== observacaoExcluida.id))
+          );
+        }
+        return consultas;
+      })]);
+
+      Notification.success({
+        title: 'Observação excluída com sucesso',
+        duration: 5000
+      });
+
+      return observacaoExcluida;
+    } catch (err) {
+      Notification.error({
+        title: 'Não foi possível excluir a observação da consulta',
+        description: (err as Error).message,
+        duration: 10000
+      });
+    }
+  };
+
   const sobirScrollParaOTopo = (): void => {
     scrollRef?.current?.scrollTo({
       y: 0,
@@ -349,7 +380,8 @@ const Consultas = ({
             visivel={observacoesVisivel}
             setVisivel={setObservacoesVisivel}
             formularioRef={observacoesConsultaRef}
-            callback={observarConsulta}
+            callbackObservar={observarConsulta}
+            callbackExcluir={excluirObservacao}
           />
           <Ordenar
             visivel={ordenarVisivel}

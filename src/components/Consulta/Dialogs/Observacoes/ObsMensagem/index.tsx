@@ -11,7 +11,8 @@ import moment from 'moment';
 
 const ObsMensagem = ({
   observacao,
-  editarObservacaoRef
+  editarObservacaoRef,
+  excluirObservacaoRef
 }: ObsMensagemContrato): JSX.Element => {
   const styles = getStyles();
   const [exibirMenu, setExibirMenu] = useState(false);
@@ -60,6 +61,7 @@ const ObsMensagem = ({
             titulo: 'Excluir',
             icone: 'file-remove',
             callback: () => {
+              excluirObservacaoRef.current?.abrirDialog(observacao);
               fecharMenu();
             }
           }
