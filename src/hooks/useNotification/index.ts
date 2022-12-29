@@ -1,9 +1,10 @@
 import { Notifier, NotifierComponents } from 'react-native-notifier';
 
-import { NotificationContrato } from './types';
+import NotificationInterface from './interface';
+
 import { NotifierInterface, ShowNotificationParams } from 'react-native-notifier/lib/typescript/types';
 
-class Notification implements NotificationContrato {
+class Notification implements NotificationInterface {
   private static _instancia: Notification;
   private current: ShowNotificationParams = {};
   private onHidden: Function | undefined;

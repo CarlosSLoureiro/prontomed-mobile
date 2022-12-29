@@ -1,6 +1,6 @@
 import { ColorSchemeName } from 'react-native';
 
-export interface ThemeSchemeContrato {
+export default interface ThemeSchemeInterface {
   getScheme: () => ColorSchemeName;
   isDarkModeScheme: () => void;
   isLightModeScheme: () => void;

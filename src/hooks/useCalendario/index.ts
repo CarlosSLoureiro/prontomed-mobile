@@ -3,9 +3,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Notification from '@hooks/useNotification';
 
-import { CalendarioContrato } from './types';
+import CalendarioInterface from './interface';
 
-class Calendario implements CalendarioContrato {
+class Calendario implements CalendarioInterface {
   private static _instancia: Calendario;
 
   private readonly variavel = 'ProntoMed:ID_CALENDARIO';
