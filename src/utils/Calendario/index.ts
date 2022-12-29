@@ -35,7 +35,7 @@ class CalendarioUtils implements CalendarioUtilsInterface {
     return consulta.evento;
   }
 
-  public async agendarConsulta (consulta: Consulta): Promise<string | undefined> {
+  public async agendarConsulta (consulta: Consulta): Promise<string | null> {
     const permissao = await this.temPermissao();
     const agora = new Date();
     const podeAgendar = (consulta.dataAgendada > agora);
@@ -47,8 +47,10 @@ class CalendarioUtils implements CalendarioUtilsInterface {
         alarms: [{ relativeOffset: -5 }]
       });
 
-      return evento;
+      return evento ?? null;
     }
+
+    return null;
   }
 }
 
