@@ -15,6 +15,7 @@ module.exports = function (api) {
             '@repository': './src/database/repository',
             '@helpers': './src/helpers',
             '@validators': './src/validators',
+            '@errors': './src/errors',
             '@components': './src/components',
             '@utils': './src/utils',
             '@hooks': './src/hooks',

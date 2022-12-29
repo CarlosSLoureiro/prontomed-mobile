@@ -21,6 +21,7 @@
       "@repository/*": ["database/repository/*"],
       "@helpers/*": ["helpers/*"],
       "@validators/*": ["validators/*"],
+      "@errors/*": ["errors/*"],
       "@components/*": ["components/*"],
       "@utils/*": ["utils/*"],
       "@hooks/*": ["hooks/*"],

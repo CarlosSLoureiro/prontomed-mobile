@@ -71,7 +71,7 @@
                 ["^react", "^expo", "^@(?!:database|entity|repository|components|hooks|screens)/?\\w"],
                 ["^typeorm"],
                 ["^@database", "^@entity/?\\w", "^@repository/?\\w"],
-                ["^@helpers/?\\w", "^@validators/?\\w"],
+                ["^@helpers/?\\w", "^@validators/?\\w", "^@errors/?\\w"],
                 ["^@utils/?\\w", "^@hooks/?\\w"],
                 ["^@screens/?\\w","^@components/?\\w"],
                 ["^\\u0000"],
