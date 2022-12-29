@@ -33,17 +33,17 @@ const ObgMensagem = ({
 
   return (
     <>
-      <TouchableOpacity
-        onPress={abrirMenuContexto}
-      >
-        <View style={styles.mensagem}>
+      <View style={styles.mensagem}>
+        <TouchableOpacity
+          onPress={abrirMenuContexto}
+        >
           <View style={styles.fundo}>
               <View style={styles.seta}></View>
               <Text style={styles.texto} >{ observacao.mensagem }</Text>
           </View>
+        </TouchableOpacity>
           <Text style={styles.data}>{ moment(observacao.dataCriacao).format('DD/MM/YYYY [as] HH[h]mm') }</Text>
-        </View>
-      </TouchableOpacity>
+      </View>
       <MenuContexto
         visivel={exibirMenu}
         {...{ fecharMenu, menuAnchor }}
