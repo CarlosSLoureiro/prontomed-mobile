@@ -413,7 +413,6 @@ const Consultas = ({
   useEffect(() => {
     if (paginaAtiva) {
       setFiltrosDeBusca({ ...filtrosDeBusca });
-      setConsultasDoDia(false);
       sobirScrollParaOTopo();
     }
   }, [paginaAtiva]);
