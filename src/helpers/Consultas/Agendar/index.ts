@@ -22,7 +22,6 @@ export default class AgendarConsultasHelper {
     const possivelConsultaEmConflito = await this.repository.obterPossivelConsultaEmConflito(data);
 
     if (possivelConsultaEmConflito !== undefined && !ignorarConflito) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       throw new ConsultaEmConflitoError(`Você já possui uma consulta agendada para o dia ${moment(possivelConsultaEmConflito.dataAgendada).format('DD/MM/YYYY [as] HH[h]mm')} com ${possivelConsultaEmConflito.paciente.genero === Generos.FEMININO ? 'a' : 'o'} paciente ${possivelConsultaEmConflito.paciente.nome}`);
     }
 
