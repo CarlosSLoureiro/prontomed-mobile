@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-import { DefaultTheme } from 'react-native-paper';
 
 import ThemeScheme from '@hooks/useThemeScheme';
 
@@ -9,12 +8,13 @@ const getStyles = () => {
   return StyleSheet.create({
     item: {
       paddingVertical: 15,
-      backgroundColor: '#ffffff'
+      backgroundColor: isDarkMode ? '#000000' : '#ffffff'
     },
     text: {
       fontSize: 18,
       left: 0,
-      paddingLeft: 10
+      paddingLeft: 10,
+      color: isDarkMode ? '#ffffff' : '#000000'
     },
     botao: {
       position: 'absolute',
