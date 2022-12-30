@@ -18,7 +18,7 @@ inicioDoDia.setHours(0, 0, 0, 0);
 export default class ConsultaFactory extends Consulta {
   dataAgendada = faker.date.between(faker.date.recent(13), faker.date.soon(3));
   paciente = obterPacienteAleatorio();
-  finalizada = this.dataAgendada < inicioDoDia ? faker.datatype.number({ min: 1, max: 5 }) !== 5 : false;
+  finalizada = this.dataAgendada < inicioDoDia ? faker.datatype.number({ min: 1, max: 40 }) !== 5 : false;
   dataAtualizacao = new Date();
   dataCriacao = new Date();
 }
