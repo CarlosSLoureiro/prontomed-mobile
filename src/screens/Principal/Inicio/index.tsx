@@ -7,7 +7,6 @@ import ObterStatusConsultasHelper from '@helpers/Consultas/ObterStatus';
 import ObterStatusPacientesConsultasHelper from '@helpers/Consultas/ObterStatusPacientes';
 
 import ConsultasCadastradasFinalizadas from '@components/Graficos/ConsultasCadastradasFinalizadas';
-import IdadePacientesCadastrados from '@components/Graficos/IdadePacientesCadastrados';
 import IdadePacientesConsultados from '@components/Graficos/IdadePacientesConsultados';
 
 import getMainStyles from '../styles';
@@ -43,7 +42,6 @@ const Inicio = ({
       <ScrollView scrollEventThrottle={400} contentContainerStyle={styles.conteudo}>
         <ConsultasCadastradasFinalizadas dados={dadosConsultasCadastradasFinalizadas}/>
         <IdadePacientesConsultados dados={dadosIdadePacientesConsultados}/>
-        <IdadePacientesCadastrados />
       </ScrollView>
   );
 };

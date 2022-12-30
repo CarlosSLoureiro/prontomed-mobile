@@ -23,7 +23,8 @@ const getStyles = () => {
       shadowOpacity: 1,
       shadowRadius: 2,
       shadowColor: '#545454',
-      borderRadius: 15
+      borderRadius: 15,
+      marginBottom: 150
     },
     config: {
       backgroundColor: '#ffffff',
