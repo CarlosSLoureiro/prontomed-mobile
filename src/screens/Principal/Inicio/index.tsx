@@ -1,15 +1,59 @@
-import { ScrollView, Text } from 'react-native';
-import Icon from 'react-native-dynamic-vector-icons';
+import { useEffect, useState } from 'react';
+import { ScrollView } from 'react-native';
+
+import { StatusConsultas, StatusPacientes as StatusPacientesConsultados } from '@repository/Consultas/types';
+
+import ObterStatusConsultasHelper from '@helpers/Consultas/ObterStatus';
+import ObterStatusPacientesConsultasHelper from '@helpers/Consultas/ObterStatusPacientes';
+
+import ConsultasCadastradasFinalizadas from '@components/Graficos/ConsultasCadastradasFinalizadas';
+import IdadePacientesConsultados from '@components/Graficos/IdadePacientesConsultados';
 
 import getMainStyles from '../styles';
 
-const Inicio = (): JSX.Element => {
+import { InicioContrato } from './types';
+
+const Inicio = ({
+  paginaAtiva
+}: InicioContrato): JSX.Element => {
   const styles = getMainStyles();
+  const [dadosConsultasCadastradasFinalizadas, setDadosConsultasCadastradasFinalizadas] = useState<StatusConsultas>();
+  const [dadosIdadePacientesConsultados, setDadosIdadePacientesConsultados] = useState<StatusPacientesConsultados>();
+
+  const obterDadosConsultasCadastradasFinalizadas = async (): Promise<void> => {
+    const helper = new ObterStatusConsultasHelper();
+    const dados = await helper.executar();
+    setDadosConsultasCadastradasFinalizadas(dados);
+  };
+
+  const obterDadosIdadePacientesConsultados = async (): Promise<void> => {
+    const helper = new ObterStatusPacientesConsultasHelper();
+    const dados = await helper.executar();
+    setDadosIdadePacientesConsultados(dados);
+  };
+
+  const carregarDados = (): void => {
+    void obterDadosConsultasCadastradasFinalizadas();
+    void obterDadosIdadePacientesConsultados();
+  };
+
+  useEffect(() => {
+    if (paginaAtiva) {
+      carregarDados();
+    }
+
+    if (global.deveRecarregarGraficos === true) {
+      setTimeout(() => {
+        carregarDados();
+      }, 1000);
+      global.deveRecarregarGraficos = false;
+    }
+  }, [paginaAtiva]);
 
   return (
       <ScrollView scrollEventThrottle={400} contentContainerStyle={styles.conteudo}>
-        <Icon type="Octicons" name="home" size={124} style={styles.icon} />
-        <Text style={styles.text}>Início!</Text>
+        <ConsultasCadastradasFinalizadas dados={dadosConsultasCadastradasFinalizadas}/>
+        <IdadePacientesConsultados dados={dadosIdadePacientesConsultados}/>
       </ScrollView>
   );
 };

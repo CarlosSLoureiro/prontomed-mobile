@@ -5,7 +5,7 @@ import Paciente from '@entity/Paciente';
 
 import ConsultasRepositoryInterface from './interface';
 
-import { FiltrosDeBuscarConsultasContrato } from './types';
+import { FiltrosDeBuscarConsultasContrato, StatusConsultas, StatusPacientes, ValoresStatusConsultas } from './types';
 
 import moment from 'moment';
 
@@ -135,5 +135,60 @@ export default class ConsultasRepository implements ConsultasRepositoryInterface
 
   public async excluir (consulta: Consulta): Promise<Consulta> {
     return await this.repository.remove(consulta);
+  }
+
+  private async obterTotalDeConsultasPorMeses (meses: number): Promise<Array<ValoresStatusConsultas>> {
+    const queryBuilder = this.repository.createQueryBuilder('consultas');
+
+    queryBuilder.select('COUNT(consultas.id)', 'quantidade');
+    queryBuilder.addSelect('CAST(STRFTIME("%m", consultas.dataCriacao) AS INTEGER)', 'mes');
+
+    queryBuilder.where('consultas.dataCriacao BETWEEN DATETIME("now", "start of month", "-:meses month") AND DATETIME("now")', { meses });
+
+    queryBuilder.groupBy('mes');
+    queryBuilder.orderBy('mes', 'ASC');
+
+    return await queryBuilder.getRawMany();
+  }
+
+  private async obterTotalDeConsultasFinalizadasPorMeses (meses: number): Promise<Array<ValoresStatusConsultas>> {
+    const queryBuilder = this.repository.createQueryBuilder('consultas');
+
+    queryBuilder.select('COUNT(consultas.id)', 'quantidade');
+    queryBuilder.addSelect('CAST(STRFTIME("%m", consultas.dataAtualizacao) AS INTEGER)', 'mes');
+
+    queryBuilder.where('consultas.dataAtualizacao BETWEEN DATETIME("now", "start of month", "-:meses month") AND DATETIME("now")', { meses });
+    queryBuilder.andWhere('consultas.finalizada = 1');
+
+    queryBuilder.groupBy('mes');
+    queryBuilder.orderBy('mes', 'ASC');
+
+    return await queryBuilder.getRawMany();
+  }
+
+  public async obterStatus (meses: number): Promise<StatusConsultas> {
+    const totalDeConsultasPorMeses = await this.obterTotalDeConsultasPorMeses(meses);
+    const totalDeConsultasFinalizadasPorMeses = await this.obterTotalDeConsultasFinalizadasPorMeses(meses);
+
+    return {
+      totalDeConsultasPorMeses,
+      totalDeConsultasFinalizadasPorMeses
+    };
+  }
+
+  public async obterStatusPacientes (meses: number): Promise<StatusPacientes> {
+    const queryBuilder = this.repository.createQueryBuilder('consultas');
+
+    queryBuilder.leftJoinAndSelect('consultas.paciente', 'pacientes');
+    queryBuilder.select('COUNT(consultas.id)', 'quantidade');
+    queryBuilder.addSelect('CAST(STRFTIME("%Y.%m%d", "now") - STRFTIME("%Y.%m%d", pacientes.dataNascimento) AS INTEGER)', 'idade');
+
+    queryBuilder.where('consultas.dataAtualizacao BETWEEN DATETIME("now", "start of month", "-:meses month") AND DATETIME("now")', { meses });
+    queryBuilder.andWhere('consultas.finalizada = 1');
+
+    queryBuilder.groupBy('idade'); // Deveria agrupar pelo paciente também?
+    queryBuilder.orderBy('quantidade', 'DESC');
+
+    return await queryBuilder.getRawMany();
   }
 }

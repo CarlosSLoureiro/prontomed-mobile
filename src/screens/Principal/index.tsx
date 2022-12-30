@@ -38,7 +38,7 @@ const Principal = (): JSX.Element => {
         onPageSelected={(event: PagerViewOnPageSelectedEvent) => setPaginaSelecionada(event.nativeEvent.position)}
         ref={pagerRef}
       >
-        <Inicio key="0"/>
+        <Inicio paginaAtiva={paginaSelecionada === 0} key="0"/>
         <Consultas paginaAtiva={paginaSelecionada === 1} key="1"/>
         <Pacientes paginaAtiva={paginaSelecionada === 2} key="2"/>
         <Ajustes key="3"/>
