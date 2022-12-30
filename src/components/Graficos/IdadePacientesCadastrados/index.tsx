@@ -10,49 +10,49 @@ const Grafico = (): JSX.Element => {
     {
       name: '→ < 18',
       pacientes: 20,
-      color: 'rgba(0, 126, 23, 1)',
+      color: '#71ff8b',
       legendFontColor: '#7F7F7F',
       legendFontSize: 15
     },
     {
       name: '→ 18 ~ 30',
       pacientes: 30,
-      color: '#1e00ff',
+      color: '#8070ff',
       legendFontColor: '#7F7F7F',
       legendFontSize: 15
     },
     {
       name: '→ 31 ~ 40',
       pacientes: 50,
-      color: '#950000',
+      color: '#904646',
       legendFontColor: '#7F7F7F',
       legendFontSize: 15
     },
     {
       name: '→ 41 ~ 50',
       pacientes: 30,
-      color: '#ff0000',
+      color: '#ff5353',
       legendFontColor: '#7F7F7F',
       legendFontSize: 15
     },
     {
       name: '→ 51 ~ 60',
       pacientes: 60,
-      color: '#00ffd0',
+      color: '#6ee4ce',
       legendFontColor: '#7F7F7F',
       legendFontSize: 15
     },
     {
       name: '→ 61 ~ 70',
       pacientes: 30,
-      color: '#9400f0',
+      color: '#c76dff',
       legendFontColor: '#7F7F7F',
       legendFontSize: 15
     },
     {
       name: '→ > 70',
       pacientes: 20,
-      color: '#f000ec',
+      color: '#ff8cfd',
       legendFontColor: '#7F7F7F',
       legendFontSize: 15
     }

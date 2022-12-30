@@ -27,10 +27,10 @@ const getStyles = () => {
       borderRadius: 15
     },
     consultasCadastradas: {
-      color: DefaultTheme.colors.primary
+      color: '#f192ff'
     },
     consultasFinalizadas: {
-      color: '#00ffee'
+      color: '#68fff5'
     }
 
   });
