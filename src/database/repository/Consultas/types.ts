@@ -32,3 +32,10 @@ export interface StatusConsultas {
   totalDeConsultasPorMeses: Array<ValoresStatusConsultas>;
   totalDeConsultasFinalizadasPorMeses: Array<ValoresStatusConsultas>;
 }
+
+export interface ValoresStatusPacientes {
+  idade: number;
+  quantidade: number;
+}
+
+export type StatusPacientes = Array<ValoresStatusPacientes>;

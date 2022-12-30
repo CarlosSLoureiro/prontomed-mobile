@@ -24,6 +24,17 @@ const getStyles = () => {
       shadowRadius: 2,
       shadowColor: '#545454',
       borderRadius: 15
+    },
+    config: {
+      backgroundColor: '#ffffff',
+      backgroundGradientFrom: '#ffffff',
+      backgroundGradientTo: '#ffffff',
+      decimalPlaces: 0,
+      color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+      labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+      style: {
+        borderRadius: 16
+      }
     }
   });
 };

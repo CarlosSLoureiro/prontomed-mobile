@@ -3,7 +3,7 @@ import Paciente from '@entity/Paciente';
 
 import ConsultasRepositoryInterface from './interface';
 
-import { StatusConsultas } from './types';
+import { StatusConsultas, StatusPacientes } from './types';
 
 let consultas: Array<Consulta> = [];
 
@@ -53,5 +53,9 @@ export default class PacientesRepositoryMock implements ConsultasRepositoryInter
       totalDeConsultasFinalizadasPorMeses: [],
       totalDeConsultasPorMeses: []
     });
+  }
+
+  public async obterStatusPacientes (meses: number): Promise<StatusPacientes> {
+    return await Promise.resolve([]);
   }
 }

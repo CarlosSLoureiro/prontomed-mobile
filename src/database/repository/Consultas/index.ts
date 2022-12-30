@@ -5,7 +5,7 @@ import Paciente from '@entity/Paciente';
 
 import ConsultasRepositoryInterface from './interface';
 
-import { FiltrosDeBuscarConsultasContrato, StatusConsultas, ValoresStatusConsultas } from './types';
+import { FiltrosDeBuscarConsultasContrato, StatusConsultas, StatusPacientes, ValoresStatusConsultas } from './types';
 
 import moment from 'moment';
 
@@ -142,7 +142,9 @@ export default class ConsultasRepository implements ConsultasRepositoryInterface
 
     queryBuilder.select('COUNT(consultas.id)', 'quantidade');
     queryBuilder.addSelect('CAST(STRFTIME("%m", consultas.dataCriacao) AS INTEGER)', 'mes');
+
     queryBuilder.where('consultas.dataCriacao BETWEEN date("now", "start of month", "-:meses month") AND date("now")', { meses });
+
     queryBuilder.groupBy('mes');
     queryBuilder.orderBy('mes', 'ASC');
 
@@ -154,8 +156,10 @@ export default class ConsultasRepository implements ConsultasRepositoryInterface
 
     queryBuilder.select('COUNT(consultas.id)', 'quantidade');
     queryBuilder.addSelect('CAST(STRFTIME("%m", consultas.dataAtualizacao) AS INTEGER)', 'mes');
+
     queryBuilder.where('consultas.dataAtualizacao BETWEEN date("now", "start of month", "-:meses month") AND date("now")', { meses });
     queryBuilder.andWhere('consultas.finalizada = 1');
+
     queryBuilder.groupBy('mes');
     queryBuilder.orderBy('mes', 'ASC');
 
@@ -170,5 +174,21 @@ export default class ConsultasRepository implements ConsultasRepositoryInterface
       totalDeConsultasPorMeses,
       totalDeConsultasFinalizadasPorMeses
     };
+  }
+
+  public async obterStatusPacientes (meses: number): Promise<StatusPacientes> {
+    const queryBuilder = this.repository.createQueryBuilder('consultas');
+
+    queryBuilder.leftJoinAndSelect('consultas.paciente', 'pacientes');
+    queryBuilder.select('COUNT(consultas.id)', 'quantidade');
+    queryBuilder.addSelect('CAST(STRFTIME("%Y.%m%d", "now") - strftime("%Y.%m%d", pacientes.dataNascimento) AS INTEGER)', 'idade');
+
+    queryBuilder.where('consultas.dataAtualizacao BETWEEN date("now", "start of month", "-:meses month") AND date("now")', { meses });
+    queryBuilder.andWhere('consultas.finalizada = 1');
+
+    queryBuilder.groupBy('idade'); // Deveria agrupar pelo paciente também?
+    queryBuilder.orderBy('quantidade', 'DESC');
+
+    return await queryBuilder.getRawMany();
   }
 }
