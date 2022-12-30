@@ -6,15 +6,15 @@ ProntoMed é um aplicativo de prontuário eletrônico feito com [React Native 0.
 
 # ✅ Guia de Controle
 
-- [x] TypeScript
-- [x] Expo
+- [x] Feito com TypeScript
+- [x] Utilizando Expo
 - [x] Banco de Dados SQLite local com TypeORM
 - [x] Testes com Jest
 - [x] Validação de sintaxe com ESLint + Husky
 - [x] Testes + Validação de sintaxe com Github Actions
 - [x] Integração com calendário do sistema
 - [x] Compatível com sistemas Android e iOS
-- [ ] Compatível com recurso Modo Escuro
+- [ ] Compatível com modo Modo Escuro
 
 # 💻 Pré-requisitos
 
