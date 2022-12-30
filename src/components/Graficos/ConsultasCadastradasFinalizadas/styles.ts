@@ -31,8 +31,23 @@ const getStyles = () => {
     },
     consultasFinalizadas: {
       color: '#68fff5'
+    },
+    config: {
+      backgroundColor: '#ffffff',
+      backgroundGradientFrom: '#ffffff',
+      backgroundGradientTo: '#ffffff',
+      decimalPlaces: 0,
+      color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+      labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+      style: {
+        borderRadius: 16
+      },
+      propsForDots: {
+        r: '5',
+        strokeWidth: '2'
+        // stroke: '#ffa726'
+      }
     }
-
   });
 };
 

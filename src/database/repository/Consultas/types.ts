@@ -22,3 +22,13 @@ export interface FiltrosDeBuscarConsultasContrato {
   datas?: DatasConsultasContrato;
   ordenacao: OrdenacaoConsultasContrato;
 }
+
+export interface ValoresStatusConsultas {
+  mes: number;
+  quantidade: number;
+}
+
+export interface StatusConsultas {
+  totalDeConsultasPorMeses: Array<ValoresStatusConsultas>;
+  totalDeConsultasFinalizadasPorMeses: Array<ValoresStatusConsultas>;
+}

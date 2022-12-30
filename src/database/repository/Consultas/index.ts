@@ -5,7 +5,7 @@ import Paciente from '@entity/Paciente';
 
 import ConsultasRepositoryInterface from './interface';
 
-import { FiltrosDeBuscarConsultasContrato } from './types';
+import { FiltrosDeBuscarConsultasContrato, StatusConsultas, ValoresStatusConsultas } from './types';
 
 import moment from 'moment';
 
@@ -135,5 +135,40 @@ export default class ConsultasRepository implements ConsultasRepositoryInterface
 
   public async excluir (consulta: Consulta): Promise<Consulta> {
     return await this.repository.remove(consulta);
+  }
+
+  private async obterTotalDeConsultasPorMeses (meses: number): Promise<Array<ValoresStatusConsultas>> {
+    const queryBuilder = this.repository.createQueryBuilder('consultas');
+
+    queryBuilder.select('COUNT(consultas.id)', 'quantidade');
+    queryBuilder.addSelect('CAST(STRFTIME("%m", consultas.dataCriacao) AS INTEGER)', 'mes');
+    queryBuilder.where('consultas.dataCriacao BETWEEN date("now", "start of month", "-:meses month") AND date("now")', { meses });
+    queryBuilder.groupBy('mes');
+    queryBuilder.orderBy('mes', 'ASC');
+
+    return await queryBuilder.getRawMany();
+  }
+
+  private async obterTotalDeConsultasFinalizadasPorMeses (meses: number): Promise<Array<ValoresStatusConsultas>> {
+    const queryBuilder = this.repository.createQueryBuilder('consultas');
+
+    queryBuilder.select('COUNT(consultas.id)', 'quantidade');
+    queryBuilder.addSelect('CAST(STRFTIME("%m", consultas.dataAtualizacao) AS INTEGER)', 'mes');
+    queryBuilder.where('consultas.dataAtualizacao BETWEEN date("now", "start of month", "-:meses month") AND date("now")', { meses });
+    queryBuilder.andWhere('consultas.finalizada = 1');
+    queryBuilder.groupBy('mes');
+    queryBuilder.orderBy('mes', 'ASC');
+
+    return await queryBuilder.getRawMany();
+  }
+
+  public async obterStatus (meses: number): Promise<StatusConsultas> {
+    const totalDeConsultasPorMeses = await this.obterTotalDeConsultasPorMeses(meses);
+    const totalDeConsultasFinalizadasPorMeses = await this.obterTotalDeConsultasFinalizadasPorMeses(meses);
+
+    return {
+      totalDeConsultasPorMeses,
+      totalDeConsultasFinalizadasPorMeses
+    };
   }
 }
