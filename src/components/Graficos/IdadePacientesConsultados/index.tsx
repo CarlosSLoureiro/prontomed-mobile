@@ -33,17 +33,7 @@ const Grafico = ({
             }}
             width={Dimensions.get('window').width - 20}
             height={220}
-            chartConfig={{
-              backgroundColor: '#ffffff',
-              backgroundGradientFrom: '#ffffff',
-              backgroundGradientTo: '#ffffff',
-              decimalPlaces: 0,
-              color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-              labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-              style: {
-                borderRadius: 16
-              }
-            }}
+            chartConfig={styles.config}
             yAxisLabel=""
             yAxisSuffix=""
             verticalLabelRotation={0}
