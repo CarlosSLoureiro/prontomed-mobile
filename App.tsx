@@ -8,6 +8,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { DatabaseProvider } from '@database';
 
+import ThemeScheme from '@hooks/useThemeScheme';
+
 import Apresentacao from '@screens/Apresentacao';
 import Principal from '@screens/Principal';
 
@@ -24,8 +26,8 @@ const App = (): JSX.Element => {
       <NotifierWrapper>
         <Provider>
           <StatusBar
-            backgroundColor="white"
-            barStyle='dark-content'
+            backgroundColor={ThemeScheme.isDarkModeScheme() ? 'black' : 'white'}
+            barStyle={ThemeScheme.isDarkModeScheme() ? 'light-content' : 'dark-content'}
           />
           <NavigationContainer>
             <Stack.Navigator screenOptions={{
