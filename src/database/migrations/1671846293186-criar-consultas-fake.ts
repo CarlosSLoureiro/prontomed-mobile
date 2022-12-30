@@ -11,6 +11,7 @@ const QUANTIDADE = 100;
 
 export default class CriarConsultasFake1671846293186 implements MigrationInterface {
   public async up (queryRunner: QueryRunner): Promise<void> {
+    global.deveRecarregarGraficos = true;
     await this.criaConsultasDoMesesAnteriores(queryRunner);
     await this.criaConsultasDoMesAtual(queryRunner);
   }

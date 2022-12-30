@@ -31,10 +31,22 @@ const Inicio = ({
     const dados = await helper.executar();
     setDadosIdadePacientesConsultados(dados);
   };
+
+  const carregarDados = (): void => {
+    void obterDadosConsultasCadastradasFinalizadas();
+    void obterDadosIdadePacientesConsultados();
+  };
+
   useEffect(() => {
     if (paginaAtiva) {
-      void obterDadosConsultasCadastradasFinalizadas();
-      void obterDadosIdadePacientesConsultados();
+      carregarDados();
+    }
+
+    if (global.deveRecarregarGraficos === true) {
+      setTimeout(() => {
+        carregarDados();
+      }, 1000);
+      global.deveRecarregarGraficos = false;
     }
   }, [paginaAtiva]);
 
