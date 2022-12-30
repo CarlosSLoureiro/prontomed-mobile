@@ -384,15 +384,15 @@ const Consultas = ({
       return 'Suas consultas agendadas para hoje';
     } else if (totalConsultas > 0) {
       const consultasRegistradas = totalConsultas > 1 ? 'consultas registradas' : 'consulta registrada';
-      const consultasAgendadasStr = totalConsultasAgendadas > 1 ? 'consultas agendadas' : 'consulta agendada';
+      const consultasPendentesStr = totalConsultasAgendadas > 1 ? 'consultas pendentes' : 'consulta pendente';
       const atrasadasStr = totalConsultasAtrasadas > 1 ? 'atrasadas' : 'atrasada';
 
       if (todasAsBuscas) {
         return `Você possui ${totalConsultas} ${consultasRegistradas}`;
       } else if (totalConsultasAtrasadas > 0) {
-        return `Você possui ${totalConsultasAgendadas} ${consultasAgendadasStr} (${totalConsultasAtrasadas} ${atrasadasStr})`;
+        return `Você possui ${totalConsultasAgendadas} ${consultasPendentesStr} (${totalConsultasAtrasadas} ${atrasadasStr})`;
       } else {
-        return `Você possui ${totalConsultasAgendadas} ${consultasAgendadasStr}`;
+        return `Você possui ${totalConsultasAgendadas} ${consultasPendentesStr}`;
       }
     } else {
       return 'Você não possui consultas registradas';
