@@ -11,19 +11,26 @@ export default class ObterStatusConsultasHelper {
 
   private preencheResultados (mesesTotais: Array<ValoresStatusConsultas>, meses: number): void {
     // Preenche os meses restantes caso não haja o resultado de meses esperados
+    const mesAtual = (new Date()).getMonth() + 1;
+
     if (mesesTotais.length < meses) {
-      const ultimoMes = mesesTotais[mesesTotais.length - 1].mes;
+      const ultimoMes = mesesTotais.length > 0 ? mesesTotais[mesesTotais.length - 1].mes : mesAtual;
 
       for (let i = mesesTotais.length; i < meses; i++) {
-        const quantidade = 0;
         let mes = ultimoMes - i;
 
         if (mes < 1) {
           mes += 12;
         }
 
-        mesesTotais.unshift({ mes, quantidade });
+        mesesTotais.unshift({ mes, quantidade: 0 });
       }
+    }
+
+    const ultimoMes = mesesTotais[mesesTotais.length - 1].mes;
+
+    if (ultimoMes !== mesAtual) {
+      mesesTotais.push({ mes: mesAtual, quantidade: 0 });
     }
   }
 
