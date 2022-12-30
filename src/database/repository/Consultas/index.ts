@@ -143,7 +143,7 @@ export default class ConsultasRepository implements ConsultasRepositoryInterface
     queryBuilder.select('COUNT(consultas.id)', 'quantidade');
     queryBuilder.addSelect('CAST(STRFTIME("%m", consultas.dataCriacao) AS INTEGER)', 'mes');
 
-    queryBuilder.where('consultas.dataCriacao BETWEEN date("now", "start of month", "-:meses month") AND date("now")', { meses });
+    queryBuilder.where('consultas.dataCriacao BETWEEN DATETIME("now", "start of month", "-:meses month") AND DATETIME("now")', { meses });
 
     queryBuilder.groupBy('mes');
     queryBuilder.orderBy('mes', 'ASC');
@@ -157,7 +157,7 @@ export default class ConsultasRepository implements ConsultasRepositoryInterface
     queryBuilder.select('COUNT(consultas.id)', 'quantidade');
     queryBuilder.addSelect('CAST(STRFTIME("%m", consultas.dataAtualizacao) AS INTEGER)', 'mes');
 
-    queryBuilder.where('consultas.dataAtualizacao BETWEEN date("now", "start of month", "-:meses month") AND date("now")', { meses });
+    queryBuilder.where('consultas.dataAtualizacao BETWEEN DATETIME("now", "start of month", "-:meses month") AND DATETIME("now")', { meses });
     queryBuilder.andWhere('consultas.finalizada = 1');
 
     queryBuilder.groupBy('mes');
@@ -181,9 +181,9 @@ export default class ConsultasRepository implements ConsultasRepositoryInterface
 
     queryBuilder.leftJoinAndSelect('consultas.paciente', 'pacientes');
     queryBuilder.select('COUNT(consultas.id)', 'quantidade');
-    queryBuilder.addSelect('CAST(STRFTIME("%Y.%m%d", "now") - strftime("%Y.%m%d", pacientes.dataNascimento) AS INTEGER)', 'idade');
+    queryBuilder.addSelect('CAST(STRFTIME("%Y.%m%d", "now") - STRFTIME("%Y.%m%d", pacientes.dataNascimento) AS INTEGER)', 'idade');
 
-    queryBuilder.where('consultas.dataAtualizacao BETWEEN date("now", "start of month", "-:meses month") AND date("now")', { meses });
+    queryBuilder.where('consultas.dataAtualizacao BETWEEN DATETIME("now", "start of month", "-:meses month") AND DATETIME("now")', { meses });
     queryBuilder.andWhere('consultas.finalizada = 1');
 
     queryBuilder.groupBy('idade'); // Deveria agrupar pelo paciente também?
