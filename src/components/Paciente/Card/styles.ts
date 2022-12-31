@@ -9,7 +9,7 @@ const getStyles = () => {
 
   return StyleSheet.create({
     card: {
-      backgroundColor: '#ffffff',
+      backgroundColor: isDarkMode ? '#000' : '#fff',
       marginHorizontal: 4,
       marginVertical: 8,
       alignSelf: 'center',
@@ -22,22 +22,22 @@ const getStyles = () => {
             return {
               name: 'male',
               type: 'Fontisto',
-              color: '#545454',
-              backgrounColor: '#cce2ff'
+              color: isDarkMode ? '#b1b1b1' : '#545454',
+              backgrounColor: isDarkMode ? '#34455a' : '#cce2ff'
             };
           case Generos.FEMININO:
             return {
               name: 'female',
               type: 'Fontisto',
-              color: '#545454',
-              backgrounColor: '#feccff'
+              color: isDarkMode ? '#b1b1b1' : '#545454',
+              backgrounColor: isDarkMode ? '#57325a' : '#feccff'
             };
           default:
             return {
               name: 'user',
               type: 'FontAwesome',
-              color: '#545454',
-              backgrounColor: '#fffdcc'
+              color: isDarkMode ? '#b1b1b1' : '#545454',
+              backgrounColor: isDarkMode ? '#5d5a2c' : '#fffdcc'
             };
         }
       }
