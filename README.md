@@ -14,7 +14,7 @@ ProntoMed é um aplicativo de prontuário eletrônico feito com [React Native 0.
 - [x] Testes + Validação de sintaxe com Github Actions
 - [x] Integração com calendário do sistema
 - [x] Compatível com sistemas Android e iOS
-- [ ] Compatível com modo Modo Escuro
+- [x] Compatível com modo Modo Escuro
 
 # 💻 Pré-requisitos
 
