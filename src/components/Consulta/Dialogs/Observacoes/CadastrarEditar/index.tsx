@@ -75,7 +75,7 @@ const CadastrarEditarObservacao = ({
 
   return (
       <Dialog theme={theme} visible={visivel} onDismiss={cancelar} style={{ marginBottom: Platform.OS === 'ios' ? posicaoDialog : 0 }}>
-        <Dialog.Title>Agendar consulta</Dialog.Title>
+        <Dialog.Title>Cadastrar observação</Dialog.Title>
         <Dialog.Content>
             <TextArea
                 focar={true}
