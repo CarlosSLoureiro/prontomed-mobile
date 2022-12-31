@@ -9,8 +9,8 @@ const getStyles = () => {
       marginRight: -10
     },
     fab: {
-      backgroundColor: isDarkMode ? '#000' : '#fff',
-      shadowColor: isDarkMode ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)'
+      backgroundColor: isDarkMode ? '#151515' : '#fff',
+      shadowColor: isDarkMode ? 'rgba(255, 255, 255, 0.25)' : 'rgba(0, 0, 0, 0.5)'
     }
   };
 };
