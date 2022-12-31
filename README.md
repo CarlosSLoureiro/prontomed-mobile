@@ -4,6 +4,8 @@
 
 ProntoMed é um aplicativo de prontuário eletrônico feito com [React Native 0.70.6](https://reactnative.dev) onde o médico pode cadastrar as informações do paciente e fazer os registros das consultas realizadas por paciente.
 
+<img src="https://user-images.githubusercontent.com/19580424/210141134-db7e911e-a9e1-427d-a51f-83f62b2bfb10.mov" />
+
 # ✅ Guia de Controle
 
 - [x] Feito com TypeScript
