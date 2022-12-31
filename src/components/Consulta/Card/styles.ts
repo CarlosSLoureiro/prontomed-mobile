@@ -13,10 +13,10 @@ const getStyles = () => {
       ultimo: {
         marginBottom: 130
       },
-      backgroundColorDoDia: isDarkMode ? '#373645' : '#edf8ff',
-      backgroundColorAgendada: isDarkMode ? '#363f45' : '#fff',
-      backgroundColorFinalizada: isDarkMode ? '#313731' : '#eeffed',
-      backgroundColorAtrasada: isDarkMode ? '#4b4343' : '#ffeded'
+      backgroundColorDoDia: isDarkMode ? '#27262f' : '#edf8ff',
+      backgroundColorAgendada: isDarkMode ? '#23292d' : '#fff',
+      backgroundColorFinalizada: isDarkMode ? '#202420' : '#eeffed',
+      backgroundColorAtrasada: isDarkMode ? '#312c2c' : '#ffeded'
     },
     texts: {
       color: isDarkMode ? 'white' : 'black'
@@ -33,7 +33,7 @@ const getStyles = () => {
       text: {
         fontSize: 24,
         paddingLeft: 5,
-        color: isDarkMode ? 'white' : 'black'
+        color: '#797979'
       }
     }
   });

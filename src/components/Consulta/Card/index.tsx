@@ -65,11 +65,9 @@ const ConsultaCard = ({
           style={ultimo ? { ...styles.card, ...styles.card.ultimo } : styles.card}
           backgroundColor={obterCorDoCard()}
           title={moment(consulta.dataAgendada).format('DD/MM/YYYY [as] HH[h]mm')}
-          topRightTextStyle={styles.texts}
-          bottomRightTextStyle={styles.texts}
           topRightText={`Nº ${consulta.id}`}
           bottomRightComponent={<View style={styles.icon}>
-            <Icon type="MaterialCommunityIcons" name="message-reply-text-outline" size={styles.icon.size} style={styles.texts} />
+            <Icon type="MaterialCommunityIcons" name="message-reply-text-outline" size={styles.icon.size} color={styles.icon.text.color}/>
             <Text style={styles.icon.text}>{ consulta.observacoes?.length }</Text>
           </View>}
           description={`Paciente ${consulta.paciente !== null ? consulta.paciente.nome : 'excluído'}`}
