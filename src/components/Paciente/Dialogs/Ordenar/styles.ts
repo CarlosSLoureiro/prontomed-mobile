@@ -1,24 +1,15 @@
 import { StyleSheet } from 'react-native';
-import { DefaultTheme } from 'react-native-paper';
 
 import ThemeScheme from '@hooks/useThemeScheme';
 
 const getStyles = () => {
   const isDarkMode = ThemeScheme.isDarkModeScheme();
+  const theme = ThemeScheme.getTheme();
 
   return StyleSheet.create({
-    dialog: {
-      backgroundColor: '#ffffff',
-      title: {
-        color: '#000000'
-      },
-      labels: {
-        color: '#000000',
-        checked: DefaultTheme.colors.primary
-      },
-      botoes: {
-        color: '#000000'
-      }
+    botoes: {
+      color: isDarkMode ? '#fff' : '#000',
+      labelsChecked: theme.colors.primary
     }
   });
 };
