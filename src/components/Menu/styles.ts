@@ -1,10 +1,8 @@
-import { DarkTheme, DefaultTheme } from 'react-native-paper';
-
 import ThemeScheme from '@hooks/useThemeScheme';
 
 const getStyles = () => {
   const isDarkMode = ThemeScheme.isDarkModeScheme();
-  const theme = isDarkMode ? DarkTheme : DefaultTheme;
+  const theme = ThemeScheme.getTheme();
 
   return {
     menu: {
