@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { DarkTheme, DefaultTheme, TextInput as PaperTextInput } from 'react-native-paper';
+import { TextInput as PaperTextInput } from 'react-native-paper';
 import { DatePickerModal, pt, registerTranslation } from 'react-native-paper-dates';
 
 import ThemeScheme from '@hooks/useThemeScheme';
@@ -30,7 +30,7 @@ const DatePicker = ({
     <>
         <PaperTextInput
             ref={inputRef}
-            theme={isDarkMode ? DarkTheme : DefaultTheme}
+            theme={ThemeScheme.getTheme()}
             style={style}
             label={nome}
             showSoftInputOnFocus={false}
