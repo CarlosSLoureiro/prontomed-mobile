@@ -40,7 +40,7 @@ const ReagendarEmConflito = ({
           <Button labelStyle={styles.botoes} onPress={cancelar}>Cancelar</Button>
           <Button labelStyle={styles.botoes} onPress={continuar}>Continuar</Button>
         </Dialog.Actions>
-        </Dialog>
+      </Dialog>
   );
 };
 

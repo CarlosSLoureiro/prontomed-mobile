@@ -85,7 +85,7 @@ const Excluir = ({
           <Button labelStyle={styles.dialog.botoes} onPress={cancelar}>Cancelar</Button>
           <Button color={styles.dialog.excluir.color} labelStyle={styles.dialog.excluir} onPress={excluir}>Excluir</Button>
         </Dialog.Actions>
-        </Dialog>
+      </Dialog>
   );
 };
 

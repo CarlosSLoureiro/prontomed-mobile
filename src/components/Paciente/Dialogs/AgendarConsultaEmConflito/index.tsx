@@ -39,7 +39,7 @@ const AgendarConsultaEmConflito = ({
           <Button labelStyle={styles.dialog.botoes} onPress={cancelar}>Cancelar</Button>
           <Button labelStyle={styles.dialog.botoes} onPress={continuar}>Continuar</Button>
         </Dialog.Actions>
-        </Dialog>
+      </Dialog>
   );
 };
 

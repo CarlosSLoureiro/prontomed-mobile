@@ -53,7 +53,7 @@ const Excluir = ({
           <Button labelStyle={styles.botoes} onPress={cancelar}>Cancelar</Button>
           <Button color={styles.excluir.color} labelStyle={styles.excluir} onPress={excluir}>Excluir</Button>
         </Dialog.Actions>
-        </Dialog>
+      </Dialog>
   );
 };
 

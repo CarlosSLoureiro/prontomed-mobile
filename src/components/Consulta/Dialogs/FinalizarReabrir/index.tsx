@@ -77,7 +77,7 @@ const FinalizarReabrir = ({
           <Button labelStyle={styles.botoes} onPress={cancelar}>Cancelar</Button>
           <Button labelStyle={styles.botoes} onPress={finalizar ? finalizarConsulta : reabrirConsulta}>{finalizar ? 'Finalizar' : 'Reabrir'}</Button>
         </Dialog.Actions>
-        </Dialog>
+      </Dialog>
   );
 };
 
