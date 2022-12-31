@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Switch, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Button, Dialog, Divider } from 'react-native-paper';
+import { Button, Dialog, Divider, useTheme } from 'react-native-paper';
 
 import { BuscarConsultasContrato } from '@repository/Consultas/types';
 
@@ -17,7 +17,9 @@ const Buscar = ({
   callback,
   valorAtual
 }: BuscarConsultaContrato): JSX.Element => {
+  const theme = useTheme();
   const styles = getStyles();
+
   const [valoresAtuais, setValoresAtuais] = useState<BuscarConsultasContrato>();
   const [icone, setIcone] = useState<string>('clipboard-list-outline');
   const [valor, setValor] = useState<string>('');
@@ -66,8 +68,8 @@ const Buscar = ({
   };
 
   return (
-      <Dialog visible={visivel} onDismiss={cancelar} style={styles.dialog}>
-        <ScrollView style={styles.dialog} keyboardShouldPersistTaps="handled" enabled={false}>
+      <Dialog theme={theme} visible={visivel} onDismiss={cancelar}>
+        <ScrollView keyboardShouldPersistTaps="handled" enabled={false}>
           <Dialog.Title>Como deseja buscar?</Dialog.Title>
           <Dialog.Content>
             <TextInput
@@ -84,8 +86,8 @@ const Buscar = ({
             <Divider/>
           </Dialog.Content>
           <Dialog.Actions>
-            <Button labelStyle={styles.dialog.botoes} onPress={cancelar}>Cancelar</Button>
-            <Button labelStyle={styles.dialog.botoes} onPress={buscar}>Buscar</Button>
+            <Button labelStyle={styles.botoes} onPress={cancelar}>Cancelar</Button>
+            <Button labelStyle={styles.botoes} onPress={buscar}>Buscar</Button>
           </Dialog.Actions>
         </ScrollView>
       </Dialog>

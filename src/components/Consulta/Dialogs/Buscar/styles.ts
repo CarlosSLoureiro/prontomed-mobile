@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-import { DefaultTheme } from 'react-native-paper';
 
 import ThemeScheme from '@hooks/useThemeScheme';
 
@@ -7,18 +6,16 @@ const getStyles = () => {
   const isDarkMode = ThemeScheme.isDarkModeScheme();
 
   return StyleSheet.create({
-    dialog: {
-      backgroundColor: '#ffffff',
-      botoes: {
-        color: '#000000'
-      }
+    botoes: {
+      color: isDarkMode ? '#fff' : '#000'
     },
     incluirFinalizadas: {
       paddingVertical: 15,
-      backgroundColor: '#ffffff',
+      backgroundColor: 'transparent',
       text: {
         fontSize: 18,
-        left: 0
+        left: 0,
+        color: isDarkMode ? '#fff' : '#000'
       }
     },
     valor: {
