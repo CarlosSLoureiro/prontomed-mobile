@@ -12,7 +12,7 @@ const Legenda = (): JSX.Element => {
   return (
     <View style={styles.container}>
       <View style={styles.legendas}>
-        <Text>Legendas:</Text>
+        <Text style={styles.text}>Legendas:</Text>
         <Badge style={{ ...styles.badges, backgroundColor: cardStyles.card.backgroundColorAgendada }}>Agendadas</Badge>
         <Text>,</Text>
         <Badge style={{ ...styles.badges, backgroundColor: cardStyles.card.backgroundColorDoDia }}>Do dia</Badge>

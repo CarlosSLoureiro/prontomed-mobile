@@ -1,4 +1,5 @@
 import { ColorSchemeName, useColorScheme } from 'react-native';
+import { DarkTheme, DefaultTheme, Theme } from 'react-native-paper';
 
 import ThemeSchemeInterface from './interface';
 
@@ -12,8 +13,9 @@ class ThemeScheme implements ThemeSchemeInterface {
   }
 
   public getScheme = (): ColorSchemeName => useColorScheme();
-  public isDarkModeScheme = (): boolean => this.getScheme() === 'dark';
-  public isLightModeScheme = (): boolean => this.getScheme() === 'light';
+  public isDarkModeScheme = (): boolean => (global.isDarkMode = this.getScheme() === 'dark');
+  public isLightModeScheme = (): boolean => (global.isLightMode = this.getScheme() === 'light');
+  public getTheme = (): Theme => this.isDarkModeScheme() ? DarkTheme : DefaultTheme;
 }
 
 export default ThemeScheme.Instancia;

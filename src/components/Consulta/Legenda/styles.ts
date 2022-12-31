@@ -9,6 +9,9 @@ const getStyles = () => {
     container: {
       justifyContent: 'center'
     },
+    text: {
+      color: isDarkMode ? 'white' : 'black'
+    },
     legendas: {
       alignItems: 'center',
       justifyContent: 'center',

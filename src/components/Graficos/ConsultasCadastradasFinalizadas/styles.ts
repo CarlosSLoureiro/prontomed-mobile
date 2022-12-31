@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native';
-import { DefaultTheme } from 'react-native-paper';
 
 import ThemeScheme from '@hooks/useThemeScheme';
 
@@ -23,29 +22,28 @@ const getStyles = () => {
       },
       shadowOpacity: 1,
       shadowRadius: 2,
-      shadowColor: '#545454',
+      shadowColor: isDarkMode ? '#b3b3b3' : '#545454',
       borderRadius: 15
     },
     consultasCadastradas: {
-      color: '#f192ff'
+      color: isDarkMode ? '#88d1ff' : '#1aa7ff'
     },
     consultasFinalizadas: {
-      color: '#68fff5'
+      color: isDarkMode ? '#ff92f6' : '#ff3ae1'
     },
     config: {
-      backgroundColor: '#ffffff',
-      backgroundGradientFrom: '#ffffff',
-      backgroundGradientTo: '#ffffff',
+      backgroundColor: isDarkMode ? '#000' : '#fff',
+      backgroundGradientFrom: isDarkMode ? '#000' : '#fff',
+      backgroundGradientTo: isDarkMode ? '#000' : '#fff',
       decimalPlaces: 0,
-      color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-      labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+      color: (opacity = 1) => isDarkMode ? `rgba(255, 255, 255, ${opacity})` : `rgba(0, 0, 0, ${opacity})`,
+      labelColor: (opacity = 1) => isDarkMode ? `rgba(255, 255, 255, ${opacity})` : `rgba(0, 0, 0, ${opacity})`,
       style: {
         borderRadius: 16
       },
       propsForDots: {
         r: '5',
         strokeWidth: '2'
-        // stroke: '#ffa726'
       }
     }
   });

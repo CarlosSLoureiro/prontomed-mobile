@@ -1,5 +1,7 @@
 import { Notifier, NotifierComponents } from 'react-native-notifier';
 
+import ThemeScheme from '@hooks/useThemeScheme';
+
 import NotificationInterface from './interface';
 
 import { NotifierInterface, ShowNotificationParams } from 'react-native-notifier/lib/typescript/types';
@@ -32,12 +34,18 @@ class Notification implements NotificationInterface {
   }
 
   public error (params: Partial<ShowNotificationParams>): void {
+    const componentProps = global.isDarkMode
+      ? {
+          backgroundColor: '#630000'
+        }
+      : {
+          alertType: 'error'
+        };
+
     const defaultParams = {
       title: 'Error!',
       Component: NotifierComponents.Alert,
-      componentProps: {
-        alertType: 'error'
-      },
+      componentProps,
       duration: 3000
     };
 
@@ -45,12 +53,17 @@ class Notification implements NotificationInterface {
   }
 
   public success (params: Partial<ShowNotificationParams>): void {
+    const componentProps = global.isDarkMode
+      ? {
+          backgroundColor: '#005d00'
+        }
+      : {
+          alertType: 'success'
+        };
     const defaultParams = {
       title: 'Success!',
       Component: NotifierComponents.Alert,
-      componentProps: {
-        alertType: 'success'
-      },
+      componentProps,
       duration: 3000
     };
 
@@ -58,12 +71,18 @@ class Notification implements NotificationInterface {
   }
 
   public warn (params: Partial<ShowNotificationParams>): void {
+    const componentProps = global.isDarkMode
+      ? {
+          backgroundColor: '#9a6200'
+        }
+      : {
+          alertType: 'warn'
+        };
+
     const defaultParams = {
       title: 'Warn!',
       Component: NotifierComponents.Alert,
-      componentProps: {
-        alertType: 'warn'
-      },
+      componentProps,
       duration: 3000
     };
 
@@ -71,12 +90,18 @@ class Notification implements NotificationInterface {
   }
 
   public info (params: Partial<ShowNotificationParams>): void {
+    const componentProps = global.isDarkMode
+      ? {
+          backgroundColor: '#000989'
+        }
+      : {
+          alertType: 'info'
+        };
+
     const defaultParams = {
       title: 'Info!',
       Component: NotifierComponents.Alert,
-      componentProps: {
-        alertType: 'info'
-      },
+      componentProps,
       duration: 3000
     };
 

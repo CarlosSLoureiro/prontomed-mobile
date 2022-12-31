@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
 import { FAB } from 'react-native-paper';
 
+import getStyles from './styles';
+
 import { MenuBotao, MenuOpcoesContrato } from './types';
 
 const MenuOpcoes = ({
   visivel,
   botoes
 }: MenuOpcoesContrato): JSX.Element => {
+  const styles = getStyles();
   const [aberto, setAberto] = useState(false);
 
   const [menuBotoes, setMenuBotoes] = useState<MenuBotao>([]);
@@ -31,13 +34,9 @@ const MenuOpcoes = ({
         <FAB.Group
             visible={visivel}
             open={aberto}
-            style={{
-              paddingBottom: 100,
-              marginRight: -10
-            }}
-            fabStyle={{
-              backgroundColor: '#fff'
-            }}
+            style={styles.container}
+            fabStyle={styles.fab}
+            backdropColor={styles.fab.shadowColor}
             icon={aberto ? 'calendar-account-outline' : 'plus'}
             actions={menuBotoes}
             onStateChange={({ open }) => setAberto(open)}

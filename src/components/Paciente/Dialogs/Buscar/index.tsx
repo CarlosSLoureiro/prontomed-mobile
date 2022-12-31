@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Button, Dialog, Divider } from 'react-native-paper';
+import { Button, Dialog, Divider, useTheme } from 'react-native-paper';
 
 import { Generos, TiposSanguineos } from '@entity/Paciente/enums';
 
@@ -25,6 +25,9 @@ const Buscar = ({
   callback,
   valorAtual
 }: BuscarPacienteContrato): JSX.Element => {
+  const theme = useTheme();
+  const styles = getStyles();
+
   const [valoresAtuais, setValoresAtuais] = useState<ValoresAtuaisFormulario>();
 
   useEffect(() => {
@@ -33,7 +36,6 @@ const Buscar = ({
       resetarFormulario();
     }
   }, [valorAtual]);
-  const styles = getStyles();
 
   const resetarFormulario = (): void => {
     setNome('');
@@ -135,8 +137,8 @@ const Buscar = ({
   };
 
   return (
-      <Dialog visible={visivel} onDismiss={cancelar} style={styles.dialog}>
-        <ScrollView style={styles.dialog} keyboardShouldPersistTaps="handled" enabled={false}>
+      <Dialog theme={theme} visible={visivel} onDismiss={cancelar}>
+        <ScrollView keyboardShouldPersistTaps="handled" enabled={false}>
           <Dialog.Title>Como deseja buscar?</Dialog.Title>
           <Dialog.Content>
             <TextInput
@@ -168,8 +170,8 @@ const Buscar = ({
             <Divider/>
           </Dialog.Content>
           <Dialog.Actions>
-            <Button labelStyle={styles.dialog.botoes} onPress={cancelar}>Cancelar</Button>
-            <Button labelStyle={styles.dialog.botoes} onPress={buscar}>Buscar</Button>
+            <Button labelStyle={styles.botoes} onPress={cancelar}>Cancelar</Button>
+            <Button labelStyle={styles.botoes} onPress={buscar}>Buscar</Button>
           </Dialog.Actions>
         </ScrollView>
       </Dialog>

@@ -7,11 +7,8 @@ const getStyles = () => {
   const isDarkMode = ThemeScheme.isDarkModeScheme();
 
   return StyleSheet.create({
-    dialog: {
-      backgroundColor: '#ffffff',
-      botoes: {
-        color: '#000000'
-      }
+    botoes: {
+      color: isDarkMode ? '#fff' : '#000'
     },
     nome: {
     },

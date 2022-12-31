@@ -1,7 +1,5 @@
 import { StyleSheet } from 'react-native';
 
-import { Generos } from '@entity/Paciente/enums';
-
 import ThemeScheme from '@hooks/useThemeScheme';
 
 const getStyles = () => {
@@ -15,10 +13,13 @@ const getStyles = () => {
       ultimo: {
         marginBottom: 130
       },
-      backgroundColorDoDia: '#edf8ff',
-      backgroundColorAgendada: '#ffffff',
-      backgroundColorFinalizada: '#eeffed',
-      backgroundColorAtrasada: '#ffeded'
+      backgroundColorDoDia: isDarkMode ? '#27262f' : '#edf8ff',
+      backgroundColorAgendada: isDarkMode ? '#23292d' : '#fff',
+      backgroundColorFinalizada: isDarkMode ? '#202420' : '#eeffed',
+      backgroundColorAtrasada: isDarkMode ? '#312c2c' : '#ffeded'
+    },
+    texts: {
+      color: isDarkMode ? 'white' : 'black'
     },
     icon: {
       flex: 1,
@@ -31,7 +32,8 @@ const getStyles = () => {
       size: 24,
       text: {
         fontSize: 24,
-        paddingLeft: 5
+        paddingLeft: 5,
+        color: '#797979'
       }
     }
   });

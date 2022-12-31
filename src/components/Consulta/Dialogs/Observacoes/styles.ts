@@ -7,11 +7,10 @@ const getStyles = () => {
 
   return StyleSheet.create({
     dialog: {
-      backgroundColor: '#ffffff',
-      maxHeight: '70%',
-      botoes: {
-        color: '#000000'
-      }
+      maxHeight: '70%'
+    },
+    botoes: {
+      color: isDarkMode ? '#fff' : '#000'
     },
     text: {
       fontSize: 16

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Dialog, Divider, Text } from 'react-native-paper';
+import { Button, Dialog, Divider, Text, useTheme } from 'react-native-paper';
 
 import Consulta from '@entity/Consulta';
 import { Generos } from '@entity/Paciente/enums';
@@ -18,7 +18,9 @@ const ReagendarConsulta = ({
   formularioRef,
   callback
 }: ReagendarConsultaContrato): JSX.Element => {
+  const theme = useTheme();
   const styles = getStyles();
+
   const [data, setData] = useState<Date | undefined>();
   const [consulta, setConsulta] = useState<Consulta | undefined>();
 
@@ -65,7 +67,7 @@ const ReagendarConsulta = ({
   }, [visivel]);
 
   return (
-      <Dialog visible={visivel} onDismiss={cancelar} style={styles.dialog}>
+      <Dialog theme={theme} visible={visivel} onDismiss={cancelar}>
         <Dialog.Title>Reagendar consulta Nº { consulta?.id }</Dialog.Title>
         <Dialog.Content>
           <Text style={styles.text}>
@@ -80,8 +82,8 @@ const ReagendarConsulta = ({
           <Divider/>
         </Dialog.Content>
         <Dialog.Actions>
-          <Button labelStyle={styles.dialog.botoes} onPress={cancelar}>Cancelar</Button>
-          <Button labelStyle={styles.dialog.botoes} onPress={reagendar}>Reagendar</Button>
+          <Button labelStyle={styles.botoes} onPress={cancelar}>Cancelar</Button>
+          <Button labelStyle={styles.botoes} onPress={reagendar}>Reagendar</Button>
         </Dialog.Actions>
       </Dialog>
   );

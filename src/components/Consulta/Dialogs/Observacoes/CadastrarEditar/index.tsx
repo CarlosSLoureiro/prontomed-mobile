@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Keyboard, Platform } from 'react-native';
-import { Button, Dialog, Divider } from 'react-native-paper';
+import { Button, Dialog, Divider, useTheme } from 'react-native-paper';
 
 import Observacao from '@entity/Observacao';
 
@@ -16,7 +16,9 @@ const CadastrarEditarObservacao = ({
   formularioRef,
   callback
 }: CadastrarObservacaoContrato): JSX.Element => {
+  const theme = useTheme();
   const styles = getStyles();
+
   const [observacao, setObservacao] = useState<Partial<Observacao>>({});
 
   const [posicaoDialog, setPosicaoDialog] = useState('70%');
@@ -72,8 +74,8 @@ const CadastrarEditarObservacao = ({
   };
 
   return (
-      <Dialog visible={visivel} onDismiss={cancelar} style={{ ...styles.dialog, marginBottom: Platform.OS === 'ios' ? posicaoDialog : 0 }}>
-        <Dialog.Title>Agendar consulta</Dialog.Title>
+      <Dialog theme={theme} visible={visivel} onDismiss={cancelar} style={{ marginBottom: Platform.OS === 'ios' ? posicaoDialog : 0 }}>
+        <Dialog.Title>Cadastrar observação</Dialog.Title>
         <Dialog.Content>
             <TextArea
                 focar={true}
@@ -88,8 +90,8 @@ const CadastrarEditarObservacao = ({
           <Divider/>
         </Dialog.Content>
         <Dialog.Actions>
-          <Button labelStyle={styles.dialog.botoes} onPress={cancelar}>Cancelar</Button>
-          <Button labelStyle={styles.dialog.botoes} onPress={salvar}>Salvar</Button>
+          <Button labelStyle={styles.botoes} onPress={cancelar}>Cancelar</Button>
+          <Button labelStyle={styles.botoes} onPress={salvar}>Salvar</Button>
         </Dialog.Actions>
       </Dialog>
   );

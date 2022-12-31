@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { KeyboardAvoidingView, Platform, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Button, Dialog, Divider } from 'react-native-paper';
+import { Button, Dialog, Divider, useTheme } from 'react-native-paper';
 
 import Paciente from '@entity/Paciente';
 import { Generos, TiposSanguineos } from '@entity/Paciente/enums';
@@ -22,7 +22,9 @@ const CadastrarEditar = ({
   cadastrarCallback,
   editarCallback
 }: CadastrarPacienteContrato): JSX.Element => {
+  const theme = useTheme();
   const styles = getStyles();
+
   const [modoEdicao, setModoEdicao] = useState(false);
   const scrollRef = useRef<ScrollView>(null);
   const [reposicionar, setReposicionar] = useState({
@@ -132,7 +134,7 @@ const CadastrarEditar = ({
   }, [reposicionar]);
 
   return (
-      <Dialog visible={visivel} onDismiss={cancelar} style={styles.dialog}>
+      <Dialog theme={theme} visible={visivel} onDismiss={cancelar}>
         <KeyboardAvoidingView
           behavior={(Platform.OS === 'android') ? 'height' : 'position'}
           keyboardVerticalOffset={reposicionar.valor}
@@ -140,7 +142,6 @@ const CadastrarEditar = ({
         >
           <ScrollView
             ref={scrollRef}
-            style={styles.dialog}
             keyboardShouldPersistTaps="handled"
             enabled={true}
           >
@@ -253,8 +254,8 @@ const CadastrarEditar = ({
               <Divider/>
             </Dialog.Content>
             <Dialog.Actions>
-              <Button labelStyle={styles.dialog.botoes} onPress={cancelar}>Cancelar</Button>
-              <Button labelStyle={styles.dialog.botoes} onPress={modoEdicao ? editar : cadastrar}>{modoEdicao ? 'Salvar' : 'Cadastrar'}</Button>
+              <Button labelStyle={styles.botoes} onPress={cancelar}>Cancelar</Button>
+              <Button labelStyle={styles.botoes} onPress={modoEdicao ? editar : cadastrar}>{modoEdicao ? 'Salvar' : 'Cadastrar'}</Button>
             </Dialog.Actions>
           </ScrollView>
           </KeyboardAvoidingView>

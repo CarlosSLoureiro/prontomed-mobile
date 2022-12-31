@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Dialog, Divider, Text } from 'react-native-paper';
+import { Button, Dialog, Divider, Text, useTheme } from 'react-native-paper';
 
 import Consulta from '@entity/Consulta';
 
@@ -14,7 +14,9 @@ const FinalizarReabrir = ({
   callbackFinalizar,
   callbackReabrir
 }: ExcluirConsultaContrato): JSX.Element => {
+  const theme = useTheme();
   const styles = getStyles();
+
   const [consulta, setConsulta] = useState<Consulta | undefined>();
   const [finalizar, setFinalizar] = useState(true);
 
@@ -63,7 +65,7 @@ const FinalizarReabrir = ({
   };
 
   return (
-      <Dialog visible={visivel} onDismiss={cancelar} style={styles.dialog}>
+      <Dialog theme={theme} visible={visivel} onDismiss={cancelar}>
         <Dialog.Title>Tem certeza?</Dialog.Title>
         <Dialog.Content>
           <Text style={styles.text}>
@@ -72,10 +74,10 @@ const FinalizarReabrir = ({
           <Divider/>
         </Dialog.Content>
         <Dialog.Actions>
-          <Button labelStyle={styles.dialog.botoes} onPress={cancelar}>Cancelar</Button>
-          <Button labelStyle={styles.dialog.botoes} onPress={finalizar ? finalizarConsulta : reabrirConsulta}>{finalizar ? 'Finalizar' : 'Reabrir'}</Button>
+          <Button labelStyle={styles.botoes} onPress={cancelar}>Cancelar</Button>
+          <Button labelStyle={styles.botoes} onPress={finalizar ? finalizarConsulta : reabrirConsulta}>{finalizar ? 'Finalizar' : 'Reabrir'}</Button>
         </Dialog.Actions>
-        </Dialog>
+      </Dialog>
   );
 };
 

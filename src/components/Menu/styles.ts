@@ -1,9 +1,8 @@
-import { DefaultTheme } from 'react-native-paper';
-
 import ThemeScheme from '@hooks/useThemeScheme';
 
 const getStyles = () => {
   const isDarkMode = ThemeScheme.isDarkModeScheme();
+  const theme = ThemeScheme.getTheme();
 
   return {
     menu: {
@@ -19,7 +18,7 @@ const getStyles = () => {
       }
     },
     item: {
-      activeColor: DefaultTheme.colors.primary,
+      activeColor: theme.colors.primary,
       inactiveColor: '#7d8094'
     }
   };

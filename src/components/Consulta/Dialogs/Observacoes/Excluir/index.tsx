@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Dialog, Divider, Text } from 'react-native-paper';
+import { Button, Dialog, Divider, Text, useTheme } from 'react-native-paper';
 
 import Observacao from '@entity/Observacao';
 
@@ -13,7 +13,9 @@ const Excluir = ({
   formularioRef,
   callback
 }: ExcluirObservacaoContrato): JSX.Element => {
+  const theme = useTheme();
   const styles = getStyles();
+
   const [observacao, setObservacao] = useState<Observacao | undefined>();
 
   const abrirDialog = (obs: Observacao): void => {
@@ -41,17 +43,17 @@ const Excluir = ({
   };
 
   return (
-      <Dialog visible={visivel} onDismiss={cancelar} style={styles.dialog}>
+      <Dialog theme={theme} visible={visivel} onDismiss={cancelar}>
         <Dialog.Title>Tem certeza?</Dialog.Title>
         <Dialog.Content>
           <Text style={styles.text}>A observação &ldquo;<Text style={styles.msg}>{ observacao?.mensagem }</Text>&rdquo; selecionada será excluída</Text>
           <Divider/>
         </Dialog.Content>
         <Dialog.Actions>
-          <Button labelStyle={styles.dialog.botoes} onPress={cancelar}>Cancelar</Button>
-          <Button color={styles.dialog.excluir.color} labelStyle={styles.dialog.excluir} onPress={excluir}>Excluir</Button>
+          <Button labelStyle={styles.botoes} onPress={cancelar}>Cancelar</Button>
+          <Button color={styles.excluir.color} labelStyle={styles.excluir} onPress={excluir}>Excluir</Button>
         </Dialog.Actions>
-        </Dialog>
+      </Dialog>
   );
 };
 

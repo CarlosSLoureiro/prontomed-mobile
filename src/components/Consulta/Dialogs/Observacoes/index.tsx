@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Button, Dialog, Divider, Text } from 'react-native-paper';
+import { Button, Dialog, Divider, Text, useTheme } from 'react-native-paper';
 
 import Consulta from '@entity/Consulta';
 import Observacao from '@entity/Observacao';
@@ -19,7 +19,9 @@ const Observacoes = ({
   callbackObservar,
   callbackExcluir
 }: ExibirObservacoesContrato): JSX.Element => {
+  const theme = useTheme();
   const styles = getStyles();
+
   const [consulta, setConsulta] = useState<Consulta | undefined>();
   const [cadastrarEditarVisivel, setCadastrarEditarVisivel] = useState(false);
   const [excluirVisivel, setExcluirVisivel] = useState(false);
@@ -56,7 +58,7 @@ const Observacoes = ({
 
   return (
     <>
-      <Dialog visible={visivel} onDismiss={fechar} style={styles.dialog}>
+      <Dialog theme={theme} visible={visivel} onDismiss={fechar} style={styles.dialog}>
         <Dialog.Title>Obs. da consulta Nº { consulta?.id }</Dialog.Title>
         {
           consulta?.observacoes !== undefined && consulta.observacoes?.length > 0
@@ -83,8 +85,8 @@ const Observacoes = ({
         }
         <Divider/>
         <Dialog.Actions>
-          <Button labelStyle={styles.dialog.botoes} onPress={fechar}>Fechar</Button>
-          <Button labelStyle={styles.dialog.botoes} onPress={() => setCadastrarEditarVisivel(true) }>Nova observação</Button>
+          <Button labelStyle={styles.botoes} onPress={fechar}>Fechar</Button>
+          <Button labelStyle={styles.botoes} onPress={() => setCadastrarEditarVisivel(true) }>Nova observação</Button>
         </Dialog.Actions>
       </Dialog>
       <CadastrarEditarObservacao

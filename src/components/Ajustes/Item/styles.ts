@@ -1,25 +1,29 @@
 import { StyleSheet } from 'react-native';
-import { DefaultTheme } from 'react-native-paper';
 
 import ThemeScheme from '@hooks/useThemeScheme';
 
 const getStyles = () => {
+  const theme = ThemeScheme.getTheme();
   const isDarkMode = ThemeScheme.isDarkModeScheme();
 
   return StyleSheet.create({
     item: {
       paddingVertical: 15,
-      backgroundColor: '#ffffff'
+      backgroundColor: isDarkMode ? '#000000' : '#ffffff'
     },
     text: {
       fontSize: 18,
       left: 0,
-      paddingLeft: 10
+      paddingLeft: 10,
+      color: isDarkMode ? '#ffffff' : '#000000'
     },
     botao: {
       position: 'absolute',
       right: 10,
-      top: '50%'
+      top: '50%',
+      activeColor: theme.colors.primary,
+      unactiveColor: 'gray',
+      thumbColor: isDarkMode ? '#dfdfdf' : '#fff'
     }
   });
 };
