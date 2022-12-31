@@ -37,7 +37,7 @@ const Item = ({
   return (
     <View style={styles.item}>
         <Text style={styles.text}>{ nome }</Text>
-        <Switch style={styles.botao} value={valor} onValueChange={alterarValor} />
+        <Switch style={styles.botao} trackColor={{ true: styles.botao.activeColor, false: styles.botao.unactiveColor }} value={valor} onValueChange={alterarValor} />
     </View>
   );
 };

@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import ThemeScheme from '@hooks/useThemeScheme';
 
 const getStyles = () => {
+  const theme = ThemeScheme.getTheme();
   const isDarkMode = ThemeScheme.isDarkModeScheme();
 
   return StyleSheet.create({
@@ -23,7 +24,9 @@ const getStyles = () => {
     botaoSwitch: {
       position: 'absolute',
       right: 0,
-      top: '50%'
+      top: '50%',
+      activeColor: theme.colors.primary,
+      unactiveColor: 'gray'
     }
   });
 };
