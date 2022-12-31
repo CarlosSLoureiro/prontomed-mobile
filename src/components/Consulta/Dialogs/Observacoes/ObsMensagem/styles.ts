@@ -11,7 +11,7 @@ const getStyles = () => {
       paddingRight: 25
     },
     fundo: {
-      backgroundColor: '#dedede',
+      backgroundColor: isDarkMode ? '#111111' : '#dedede',
       padding: 10,
       borderRadius: 5,
       marginLeft: '10%',
@@ -22,7 +22,7 @@ const getStyles = () => {
     },
     seta: {
       position: 'absolute',
-      backgroundColor: '#dedede',
+      backgroundColor: isDarkMode ? '#111111' : '#dedede',
       width: 12,
       height: 12,
       bottom: 0,
@@ -32,12 +32,12 @@ const getStyles = () => {
     },
     texto: {
       fontSize: 16,
-      color: '#000',
+      color: isDarkMode ? '#fff' : '#000',
       justifyContent: 'center'
     },
     data: {
       fontSize: 12,
-      color: '#000',
+      color: isDarkMode ? '#fff' : '#000',
       marginLeft: '11%'
     }
   });
