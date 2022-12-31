@@ -22,7 +22,8 @@ const getStyles = () => {
       right: 10,
       top: '50%',
       activeColor: theme.colors.primary,
-      unactiveColor: 'gray'
+      unactiveColor: 'gray',
+      thumbColor: isDarkMode ? '#dfdfdf' : '#fff'
     }
   });
 };

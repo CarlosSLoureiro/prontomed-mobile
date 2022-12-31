@@ -81,7 +81,15 @@ const Buscar = ({
             />
             <View style={styles.incluirFinalizadas}>
               <Text style={styles.incluirFinalizadas.text}>Incluir consultas finalizadas</Text>
-              <Switch style={styles.botaoSwitch} trackColor={{ true: styles.botaoSwitch.activeColor, false: styles.botaoSwitch.unactiveColor }} value={incluirFinalizadas} onValueChange={setIncluirFinalizadas} />
+              <Switch
+                style={styles.botaoSwitch}
+                thumbColor={styles.botaoSwitch.thumbColor}
+                trackColor={{
+                  true: styles.botaoSwitch.activeColor,
+                  false: styles.botaoSwitch.unactiveColor
+                }}
+                value={incluirFinalizadas}
+                onValueChange={setIncluirFinalizadas} />
             </View>
             <Divider/>
           </Dialog.Content>
