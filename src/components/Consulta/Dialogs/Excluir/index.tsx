@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Dialog, Divider, Text } from 'react-native-paper';
+import { Button, Dialog, Divider, Text, useTheme } from 'react-native-paper';
 
 import Consulta from '@entity/Consulta';
 import { Generos } from '@entity/Paciente/enums';
@@ -14,7 +14,9 @@ const Excluir = ({
   formularioRef,
   callback
 }: ExcluirConsultaContrato): JSX.Element => {
+  const theme = useTheme();
   const styles = getStyles();
+
   const [consulta, setConsulta] = useState<Consulta | undefined>();
 
   const abrirDialog = (consulta: Consulta): void => {
@@ -51,7 +53,7 @@ const Excluir = ({
   };
 
   return (
-      <Dialog visible={visivel} onDismiss={cancelar} style={styles.dialog}>
+      <Dialog theme={theme} visible={visivel} onDismiss={cancelar}>
         <Dialog.Title>Tem certeza?</Dialog.Title>
         <Dialog.Content>
           <Text style={styles.text}>
@@ -60,8 +62,8 @@ const Excluir = ({
           <Divider/>
         </Dialog.Content>
         <Dialog.Actions>
-          <Button labelStyle={styles.dialog.botoes} onPress={cancelar}>Cancelar</Button>
-          <Button color={styles.dialog.excluir.color} labelStyle={styles.dialog.excluir} onPress={excluir}>Excluir</Button>
+          <Button labelStyle={styles.botoes} onPress={cancelar}>Cancelar</Button>
+          <Button color={styles.excluir.color} labelStyle={styles.excluir} onPress={excluir}>Excluir</Button>
         </Dialog.Actions>
         </Dialog>
   );
