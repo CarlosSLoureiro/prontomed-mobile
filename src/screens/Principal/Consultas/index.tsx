@@ -375,7 +375,7 @@ const Consultas = ({
 
   const deveCarregarMais = ({ layoutMeasurement, contentOffset, contentSize }: any): boolean => {
     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-    return (!carregando) && ((layoutMeasurement.height + contentOffset.y) >= contentSize.height);
+    return (!carregando) && ((layoutMeasurement.height + contentOffset.y) >= contentSize.height - 1);
   };
 
   const obterStatus = (): string => {
