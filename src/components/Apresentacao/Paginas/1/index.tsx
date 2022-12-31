@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import Icon from 'react-native-dynamic-vector-icons';
 
 import PaginaBase from '../Base';
@@ -10,6 +11,10 @@ const Pagina = ({
 }: PaginaContrato): JSX.Element => {
   const corDeFundo = '#1F9EFF';
 
+  const acaoBotaoDireito = useCallback(() => {
+    alterarPagina(1);
+  }, []);
+
   return (
     <>
       <PaginaBase
@@ -20,9 +25,7 @@ const Pagina = ({
       <Rodape
         corDeFundo={corDeFundo}
         tituloBotaoDireito="Próximo >"
-        acaoBotaoDireito={() => {
-          alterarPagina(1);
-        }}
+        { ...{ acaoBotaoDireito }}
       />
     </>
   );

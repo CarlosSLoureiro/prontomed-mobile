@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import Icon from 'react-native-dynamic-vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -20,6 +21,14 @@ const Pagina = ({
     })();
   };
 
+  const acaoBotaoEsquerdo = useCallback(() => {
+    alterarPagina(2);
+  }, []);
+
+  const acaoBotaoDireito = useCallback(() => {
+    finalizarApresentacao();
+  }, []);
+
   return (
     <>
       <PaginaBase
@@ -30,11 +39,8 @@ const Pagina = ({
       <Rodape
         corDeFundo={corDeFundo}
         tituloBotaoEsquerdo="< Voltar"
-        acaoBotaoEsquerdo={() => {
-          alterarPagina(2);
-        }}
         tituloBotaoDireito="Começar!"
-        acaoBotaoDireito={finalizarApresentacao}
+        { ...{ acaoBotaoEsquerdo, acaoBotaoDireito } }
       />
     </>
   );
