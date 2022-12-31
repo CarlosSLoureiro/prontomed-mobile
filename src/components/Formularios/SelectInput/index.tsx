@@ -23,6 +23,7 @@ const SelectInput = ({
             inputRef={inputRef}
             containerStyle={style}
             dialogStyle={styles.select.dialog}
+            outlineColor={styles.select.outline.color}
             textInputBackgroundColor={styles.select.backgroundColor}
             dialogButtonLabelStyle={styles.select.dialog.botoes}
             checkboxColor={styles.select.dialog.checkboxColor}
