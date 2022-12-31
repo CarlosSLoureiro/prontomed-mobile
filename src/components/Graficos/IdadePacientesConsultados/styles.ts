@@ -22,17 +22,17 @@ const getStyles = () => {
       },
       shadowOpacity: 1,
       shadowRadius: 2,
-      shadowColor: '#545454',
+      shadowColor: isDarkMode ? '#b3b3b3' : '#545454',
       borderRadius: 15,
       marginBottom: 150
     },
     config: {
-      backgroundColor: '#ffffff',
-      backgroundGradientFrom: '#ffffff',
-      backgroundGradientTo: '#ffffff',
+      backgroundColor: isDarkMode ? '#000' : '#fff',
+      backgroundGradientFrom: isDarkMode ? '#000' : '#fff',
+      backgroundGradientTo: isDarkMode ? '#000' : '#fff',
       decimalPlaces: 0,
-      color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-      labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+      color: (opacity = 1) => isDarkMode ? `rgba(255, 255, 255, ${opacity})` : `rgba(0, 0, 0, ${opacity})`,
+      labelColor: (opacity = 1) => isDarkMode ? `rgba(255, 255, 255, ${opacity})` : `rgba(0, 0, 0, ${opacity})`,
       style: {
         borderRadius: 16
       }
