@@ -45,7 +45,7 @@ const DatePicker = ({
             value={data ? moment(data).format('DD/MM/YYYY') : ''}
             mode="outlined"
             onFocus={abrir}
-            left={<PaperTextInput.Icon icon={'calendar'} color={isDarkMode ? 'white' : 'black'} />}
+            left={<PaperTextInput.Icon icon={'calendar'} color={isDarkMode ? '#b5b5b5' : '#4a4a4a'} />}
         />
         <DatePickerModal
             locale="pt"

@@ -69,7 +69,7 @@ const TextInput = ({
       onBlur={onFocusOut}
       value={input}
       mode="outlined"
-      left={(icon !== undefined) ? <PaperTextInput.Icon icon={icon} color={isDarkMode ? 'white' : 'black'} /> : undefined}
+      left={(icon !== undefined) ? <PaperTextInput.Icon icon={icon} color={isDarkMode ? '#b5b5b5' : '#4a4a4a'} /> : undefined}
     />
   );
 };

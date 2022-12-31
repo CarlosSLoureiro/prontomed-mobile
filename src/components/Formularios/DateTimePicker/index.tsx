@@ -73,7 +73,7 @@ const DateTimePicker = ({
             value={data ? moment(data).format('DD/MM/YYYY [as] HH[h]mm') : ''}
             mode="outlined"
             onFocus={abrirData}
-            left={<PaperTextInput.Icon icon={'calendar'} color={isDarkMode ? 'white' : 'black'} />}
+            left={<PaperTextInput.Icon icon={'calendar'} color={isDarkMode ? '#b5b5b5' : '#4a4a4a'} />}
         />
         <DatePickerModal
             locale="pt"
