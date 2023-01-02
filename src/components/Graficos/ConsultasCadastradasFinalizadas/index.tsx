@@ -5,7 +5,7 @@ import getStyles from './styles';
 
 import { GraficoContrato } from './types';
 
-const Grafico = ({
+const GraficoA = ({
   dados
 }: GraficoContrato): JSX.Element => {
   const styles = getStyles();
@@ -41,4 +41,4 @@ const Grafico = ({
   );
 };
 
-export default Grafico;
+export default GraficoA;

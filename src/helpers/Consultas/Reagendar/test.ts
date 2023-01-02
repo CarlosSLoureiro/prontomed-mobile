@@ -7,53 +7,55 @@ import ConsultasRepositoryMock from '@repository/Consultas/mock';
 
 import ObservacoesUtils from '@utils/Observacoes';
 
-import AgendarConsultasHelper from '.';
+import ReagendarConsultasHelper from '.';
 
 import moment from 'moment';
 
-describe('helpers > Consultas > Agendar', () => {
+describe('helpers > Consultas > Reagendar', () => {
   let repository: ConsultasRepositoryInterface;
-  let agendarSpy: jest.SpyInstance<any>;
+  let editarSpy: jest.SpyInstance<any>;
   let cadastrarObservacao: jest.SpyInstance<any>;
   let obterPossivelConsultaEmConflitoSpy: jest.SpyInstance<any>;
-  let helper: AgendarConsultasHelper;
+  let helper: ReagendarConsultasHelper;
 
   beforeEach(() => {
     repository = new ConsultasRepositoryMock();
-    agendarSpy = jest.spyOn(repository, 'agendar');
+    editarSpy = jest.spyOn(repository, 'editar');
     cadastrarObservacao = jest.spyOn(ObservacoesUtils, 'cadastrar');
     obterPossivelConsultaEmConflitoSpy = jest.spyOn(repository, 'obterPossivelConsultaEmConflito');
-    helper = new AgendarConsultasHelper(repository);
+    helper = new ReagendarConsultasHelper(repository);
   });
 
-  test('deve agendar consulta', async () => {
-    const pacienteFactory = new PacienteFactory();
-    const data = new Date();
+  test('deve reagendar consulta', async () => {
+    const consultaFactory = new ConsultaFactory();
 
     obterPossivelConsultaEmConflitoSpy.mockReturnValue(undefined);
 
-    await expect(helper.executar(pacienteFactory, data)).resolves.toBeInstanceOf(Consulta);
+    await expect(helper.executar(consultaFactory)).resolves.toBeInstanceOf(Consulta);
     expect(obterPossivelConsultaEmConflitoSpy).toHaveBeenCalledTimes(1);
-    expect(agendarSpy).toHaveBeenCalledWith(pacienteFactory, data);
+    expect(editarSpy).toHaveBeenCalledWith(consultaFactory);
   });
 
-  test('deve cadastrar observação na consulta ao agendar a consulta', async () => {
+  test('deve cadastrar observação na consulta reagendada', async () => {
     const pacienteFactory = new PacienteFactory();
     const consultaFactory = new ConsultaFactory();
-    const data = new Date();
 
     consultaFactory.paciente = pacienteFactory;
 
-    agendarSpy.mockReturnValue(consultaFactory);
+    editarSpy.mockReturnValue(consultaFactory);
     obterPossivelConsultaEmConflitoSpy.mockReturnValue(undefined);
 
-    await expect(helper.executar(pacienteFactory, data)).resolves.toBeInstanceOf(Consulta);
+    await expect(helper.executar(consultaFactory)).resolves.toBeInstanceOf(Consulta);
     expect(obterPossivelConsultaEmConflitoSpy).toHaveBeenCalledTimes(1);
-    expect(agendarSpy).toHaveBeenCalledWith(pacienteFactory, data);
-    expect(cadastrarObservacao).toHaveBeenCalledWith('Consulta cadastrada', [consultaFactory]);
+    expect(editarSpy).toHaveBeenCalledWith(consultaFactory);
+    expect(cadastrarObservacao).toHaveBeenCalledWith(
+      `Consulta reagendada para ${moment(consultaFactory.dataAgendada).format('DD/MM/YYYY [as] HH[h]mm')}`,
+      [consultaFactory]
+    );
   });
 
-  test('não deve agendar consulta caso existe consulta em conflito', async () => {
+  test('não deve reagendar consulta caso existe consulta em conflito', async () => {
+    const consultaFactory = new ConsultaFactory();
     const paciente = new PacienteFactory();
     const data = new Date();
     const consultaEmConflito = new Consulta();
@@ -62,8 +64,8 @@ describe('helpers > Consultas > Agendar', () => {
 
     obterPossivelConsultaEmConflitoSpy.mockReturnValue(consultaEmConflito);
 
-    await expect(helper.executar(paciente, data)).rejects.toThrow(`Você já possui uma consulta agendada para o dia ${moment(data).format('DD/MM/YYYY [as] HH[h]mm')} com ${paciente.genero === Generos.FEMININO ? 'a' : 'o'} paciente ${paciente.nome}`);
+    await expect(helper.executar(consultaFactory)).rejects.toThrow(`Você já possui uma consulta agendada para o dia ${moment(data).format('DD/MM/YYYY [as] HH[h]mm')} com ${paciente.genero === Generos.FEMININO ? 'a' : 'o'} paciente ${paciente.nome}`);
     expect(obterPossivelConsultaEmConflitoSpy).toHaveBeenCalledTimes(1);
-    expect(agendarSpy).toHaveBeenCalledTimes(0);
+    expect(editarSpy).toHaveBeenCalledTimes(0);
   });
 });
