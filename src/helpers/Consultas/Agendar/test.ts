@@ -37,7 +37,7 @@ describe('helpers > Consultas > Agendar', () => {
     expect(agendarSpy).toHaveBeenCalledWith(pacienteFactory, data);
   });
 
-  test('deve cadastrar observaçõo na consulta ao agendar a consulta', async () => {
+  test('deve cadastrar observação na consulta ao agendar a consulta', async () => {
     const pacienteFactory = new PacienteFactory();
     const consultaFactory = new ConsultaFactory();
     const data = new Date();
