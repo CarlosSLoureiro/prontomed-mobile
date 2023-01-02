@@ -22,3 +22,7 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
     setItem: jest.fn(),
     getItem: jest.fn()
 }));
+
+jest.mock('@utils/Observacoes', () => ({
+    cadastrar: jest.fn()
+}));
