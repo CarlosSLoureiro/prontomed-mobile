@@ -141,12 +141,13 @@ export default class ConsultasRepository implements ConsultasRepositoryInterface
     const queryBuilder = this.repository.createQueryBuilder('consultas');
 
     queryBuilder.select('COUNT(consultas.id)', 'quantidade');
+    queryBuilder.addSelect('STRFTIME("%Y-%m", consultas.dataCriacao)', 'anoMes');
     queryBuilder.addSelect('CAST(STRFTIME("%m", consultas.dataCriacao) AS INTEGER)', 'mes');
 
     queryBuilder.where('consultas.dataCriacao BETWEEN DATETIME("now", "start of month", "-:meses month") AND DATETIME("now")', { meses });
 
-    queryBuilder.groupBy('mes');
-    queryBuilder.orderBy('mes', 'ASC');
+    queryBuilder.groupBy('anoMes');
+    queryBuilder.orderBy('anoMes', 'ASC');
 
     return await queryBuilder.getRawMany();
   }
@@ -155,13 +156,14 @@ export default class ConsultasRepository implements ConsultasRepositoryInterface
     const queryBuilder = this.repository.createQueryBuilder('consultas');
 
     queryBuilder.select('COUNT(consultas.id)', 'quantidade');
+    queryBuilder.addSelect('STRFTIME("%Y-%m", consultas.dataCriacao)', 'anoMes');
     queryBuilder.addSelect('CAST(STRFTIME("%m", consultas.dataAtualizacao) AS INTEGER)', 'mes');
 
     queryBuilder.where('consultas.dataAtualizacao BETWEEN DATETIME("now", "start of month", "-:meses month") AND DATETIME("now")', { meses });
     queryBuilder.andWhere('consultas.finalizada = 1');
 
-    queryBuilder.groupBy('mes');
-    queryBuilder.orderBy('mes', 'ASC');
+    queryBuilder.groupBy('anoMes');
+    queryBuilder.orderBy('anoMes', 'ASC');
 
     return await queryBuilder.getRawMany();
   }
