@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import * as expoCalendar from 'expo-calendar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -57,13 +58,29 @@ class CalendarioUtils implements CalendarioUtilsInterface {
     return calendarioId;
   }
 
+  private async getCalendarSource (): Promise<any> {
+    if (Platform.OS === 'ios') {
+      const defaultCalendar = await expoCalendar.getDefaultCalendarAsync();
+      return defaultCalendar.source;
+    } else {
+      return {
+        isLocalAccount: true,
+        name: 'ProntoMed'
+      };
+    }
+  }
+
   private async criarCalendario (): Promise<string | null> {
+    const defaultCalendarSource = await this.getCalendarSource();
+
     const calendarioId = await expoCalendar.createCalendarAsync({
       title: 'ProntoMed',
       color: 'yellow',
       entityType: expoCalendar.EntityTypes.EVENT,
       name: 'internalCalendarName',
       ownerAccount: 'personal',
+      sourceId: ('id' in defaultCalendarSource) ? defaultCalendarSource.id : undefined,
+      source: defaultCalendarSource,
       accessLevel: expoCalendar.CalendarAccessLevel.OWNER
     });
 
@@ -109,9 +126,12 @@ class CalendarioUtils implements CalendarioUtilsInterface {
     const agora = new Date();
     const podeRemover = (consulta.dataAgendada > agora || forcado);
     if (permissao && podeRemover && consulta.evento !== null) {
-      await this.removerEvento({
-        id: consulta.evento
-      });
+      try {
+        await this.removerEvento({
+          id: consulta.evento
+        });
+      } catch (a) {
+      }
       return null;
     }
 
