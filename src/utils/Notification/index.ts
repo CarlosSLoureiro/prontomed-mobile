@@ -1,7 +1,5 @@
 import { Notifier, NotifierComponents } from 'react-native-notifier';
 
-import ThemeScheme from '@hooks/useThemeScheme';
-
 import NotificationInterface from './interface';
 
 import { NotifierInterface, ShowNotificationParams } from 'react-native-notifier/lib/typescript/types';

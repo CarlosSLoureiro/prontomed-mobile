@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Consulta from '@entity/Consulta';
 
-import Notification from '@hooks/useNotification';
+import Notification from '@utils/Notification';
 
 import { Ajustes } from '@screens/Principal/Ajustes/enums';
 
