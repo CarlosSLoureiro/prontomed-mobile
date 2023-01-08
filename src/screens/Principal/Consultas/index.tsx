@@ -22,7 +22,7 @@ import EditarObservacaoHelper from '@helpers/Observacoes/Editar';
 import ExcluirObservacaoHelper from '@helpers/Observacoes/Excluir';
 import ConsultaEmConflitoError from '@errors/ConsultaEmConflito';
 
-import Notification from '@hooks/useNotification';
+import Notification from '@utils/Notification';
 
 import ConsultaCard from '@components/Consulta/Card';
 import Buscar from '@components/Consulta/Dialogs/Buscar';

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { TextInput as PaperTextInput } from 'react-native-paper';
 import { DatePickerModal, pt, registerTranslation } from 'react-native-paper-dates';
 
-import ThemeScheme from '@hooks/useThemeScheme';
+import ThemeScheme from '@utils/ThemeScheme';
 
 import { DatePickerContrato } from './types';
 

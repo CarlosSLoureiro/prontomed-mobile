@@ -60,13 +60,32 @@ export default class CriarConsultasFake1671846293186 implements MigrationInterfa
   private async criaConsultasDoMesesAnteriores (queryRunner: QueryRunner): Promise<void> {
     const mesesAtras = 4;
     for (let mesAtras = 0; mesAtras < mesesAtras; mesAtras++) {
-      for (let i = 0; i < QUANTIDADE / (mesAtras + 2); i++) {
-        const hoje = new Date();
-        const mesAnterior = hoje.getMonth() - mesAtras;
-        const proxMesAoAnterior = mesAnterior + 1;
-        const dataInicio = `${hoje.getFullYear()}-${(`0${mesAnterior}`).slice(-2)}-01`;
-        const dataFim = `${hoje.getFullYear()}-${(`0${proxMesAoAnterior}`).slice(-2)}-01`;
+      const hoje = new Date();
 
+      let mesAnterior = (hoje.getMonth() - mesAtras);
+
+      const anoInicio = mesAnterior < 1 ? hoje.getFullYear() - 1 : hoje.getFullYear();
+
+      if (mesAnterior < 1) {
+        mesAnterior += 12;
+      }
+
+      let proxMesAoAnterior = mesAnterior + 1;
+
+      const anoFim = proxMesAoAnterior > 12 ? anoInicio + 1 : anoInicio;
+
+      if (proxMesAoAnterior > 12) {
+        proxMesAoAnterior -= 12;
+      }
+
+      const dataInicio = `${anoInicio}-${(`0${mesAnterior}`).slice(-2)}-01`;
+      const dataFim = `${anoFim}-${(`0${proxMesAoAnterior}`).slice(-2)}-01`;
+
+      console.log('dataInicio', dataInicio);
+      console.log('dataFim', dataFim);
+      console.log('');
+
+      for (let i = 0; i < QUANTIDADE / (mesAtras + 2); i++) {
         const dataConsulta = faker.date.between(dataInicio, dataFim);
 
         const dados = new ConsultaFactory();

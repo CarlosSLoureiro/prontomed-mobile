@@ -8,7 +8,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { DatabaseProvider } from '@database';
 
-import ThemeScheme from '@hooks/useThemeScheme';
+import ThemeScheme from '@utils/ThemeScheme';
 
 import Apresentacao from '@screens/Apresentacao';
 import Principal from '@screens/Principal';

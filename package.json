@@ -98,7 +98,7 @@
     "typescript": "*"
   },
   "engines": {
-    "node": ">=19.3"
+    "node": ">=16.19.0"
   },
   "license": "GNU 3.0",
   "private": true

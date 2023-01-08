@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Linking } from 'react-native';
 import { Card } from '@paraboly/react-native-card';
 
-import Notification from '@hooks/useNotification';
+import Notification from '@utils/Notification';
 
 import MenuContexto from '@components/MenuContexto';
 

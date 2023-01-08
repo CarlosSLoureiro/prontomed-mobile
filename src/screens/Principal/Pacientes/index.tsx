@@ -14,7 +14,7 @@ import ListarPacientesHelper from '@helpers/Pacientes/Listar';
 import ObterTotalPacientesHelper from '@helpers/Pacientes/ObterTotal';
 import ConsultaEmConflitoError from '@errors/ConsultaEmConflito';
 
-import Notification from '@hooks/useNotification';
+import Notification from '@utils/Notification';
 
 import MenuOpcoes from '@components/MenuOpcoes';
 import PacienteCard from '@components/Paciente/Card';

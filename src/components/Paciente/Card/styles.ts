@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 import { Generos } from '@entity/Paciente/enums';
 
-import ThemeScheme from '@hooks/useThemeScheme';
+import ThemeScheme from '@utils/ThemeScheme';
 
 const getStyles = () => {
   const isDarkMode = ThemeScheme.isDarkModeScheme();
