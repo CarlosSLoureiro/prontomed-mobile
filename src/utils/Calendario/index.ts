@@ -20,13 +20,16 @@ class CalendarioUtils implements CalendarioUtilsInterface {
   }
 
   private async obterCelendario (id: string): Promise<string | null> {
+    const calendarios = await expoCalendar.getCalendarsAsync(expoCalendar.EntityTypes.EVENT);
+    const calendarioProntoMed = calendarios.filter(each => each.id === id);
+    const calendario = calendarioProntoMed[0]?.id ?? null;
+    return calendario;
+  }
+
+  private async obterCalendarioID (): Promise<string | null> {
     const { status } = await expoCalendar.requestCalendarPermissionsAsync();
-    if (status === 'granted') {
-      const calendarios = await expoCalendar.getCalendarsAsync(expoCalendar.EntityTypes.EVENT);
-      const calendarioProntoMed = calendarios.filter(each => each.id === id);
-      const calendario = calendarioProntoMed[0]?.id ?? null;
-      return calendario;
-    } else {
+
+    if (status !== 'granted') {
       Notification.error({
         title: 'Sem acesso ao calendário!',
         description: 'Você precisa permitir que o ProntoMed possa acessar seu calendário',
@@ -34,9 +37,7 @@ class CalendarioUtils implements CalendarioUtilsInterface {
       });
       return null;
     }
-  }
 
-  private async obterCalendarioID (): Promise<string | null> {
     const id = await AsyncStorage.getItem(this.variavel);
 
     let calendarioId: string | null = null;
