@@ -1,4 +1,4 @@
-import { Between, DataSource, LessThan, Like, MoreThanOrEqual, Not, Repository } from 'typeorm';
+import { Between, DataSource, LessThan, Like, MoreThanOrEqual, Raw, Repository } from 'typeorm';
 
 import Consulta from '@entity/Consulta';
 import Paciente from '@entity/Paciente';
@@ -115,7 +115,9 @@ export default class ConsultasRepository implements ConsultasRepositoryInterface
     if (ignorarIds.length > 0) {
       where = {
         ...where,
-        id: Not(ignorarIds)
+        id: Raw((alias) => `${alias} NOT IN (:...ignorarIds)`, {
+          ignorarIds
+        })
       };
     }
 
