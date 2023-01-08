@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { DarkTheme, DefaultTheme, TextInput as PaperTextInput } from 'react-native-paper';
 
-import ThemeScheme from '@hooks/useThemeScheme';
+import ThemeScheme from '@utils/ThemeScheme';
 
 import { TextAreaContrato } from './types';
 
